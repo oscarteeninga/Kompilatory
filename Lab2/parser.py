@@ -2,8 +2,8 @@ import scanner
 import ply.yacc as yacc
 import ply.lex as lex
 import numpy as np
-import array
 import math  
+import sys
 
 names = {}
 
@@ -139,6 +139,6 @@ def p_divassign(p):
     print("STATEMENT:\n ", p[1], "=", names[p[1]])
 
 parser = yacc.yacc()
-file = open("example2.m", "r")
+file = open(sys.argv[1], "r")
 text = file.read()
 parser.parse(text, lexer=scanner.lexer)
