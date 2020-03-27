@@ -11,7 +11,6 @@ tokens = scanner.tokens
 
 precedence = ()
 
-
 def p_error(p):
     if p:
         print("Syntax error at line {0}, LexToken({1}, '{2}')".format(p.lineno, p.type, p.value))
@@ -64,7 +63,8 @@ def p_var_statement_assignment(p):
 
 def p_matrix_element_assignment(p):
     """STATEMENT : ID '[' INTNUM ',' INTNUM ']' '=' NUM ';'"""
-    names[p[1]][p[3]][p[5]] = p[8] 
+    names[p[1]][p[3]][p[5]] = p[8]
+    print("STATEMENT:\n", p[1], '[', p[3], ',', p[5], '] = ', p[8])
 
 def p_zeros(p):
     """MATRIX : ZEROS '(' INTNUM ')'"""
@@ -141,4 +141,9 @@ def p_divassign(p):
 parser = yacc.yacc()
 file = open(sys.argv[1], "r")
 text = file.read()
+scanner.lexer.input( text )
+
+for token in scanner.lexer:
+    print("%d: %s(%s)" %(token.lineno, token.type, token.value))
+
 parser.parse(text, lexer=scanner.lexer)

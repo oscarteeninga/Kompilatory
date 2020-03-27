@@ -113,9 +113,4 @@ def t_ID(t):
     return t
 
 lexer = lex.lex()
-file = open("example2.m", "r")
-text = file.read()
-lexer.input( text )
 
-for token in lexer:
-    print("%d: %s(%s)" %(token.lineno, token.type, token.value))
