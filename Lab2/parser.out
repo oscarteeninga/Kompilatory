@@ -1,0 +1,345 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    ADDASSIGN
+    BREAK
+    CONTINUE
+    DIVASSIGN
+    DOTADD
+    DOTDIV
+    DOTMUL
+    DOTSUB
+    ELSE
+    EQORGT
+    EQORLESS
+    EQUAL
+    EYE
+    FLOATNUM
+    FOR
+    ID
+    IF
+    MULASSIGN
+    NOTEQUAL
+    ONES
+    PRINT
+    RETURN
+    SUBASSIGN
+    WHILE
+    ZEROS
+
+Grammar
+
+Rule 0     S' -> start
+Rule 1     start -> EXPRESSION
+Rule 2     EXPRESSION -> INTNUM
+Rule 3     EXPRESSION -> STRING
+Rule 4     EXPRESSION -> EXPRESSION + EXPRESSION
+Rule 5     EXPRESSION -> EXPRESSION - EXPRESSION
+Rule 6     EXPRESSION -> EXPRESSION * EXPRESSION
+Rule 7     EXPRESSION -> EXPRESSION / EXPRESSION
+Rule 8     EXPRESSION -> ( EXPRESSION )
+
+Terminals, with rules where they appear
+
+(                    : 8
+)                    : 8
+*                    : 6
++                    : 4
+-                    : 5
+/                    : 7
+ADDASSIGN            : 
+BREAK                : 
+CONTINUE             : 
+DIVASSIGN            : 
+DOTADD               : 
+DOTDIV               : 
+DOTMUL               : 
+DOTSUB               : 
+ELSE                 : 
+EQORGT               : 
+EQORLESS             : 
+EQUAL                : 
+EYE                  : 
+FLOATNUM             : 
+FOR                  : 
+ID                   : 
+IF                   : 
+INTNUM               : 2
+MULASSIGN            : 
+NOTEQUAL             : 
+ONES                 : 
+PRINT                : 
+RETURN               : 
+STRING               : 3
+SUBASSIGN            : 
+WHILE                : 
+ZEROS                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+EXPRESSION           : 1 4 4 5 5 6 6 7 7 8
+start                : 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . start
+    (1) start -> . EXPRESSION
+    (2) EXPRESSION -> . INTNUM
+    (3) EXPRESSION -> . STRING
+    (4) EXPRESSION -> . EXPRESSION + EXPRESSION
+    (5) EXPRESSION -> . EXPRESSION - EXPRESSION
+    (6) EXPRESSION -> . EXPRESSION * EXPRESSION
+    (7) EXPRESSION -> . EXPRESSION / EXPRESSION
+    (8) EXPRESSION -> . ( EXPRESSION )
+
+    INTNUM          shift and go to state 3
+    STRING          shift and go to state 4
+    (               shift and go to state 5
+
+    start                          shift and go to state 1
+    EXPRESSION                     shift and go to state 2
+
+state 1
+
+    (0) S' -> start .
+
+
+
+state 2
+
+    (1) start -> EXPRESSION .
+    (4) EXPRESSION -> EXPRESSION . + EXPRESSION
+    (5) EXPRESSION -> EXPRESSION . - EXPRESSION
+    (6) EXPRESSION -> EXPRESSION . * EXPRESSION
+    (7) EXPRESSION -> EXPRESSION . / EXPRESSION
+
+    $end            reduce using rule 1 (start -> EXPRESSION .)
+    +               shift and go to state 6
+    -               shift and go to state 7
+    *               shift and go to state 8
+    /               shift and go to state 9
+
+
+state 3
+
+    (2) EXPRESSION -> INTNUM .
+
+    +               reduce using rule 2 (EXPRESSION -> INTNUM .)
+    -               reduce using rule 2 (EXPRESSION -> INTNUM .)
+    *               reduce using rule 2 (EXPRESSION -> INTNUM .)
+    /               reduce using rule 2 (EXPRESSION -> INTNUM .)
+    $end            reduce using rule 2 (EXPRESSION -> INTNUM .)
+    )               reduce using rule 2 (EXPRESSION -> INTNUM .)
+
+
+state 4
+
+    (3) EXPRESSION -> STRING .
+
+    +               reduce using rule 3 (EXPRESSION -> STRING .)
+    -               reduce using rule 3 (EXPRESSION -> STRING .)
+    *               reduce using rule 3 (EXPRESSION -> STRING .)
+    /               reduce using rule 3 (EXPRESSION -> STRING .)
+    $end            reduce using rule 3 (EXPRESSION -> STRING .)
+    )               reduce using rule 3 (EXPRESSION -> STRING .)
+
+
+state 5
+
+    (8) EXPRESSION -> ( . EXPRESSION )
+    (2) EXPRESSION -> . INTNUM
+    (3) EXPRESSION -> . STRING
+    (4) EXPRESSION -> . EXPRESSION + EXPRESSION
+    (5) EXPRESSION -> . EXPRESSION - EXPRESSION
+    (6) EXPRESSION -> . EXPRESSION * EXPRESSION
+    (7) EXPRESSION -> . EXPRESSION / EXPRESSION
+    (8) EXPRESSION -> . ( EXPRESSION )
+
+    INTNUM          shift and go to state 3
+    STRING          shift and go to state 4
+    (               shift and go to state 5
+
+    EXPRESSION                     shift and go to state 10
+
+state 6
+
+    (4) EXPRESSION -> EXPRESSION + . EXPRESSION
+    (2) EXPRESSION -> . INTNUM
+    (3) EXPRESSION -> . STRING
+    (4) EXPRESSION -> . EXPRESSION + EXPRESSION
+    (5) EXPRESSION -> . EXPRESSION - EXPRESSION
+    (6) EXPRESSION -> . EXPRESSION * EXPRESSION
+    (7) EXPRESSION -> . EXPRESSION / EXPRESSION
+    (8) EXPRESSION -> . ( EXPRESSION )
+
+    INTNUM          shift and go to state 3
+    STRING          shift and go to state 4
+    (               shift and go to state 5
+
+    EXPRESSION                     shift and go to state 11
+
+state 7
+
+    (5) EXPRESSION -> EXPRESSION - . EXPRESSION
+    (2) EXPRESSION -> . INTNUM
+    (3) EXPRESSION -> . STRING
+    (4) EXPRESSION -> . EXPRESSION + EXPRESSION
+    (5) EXPRESSION -> . EXPRESSION - EXPRESSION
+    (6) EXPRESSION -> . EXPRESSION * EXPRESSION
+    (7) EXPRESSION -> . EXPRESSION / EXPRESSION
+    (8) EXPRESSION -> . ( EXPRESSION )
+
+    INTNUM          shift and go to state 3
+    STRING          shift and go to state 4
+    (               shift and go to state 5
+
+    EXPRESSION                     shift and go to state 12
+
+state 8
+
+    (6) EXPRESSION -> EXPRESSION * . EXPRESSION
+    (2) EXPRESSION -> . INTNUM
+    (3) EXPRESSION -> . STRING
+    (4) EXPRESSION -> . EXPRESSION + EXPRESSION
+    (5) EXPRESSION -> . EXPRESSION - EXPRESSION
+    (6) EXPRESSION -> . EXPRESSION * EXPRESSION
+    (7) EXPRESSION -> . EXPRESSION / EXPRESSION
+    (8) EXPRESSION -> . ( EXPRESSION )
+
+    INTNUM          shift and go to state 3
+    STRING          shift and go to state 4
+    (               shift and go to state 5
+
+    EXPRESSION                     shift and go to state 13
+
+state 9
+
+    (7) EXPRESSION -> EXPRESSION / . EXPRESSION
+    (2) EXPRESSION -> . INTNUM
+    (3) EXPRESSION -> . STRING
+    (4) EXPRESSION -> . EXPRESSION + EXPRESSION
+    (5) EXPRESSION -> . EXPRESSION - EXPRESSION
+    (6) EXPRESSION -> . EXPRESSION * EXPRESSION
+    (7) EXPRESSION -> . EXPRESSION / EXPRESSION
+    (8) EXPRESSION -> . ( EXPRESSION )
+
+    INTNUM          shift and go to state 3
+    STRING          shift and go to state 4
+    (               shift and go to state 5
+
+    EXPRESSION                     shift and go to state 14
+
+state 10
+
+    (8) EXPRESSION -> ( EXPRESSION . )
+    (4) EXPRESSION -> EXPRESSION . + EXPRESSION
+    (5) EXPRESSION -> EXPRESSION . - EXPRESSION
+    (6) EXPRESSION -> EXPRESSION . * EXPRESSION
+    (7) EXPRESSION -> EXPRESSION . / EXPRESSION
+
+    )               shift and go to state 15
+    +               shift and go to state 6
+    -               shift and go to state 7
+    *               shift and go to state 8
+    /               shift and go to state 9
+
+
+state 11
+
+    (4) EXPRESSION -> EXPRESSION + EXPRESSION .
+    (4) EXPRESSION -> EXPRESSION . + EXPRESSION
+    (5) EXPRESSION -> EXPRESSION . - EXPRESSION
+    (6) EXPRESSION -> EXPRESSION . * EXPRESSION
+    (7) EXPRESSION -> EXPRESSION . / EXPRESSION
+
+    +               reduce using rule 4 (EXPRESSION -> EXPRESSION + EXPRESSION .)
+    -               reduce using rule 4 (EXPRESSION -> EXPRESSION + EXPRESSION .)
+    $end            reduce using rule 4 (EXPRESSION -> EXPRESSION + EXPRESSION .)
+    )               reduce using rule 4 (EXPRESSION -> EXPRESSION + EXPRESSION .)
+    *               shift and go to state 8
+    /               shift and go to state 9
+
+  ! *               [ reduce using rule 4 (EXPRESSION -> EXPRESSION + EXPRESSION .) ]
+  ! /               [ reduce using rule 4 (EXPRESSION -> EXPRESSION + EXPRESSION .) ]
+  ! +               [ shift and go to state 6 ]
+  ! -               [ shift and go to state 7 ]
+
+
+state 12
+
+    (5) EXPRESSION -> EXPRESSION - EXPRESSION .
+    (4) EXPRESSION -> EXPRESSION . + EXPRESSION
+    (5) EXPRESSION -> EXPRESSION . - EXPRESSION
+    (6) EXPRESSION -> EXPRESSION . * EXPRESSION
+    (7) EXPRESSION -> EXPRESSION . / EXPRESSION
+
+    +               reduce using rule 5 (EXPRESSION -> EXPRESSION - EXPRESSION .)
+    -               reduce using rule 5 (EXPRESSION -> EXPRESSION - EXPRESSION .)
+    $end            reduce using rule 5 (EXPRESSION -> EXPRESSION - EXPRESSION .)
+    )               reduce using rule 5 (EXPRESSION -> EXPRESSION - EXPRESSION .)
+    *               shift and go to state 8
+    /               shift and go to state 9
+
+  ! *               [ reduce using rule 5 (EXPRESSION -> EXPRESSION - EXPRESSION .) ]
+  ! /               [ reduce using rule 5 (EXPRESSION -> EXPRESSION - EXPRESSION .) ]
+  ! +               [ shift and go to state 6 ]
+  ! -               [ shift and go to state 7 ]
+
+
+state 13
+
+    (6) EXPRESSION -> EXPRESSION * EXPRESSION .
+    (4) EXPRESSION -> EXPRESSION . + EXPRESSION
+    (5) EXPRESSION -> EXPRESSION . - EXPRESSION
+    (6) EXPRESSION -> EXPRESSION . * EXPRESSION
+    (7) EXPRESSION -> EXPRESSION . / EXPRESSION
+
+    +               reduce using rule 6 (EXPRESSION -> EXPRESSION * EXPRESSION .)
+    -               reduce using rule 6 (EXPRESSION -> EXPRESSION * EXPRESSION .)
+    *               reduce using rule 6 (EXPRESSION -> EXPRESSION * EXPRESSION .)
+    /               reduce using rule 6 (EXPRESSION -> EXPRESSION * EXPRESSION .)
+    $end            reduce using rule 6 (EXPRESSION -> EXPRESSION * EXPRESSION .)
+    )               reduce using rule 6 (EXPRESSION -> EXPRESSION * EXPRESSION .)
+
+  ! +               [ shift and go to state 6 ]
+  ! -               [ shift and go to state 7 ]
+  ! *               [ shift and go to state 8 ]
+  ! /               [ shift and go to state 9 ]
+
+
+state 14
+
+    (7) EXPRESSION -> EXPRESSION / EXPRESSION .
+    (4) EXPRESSION -> EXPRESSION . + EXPRESSION
+    (5) EXPRESSION -> EXPRESSION . - EXPRESSION
+    (6) EXPRESSION -> EXPRESSION . * EXPRESSION
+    (7) EXPRESSION -> EXPRESSION . / EXPRESSION
+
+    +               reduce using rule 7 (EXPRESSION -> EXPRESSION / EXPRESSION .)
+    -               reduce using rule 7 (EXPRESSION -> EXPRESSION / EXPRESSION .)
+    *               reduce using rule 7 (EXPRESSION -> EXPRESSION / EXPRESSION .)
+    /               reduce using rule 7 (EXPRESSION -> EXPRESSION / EXPRESSION .)
+    $end            reduce using rule 7 (EXPRESSION -> EXPRESSION / EXPRESSION .)
+    )               reduce using rule 7 (EXPRESSION -> EXPRESSION / EXPRESSION .)
+
+  ! +               [ shift and go to state 6 ]
+  ! -               [ shift and go to state 7 ]
+  ! *               [ shift and go to state 8 ]
+  ! /               [ shift and go to state 9 ]
+
+
+state 15
+
+    (8) EXPRESSION -> ( EXPRESSION ) .
+
+    +               reduce using rule 8 (EXPRESSION -> ( EXPRESSION ) .)
+    -               reduce using rule 8 (EXPRESSION -> ( EXPRESSION ) .)
+    *               reduce using rule 8 (EXPRESSION -> ( EXPRESSION ) .)
+    /               reduce using rule 8 (EXPRESSION -> ( EXPRESSION ) .)
+    $end            reduce using rule 8 (EXPRESSION -> ( EXPRESSION ) .)
+    )               reduce using rule 8 (EXPRESSION -> ( EXPRESSION ) .)
+

@@ -113,7 +113,8 @@ def t_ID(t):
     return t
 
 lexer = lex.lex()
-fh = open(sys.argv[1], "r")
+fh = open("example1.m", "r")
 lexer.input( fh.read() )
+
 for token in lexer:
     print("%d: %s(%s)" %(token.lineno, token.type, token.value))
