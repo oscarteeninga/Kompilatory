@@ -18,8 +18,13 @@ def p_error(p):
         print("Unexpected end of input")
     
 def p_expression_statement(p):
-    """EXPRESSION : STATEMENT 
-                  | EXPRESSION STATEMENT"""
+    """EXPRESSION : TERM
+                  | EXPRESSION TERM"""
+    p[0] = p[1]
+
+def p_term(p):
+    """TERM : STATEMENT
+            | PRINT"""
     p[0] = p[1]
 
 def p_var(p):
@@ -55,16 +60,6 @@ def p_matrix(p):
             MATRIX[i][j] = p[2][i*3 + j]
     p[0] = MATRIX
 
-def p_var_statement_assignment(p):
-    """STATEMENT : ID '=' VAR ';'"""
-    p[0] = p[3]
-    names[p[1]] = p[3]
-    print("STATEMENT:\n ", p[1], "=", p[3])
-
-def p_matrix_element_assignment(p):
-    """STATEMENT : ID '[' INTNUM ',' INTNUM ']' '=' NUM ';'"""
-    names[p[1]][p[3]][p[5]] = p[8]
-    print("STATEMENT:\n", p[1], '[', p[3], ',', p[5], '] = ', p[8])
 
 def p_zeros(p):
     """MATRIX : ZEROS '(' INTNUM ')'"""
@@ -118,25 +113,38 @@ def p_dotdiv(p):
     """MATRIX : ID DOTDIV ID"""
     p[0] = np.divide(names[p[1]], names[p[3]])
 
+def p_var_statement_assignment(p):
+    """STATEMENT : ID '=' VAR ';'"""
+    p[0] = p[3]
+    names[p[1]] = p[3]
+
+def p_matrix_element_assignment(p):
+    """STATEMENT : ID '[' INTNUM ',' INTNUM ']' '=' NUM ';'"""
+    names[p[1]][p[3]][p[5]] = p[8]
+
 def p_addassign(p):
     """STATEMENT : ID ADDASSIGN ID ';'"""
     names[p[1]] = names[p[1]] + names[p[3]]
-    print("STATEMENT:\n ", p[1], "=", names[p[1]])
 
 def p_subassign(p):
     """STATEMENT : ID SUBASSIGN ID ';'"""
     names[p[1]] = names[p[1]] - names[p[3]]
-    print("STATEMENT:\n ", p[1], "=", names[p[1]])
 
 def p_mulassign(p):
     """STATEMENT : ID MULASSIGN ID ';'"""
     names[p[1]] = np.matmul(names[p[1]], names[p[3]])
-    print("STATEMENT:\n ", p[1], "=", names[p[1]])
 
 def p_divassign(p):
     """STATEMENT : ID DIVASSIGN ID ';'"""
     names[p[1]] = np.divide(names[p[1]], names[p[3]])
-    print("STATEMENT:\n ", p[1], "=", names[p[1]])
+
+def p_print_id(p):
+    """TERM : PRINT '(' ID ')' ';'"""
+    print(p[3], '=', names[p[3]])
+
+def p_print_var(p):
+    """TERM : PRINT '(' VAR ')' ';'"""
+    print(p[3])
 
 parser = yacc.yacc()
 file = open(sys.argv[1], "r")

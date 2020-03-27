@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = "ADDASSIGN BREAK CONTINUE DIVASSIGN DOTADD DOTDIV DOTMUL DOTSUB ELSE EQORGT EQORLESS EQUAL EYE FLOATNUM FOR ID IF INTNUM MULASSIGN NOTEQUAL ONES PRINT RETURN STRING SUBASSIGN WHILE ZEROSEXPRESSION : STATEMENT \n                  | EXPRESSION STATEMENTVAR : NUM \n           | MATRIXNUM : INTNUM\n           | FLOATNUMVECTOR : VECTOR ',' NUM\n              | NUMVECTORS : VECTORS ';' VECTOR\n               | VECTORMATRIX : '[' VECTORS ']'STATEMENT : ID '=' VAR ';'STATEMENT : ID '[' INTNUM ',' INTNUM ']' '=' NUM ';'MATRIX : ZEROS '(' INTNUM ')'MATRIX : ONES '(' INTNUM ')'MATRIX : EYE '(' INTNUM ')'MATRIX : '-' IDMATRIX : ID '\\''VAR : ID '+' IDVAR : ID '-' IDVAR : ID '*' IDVAR : ID '/' IDMATRIX : ID DOTADD IDMATRIX : ID DOTSUB IDMATRIX : ID DOTMUL IDMATRIX : ID DOTDIV IDSTATEMENT : ID ADDASSIGN ID ';'STATEMENT : ID SUBASSIGN ID ';'STATEMENT : ID MULASSIGN ID ';'STATEMENT : ID DIVASSIGN ID ';'"
+_lr_signature = "ADDASSIGN BREAK CONTINUE DIVASSIGN DOTADD DOTDIV DOTMUL DOTSUB ELSE EQORGT EQORLESS EQUAL EYE FLOATNUM FOR ID IF INTNUM MULASSIGN NOTEQUAL ONES PRINT RETURN STRING SUBASSIGN WHILE ZEROSEXPRESSION : TERM\n                  | EXPRESSION TERMTERM : STATEMENT\n            | PRINTVAR : NUM \n           | MATRIXNUM : INTNUM\n           | FLOATNUMVECTOR : VECTOR ',' NUM\n              | NUMVECTORS : VECTORS ';' VECTOR\n               | VECTORMATRIX : '[' VECTORS ']'MATRIX : ZEROS '(' INTNUM ')'MATRIX : ONES '(' INTNUM ')'MATRIX : EYE '(' INTNUM ')'MATRIX : '-' IDMATRIX : ID '\\''VAR : ID '+' IDVAR : ID '-' IDVAR : ID '*' IDVAR : ID '/' IDMATRIX : ID DOTADD IDMATRIX : ID DOTSUB IDMATRIX : ID DOTMUL IDMATRIX : ID DOTDIV IDSTATEMENT : ID '=' VAR ';'STATEMENT : ID '[' INTNUM ',' INTNUM ']' '=' NUM ';'STATEMENT : ID ADDASSIGN ID ';'STATEMENT : ID SUBASSIGN ID ';'STATEMENT : ID MULASSIGN ID ';'STATEMENT : ID DIVASSIGN ID ';'TERM : PRINT '(' ID ')' ';'TERM : PRINT '(' VAR ')' ';'"
     
-_lr_action_items = {'ID':([0,1,2,4,5,7,8,9,10,15,27,28,29,30,32,33,34,35,36,45,46,47,48,72,],[3,3,-1,-2,11,23,24,25,26,37,49,50,51,52,53,54,55,56,-12,-27,-28,-29,-30,-13,]),'$end':([1,2,4,36,45,46,47,48,72,],[0,-1,-2,-12,-27,-28,-29,-30,-13,]),'=':([3,69,],[5,70,]),'[':([3,5,],[6,18,]),'ADDASSIGN':([3,],[7,]),'SUBASSIGN':([3,],[8,]),'MULASSIGN':([3,],[9,]),'DIVASSIGN':([3,],[10,]),'INTNUM':([5,6,18,41,42,43,44,58,59,70,],[16,22,16,60,61,62,63,16,16,16,]),'FLOATNUM':([5,18,58,59,70,],[17,17,17,17,17,]),'ZEROS':([5,],[19,]),'ONES':([5,],[20,]),'EYE':([5,],[21,]),'-':([5,11,],[15,28,]),'+':([11,],[27,]),'*':([11,],[29,]),'/':([11,],[30,]),"'":([11,],[31,]),'DOTADD':([11,],[32,]),'DOTSUB':([11,],[33,]),'DOTMUL':([11,],[34,]),'DOTDIV':([11,],[35,]),';':([12,13,14,16,17,23,24,25,26,31,37,38,39,40,49,50,51,52,53,54,55,56,57,64,65,66,67,68,71,],[36,-3,-4,-5,-6,45,46,47,48,-18,-17,58,-10,-8,-19,-20,-21,-22,-23,-24,-25,-26,-11,-9,-7,-14,-15,-16,72,]),',':([16,17,22,39,40,64,65,],[-5,-6,44,59,-8,59,-7,]),']':([16,17,38,39,40,63,64,65,],[-5,-6,57,-10,-8,69,-9,-7,]),'(':([19,20,21,],[41,42,43,]),')':([60,61,62,],[66,67,68,]),}
+_lr_action_items = {'PRINT':([0,1,2,3,4,6,50,52,53,54,55,56,65,81,],[4,4,-1,-3,-4,-2,-27,-29,-30,-31,-32,-33,-34,-28,]),'ID':([0,1,2,3,4,6,7,8,10,11,12,13,18,33,34,35,36,38,39,40,41,50,52,53,54,55,56,65,81,],[5,5,-1,-3,-4,-2,14,25,28,29,30,31,43,57,58,59,60,61,62,63,64,-27,-29,-30,-31,-32,-33,-34,-28,]),'$end':([1,2,3,4,6,50,52,53,54,55,56,65,81,],[0,-1,-3,-4,-2,-27,-29,-30,-31,-32,-33,-34,-28,]),'(':([4,22,23,24,],[7,47,48,49,]),'=':([5,78,],[8,79,]),'[':([5,7,8,],[9,21,21,]),'ADDASSIGN':([5,],[10,]),'SUBASSIGN':([5,],[11,]),'MULASSIGN':([5,],[12,]),'DIVASSIGN':([5,],[13,]),'INTNUM':([7,8,9,21,47,48,49,51,67,68,79,],[19,19,27,19,69,70,71,72,19,19,19,]),'FLOATNUM':([7,8,21,67,68,79,],[20,20,20,20,20,20,]),'ZEROS':([7,8,],[22,22,]),'ONES':([7,8,],[23,23,]),'EYE':([7,8,],[24,24,]),'-':([7,8,14,25,],[18,18,34,34,]),')':([14,15,16,17,19,20,37,43,57,58,59,60,61,62,63,64,66,69,70,71,75,76,77,],[32,42,-5,-6,-7,-8,-18,-17,-19,-20,-21,-22,-23,-24,-25,-26,-13,75,76,77,-14,-15,-16,]),'+':([14,25,],[33,33,]),'*':([14,25,],[35,35,]),'/':([14,25,],[36,36,]),"'":([14,25,],[37,37,]),'DOTADD':([14,25,],[38,38,]),'DOTSUB':([14,25,],[39,39,]),'DOTMUL':([14,25,],[40,40,]),'DOTDIV':([14,25,],[41,41,]),';':([16,17,19,20,26,28,29,30,31,32,37,42,43,44,45,46,57,58,59,60,61,62,63,64,66,73,74,75,76,77,80,],[-5,-6,-7,-8,50,52,53,54,55,56,-18,65,-17,67,-12,-10,-19,-20,-21,-22,-23,-24,-25,-26,-13,-11,-9,-14,-15,-16,81,]),',':([19,20,27,45,46,73,74,],[-7,-8,51,68,-10,68,-9,]),']':([19,20,44,45,46,72,73,74,],[-7,-8,66,-12,-10,78,-11,-9,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'EXPRESSION':([0,],[1,]),'STATEMENT':([0,1,],[2,4,]),'VAR':([5,],[12,]),'NUM':([5,18,58,59,70,],[13,40,40,65,71,]),'MATRIX':([5,],[14,]),'VECTORS':([18,],[38,]),'VECTOR':([18,58,],[39,64,]),}
+_lr_goto_items = {'EXPRESSION':([0,],[1,]),'TERM':([0,1,],[2,6,]),'STATEMENT':([0,1,],[3,3,]),'VAR':([7,8,],[15,26,]),'NUM':([7,8,21,67,68,79,],[16,16,46,46,74,80,]),'MATRIX':([7,8,],[17,17,]),'VECTORS':([21,],[44,]),'VECTOR':([21,67,],[45,73,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,34 +27,38 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> EXPRESSION","S'",1,None,None,None),
-  ('EXPRESSION -> STATEMENT','EXPRESSION',1,'p_expression_statement','parser.py',22),
-  ('EXPRESSION -> EXPRESSION STATEMENT','EXPRESSION',2,'p_expression_statement','parser.py',23),
-  ('VAR -> NUM','VAR',1,'p_var','parser.py',27),
-  ('VAR -> MATRIX','VAR',1,'p_var','parser.py',28),
-  ('NUM -> INTNUM','NUM',1,'p_num','parser.py',32),
-  ('NUM -> FLOATNUM','NUM',1,'p_num','parser.py',33),
-  ('VECTOR -> VECTOR , NUM','VECTOR',3,'p_vector','parser.py',37),
-  ('VECTOR -> NUM','VECTOR',1,'p_vector','parser.py',38),
-  ('VECTORS -> VECTORS ; VECTOR','VECTORS',3,'p_vectors','parser.py',43),
-  ('VECTORS -> VECTOR','VECTORS',1,'p_vectors','parser.py',44),
-  ('MATRIX -> [ VECTORS ]','MATRIX',3,'p_matrix','parser.py',49),
-  ('STATEMENT -> ID = VAR ;','STATEMENT',4,'p_var_statement_assignment','parser.py',60),
-  ('STATEMENT -> ID [ INTNUM , INTNUM ] = NUM ;','STATEMENT',9,'p_matrix_element_assignment','parser.py',66),
-  ('MATRIX -> ZEROS ( INTNUM )','MATRIX',4,'p_zeros','parser.py',70),
-  ('MATRIX -> ONES ( INTNUM )','MATRIX',4,'p_ones','parser.py',74),
-  ('MATRIX -> EYE ( INTNUM )','MATRIX',4,'p_eye','parser.py',78),
-  ('MATRIX -> - ID','MATRIX',2,'p_matrix_min','parser.py',82),
-  ("MATRIX -> ID '",'MATRIX',2,'p_matrix_trans','parser.py',86),
-  ('VAR -> ID + ID','VAR',3,'p_sum','parser.py',90),
-  ('VAR -> ID - ID','VAR',3,'p_sub','parser.py',94),
-  ('VAR -> ID * ID','VAR',3,'p_mul','parser.py',98),
-  ('VAR -> ID / ID','VAR',3,'p_div','parser.py',102),
-  ('MATRIX -> ID DOTADD ID','MATRIX',3,'p_dotadd','parser.py',106),
-  ('MATRIX -> ID DOTSUB ID','MATRIX',3,'p_dotsub','parser.py',110),
-  ('MATRIX -> ID DOTMUL ID','MATRIX',3,'p_dotmul','parser.py',114),
-  ('MATRIX -> ID DOTDIV ID','MATRIX',3,'p_dotdiv','parser.py',118),
-  ('STATEMENT -> ID ADDASSIGN ID ;','STATEMENT',4,'p_addassign','parser.py',122),
-  ('STATEMENT -> ID SUBASSIGN ID ;','STATEMENT',4,'p_subassign','parser.py',127),
-  ('STATEMENT -> ID MULASSIGN ID ;','STATEMENT',4,'p_mulassign','parser.py',132),
-  ('STATEMENT -> ID DIVASSIGN ID ;','STATEMENT',4,'p_divassign','parser.py',137),
+  ('EXPRESSION -> TERM','EXPRESSION',1,'p_expression_statement','parser.py',21),
+  ('EXPRESSION -> EXPRESSION TERM','EXPRESSION',2,'p_expression_statement','parser.py',22),
+  ('TERM -> STATEMENT','TERM',1,'p_term','parser.py',26),
+  ('TERM -> PRINT','TERM',1,'p_term','parser.py',27),
+  ('VAR -> NUM','VAR',1,'p_var','parser.py',31),
+  ('VAR -> MATRIX','VAR',1,'p_var','parser.py',32),
+  ('NUM -> INTNUM','NUM',1,'p_num','parser.py',36),
+  ('NUM -> FLOATNUM','NUM',1,'p_num','parser.py',37),
+  ('VECTOR -> VECTOR , NUM','VECTOR',3,'p_vector','parser.py',41),
+  ('VECTOR -> NUM','VECTOR',1,'p_vector','parser.py',42),
+  ('VECTORS -> VECTORS ; VECTOR','VECTORS',3,'p_vectors','parser.py',47),
+  ('VECTORS -> VECTOR','VECTORS',1,'p_vectors','parser.py',48),
+  ('MATRIX -> [ VECTORS ]','MATRIX',3,'p_matrix','parser.py',53),
+  ('MATRIX -> ZEROS ( INTNUM )','MATRIX',4,'p_zeros','parser.py',65),
+  ('MATRIX -> ONES ( INTNUM )','MATRIX',4,'p_ones','parser.py',69),
+  ('MATRIX -> EYE ( INTNUM )','MATRIX',4,'p_eye','parser.py',73),
+  ('MATRIX -> - ID','MATRIX',2,'p_matrix_min','parser.py',77),
+  ("MATRIX -> ID '",'MATRIX',2,'p_matrix_trans','parser.py',81),
+  ('VAR -> ID + ID','VAR',3,'p_sum','parser.py',85),
+  ('VAR -> ID - ID','VAR',3,'p_sub','parser.py',89),
+  ('VAR -> ID * ID','VAR',3,'p_mul','parser.py',93),
+  ('VAR -> ID / ID','VAR',3,'p_div','parser.py',97),
+  ('MATRIX -> ID DOTADD ID','MATRIX',3,'p_dotadd','parser.py',101),
+  ('MATRIX -> ID DOTSUB ID','MATRIX',3,'p_dotsub','parser.py',105),
+  ('MATRIX -> ID DOTMUL ID','MATRIX',3,'p_dotmul','parser.py',109),
+  ('MATRIX -> ID DOTDIV ID','MATRIX',3,'p_dotdiv','parser.py',113),
+  ('STATEMENT -> ID = VAR ;','STATEMENT',4,'p_var_statement_assignment','parser.py',117),
+  ('STATEMENT -> ID [ INTNUM , INTNUM ] = NUM ;','STATEMENT',9,'p_matrix_element_assignment','parser.py',123),
+  ('STATEMENT -> ID ADDASSIGN ID ;','STATEMENT',4,'p_addassign','parser.py',128),
+  ('STATEMENT -> ID SUBASSIGN ID ;','STATEMENT',4,'p_subassign','parser.py',133),
+  ('STATEMENT -> ID MULASSIGN ID ;','STATEMENT',4,'p_mulassign','parser.py',138),
+  ('STATEMENT -> ID DIVASSIGN ID ;','STATEMENT',4,'p_divassign','parser.py',143),
+  ('TERM -> PRINT ( ID ) ;','TERM',5,'p_print_id','parser.py',148),
+  ('TERM -> PRINT ( VAR ) ;','TERM',5,'p_print_var','parser.py',152),
 ]

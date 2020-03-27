@@ -11,7 +11,6 @@ Unused terminals:
     FOR
     IF
     NOTEQUAL
-    PRINT
     RETURN
     STRING
     WHILE
@@ -19,19 +18,19 @@ Unused terminals:
 Grammar
 
 Rule 0     S' -> EXPRESSION
-Rule 1     EXPRESSION -> STATEMENT
-Rule 2     EXPRESSION -> EXPRESSION STATEMENT
-Rule 3     VAR -> NUM
-Rule 4     VAR -> MATRIX
-Rule 5     NUM -> INTNUM
-Rule 6     NUM -> FLOATNUM
-Rule 7     VECTOR -> VECTOR , NUM
-Rule 8     VECTOR -> NUM
-Rule 9     VECTORS -> VECTORS ; VECTOR
-Rule 10    VECTORS -> VECTOR
-Rule 11    MATRIX -> [ VECTORS ]
-Rule 12    STATEMENT -> ID = VAR ;
-Rule 13    STATEMENT -> ID [ INTNUM , INTNUM ] = NUM ;
+Rule 1     EXPRESSION -> TERM
+Rule 2     EXPRESSION -> EXPRESSION TERM
+Rule 3     TERM -> STATEMENT
+Rule 4     TERM -> PRINT
+Rule 5     VAR -> NUM
+Rule 6     VAR -> MATRIX
+Rule 7     NUM -> INTNUM
+Rule 8     NUM -> FLOATNUM
+Rule 9     VECTOR -> VECTOR , NUM
+Rule 10    VECTOR -> NUM
+Rule 11    VECTORS -> VECTORS ; VECTOR
+Rule 12    VECTORS -> VECTOR
+Rule 13    MATRIX -> [ VECTORS ]
 Rule 14    MATRIX -> ZEROS ( INTNUM )
 Rule 15    MATRIX -> ONES ( INTNUM )
 Rule 16    MATRIX -> EYE ( INTNUM )
@@ -45,27 +44,31 @@ Rule 23    MATRIX -> ID DOTADD ID
 Rule 24    MATRIX -> ID DOTSUB ID
 Rule 25    MATRIX -> ID DOTMUL ID
 Rule 26    MATRIX -> ID DOTDIV ID
-Rule 27    STATEMENT -> ID ADDASSIGN ID ;
-Rule 28    STATEMENT -> ID SUBASSIGN ID ;
-Rule 29    STATEMENT -> ID MULASSIGN ID ;
-Rule 30    STATEMENT -> ID DIVASSIGN ID ;
+Rule 27    STATEMENT -> ID = VAR ;
+Rule 28    STATEMENT -> ID [ INTNUM , INTNUM ] = NUM ;
+Rule 29    STATEMENT -> ID ADDASSIGN ID ;
+Rule 30    STATEMENT -> ID SUBASSIGN ID ;
+Rule 31    STATEMENT -> ID MULASSIGN ID ;
+Rule 32    STATEMENT -> ID DIVASSIGN ID ;
+Rule 33    TERM -> PRINT ( ID ) ;
+Rule 34    TERM -> PRINT ( VAR ) ;
 
 Terminals, with rules where they appear
 
 '                    : 18
-(                    : 14 15 16
-)                    : 14 15 16
+(                    : 14 15 16 33 34
+)                    : 14 15 16 33 34
 *                    : 21
 +                    : 19
-,                    : 7 13
+,                    : 9 28
 -                    : 17 20
 /                    : 22
-;                    : 9 12 13 27 28 29 30
-=                    : 12 13
-ADDASSIGN            : 27
+;                    : 11 27 28 29 30 31 32 33 34
+=                    : 27 28
+ADDASSIGN            : 29
 BREAK                : 
 CONTINUE             : 
-DIVASSIGN            : 30
+DIVASSIGN            : 32
 DOTADD               : 23
 DOTDIV               : 26
 DOTMUL               : 25
@@ -75,113 +78,150 @@ EQORGT               :
 EQORLESS             : 
 EQUAL                : 
 EYE                  : 16
-FLOATNUM             : 6
+FLOATNUM             : 8
 FOR                  : 
-ID                   : 12 13 17 18 19 19 20 20 21 21 22 22 23 23 24 24 25 25 26 26 27 27 28 28 29 29 30 30
+ID                   : 17 18 19 19 20 20 21 21 22 22 23 23 24 24 25 25 26 26 27 28 29 29 30 30 31 31 32 32 33
 IF                   : 
-INTNUM               : 5 13 13 14 15 16
-MULASSIGN            : 29
+INTNUM               : 7 14 15 16 28 28
+MULASSIGN            : 31
 NOTEQUAL             : 
 ONES                 : 15
-PRINT                : 
+PRINT                : 4 33 34
 RETURN               : 
 STRING               : 
-SUBASSIGN            : 28
+SUBASSIGN            : 30
 WHILE                : 
 ZEROS                : 14
-[                    : 11 13
-]                    : 11 13
+[                    : 13 28
+]                    : 13 28
 error                : 
 
 Nonterminals, with rules where they appear
 
 EXPRESSION           : 2 0
-MATRIX               : 4
-NUM                  : 3 7 8 13
-STATEMENT            : 1 2
-VAR                  : 12
-VECTOR               : 7 9 10
-VECTORS              : 9 11
+MATRIX               : 6
+NUM                  : 5 9 10 28
+STATEMENT            : 3
+TERM                 : 1 2
+VAR                  : 27 34
+VECTOR               : 9 11 12
+VECTORS              : 11 13
 
 Parsing method: LALR
 
 state 0
 
     (0) S' -> . EXPRESSION
-    (1) EXPRESSION -> . STATEMENT
-    (2) EXPRESSION -> . EXPRESSION STATEMENT
-    (12) STATEMENT -> . ID = VAR ;
-    (13) STATEMENT -> . ID [ INTNUM , INTNUM ] = NUM ;
-    (27) STATEMENT -> . ID ADDASSIGN ID ;
-    (28) STATEMENT -> . ID SUBASSIGN ID ;
-    (29) STATEMENT -> . ID MULASSIGN ID ;
-    (30) STATEMENT -> . ID DIVASSIGN ID ;
+    (1) EXPRESSION -> . TERM
+    (2) EXPRESSION -> . EXPRESSION TERM
+    (3) TERM -> . STATEMENT
+    (4) TERM -> . PRINT
+    (33) TERM -> . PRINT ( ID ) ;
+    (34) TERM -> . PRINT ( VAR ) ;
+    (27) STATEMENT -> . ID = VAR ;
+    (28) STATEMENT -> . ID [ INTNUM , INTNUM ] = NUM ;
+    (29) STATEMENT -> . ID ADDASSIGN ID ;
+    (30) STATEMENT -> . ID SUBASSIGN ID ;
+    (31) STATEMENT -> . ID MULASSIGN ID ;
+    (32) STATEMENT -> . ID DIVASSIGN ID ;
 
-    ID              shift and go to state 3
+    PRINT           shift and go to state 4
+    ID              shift and go to state 5
 
     EXPRESSION                     shift and go to state 1
-    STATEMENT                      shift and go to state 2
+    TERM                           shift and go to state 2
+    STATEMENT                      shift and go to state 3
 
 state 1
 
     (0) S' -> EXPRESSION .
-    (2) EXPRESSION -> EXPRESSION . STATEMENT
-    (12) STATEMENT -> . ID = VAR ;
-    (13) STATEMENT -> . ID [ INTNUM , INTNUM ] = NUM ;
-    (27) STATEMENT -> . ID ADDASSIGN ID ;
-    (28) STATEMENT -> . ID SUBASSIGN ID ;
-    (29) STATEMENT -> . ID MULASSIGN ID ;
-    (30) STATEMENT -> . ID DIVASSIGN ID ;
+    (2) EXPRESSION -> EXPRESSION . TERM
+    (3) TERM -> . STATEMENT
+    (4) TERM -> . PRINT
+    (33) TERM -> . PRINT ( ID ) ;
+    (34) TERM -> . PRINT ( VAR ) ;
+    (27) STATEMENT -> . ID = VAR ;
+    (28) STATEMENT -> . ID [ INTNUM , INTNUM ] = NUM ;
+    (29) STATEMENT -> . ID ADDASSIGN ID ;
+    (30) STATEMENT -> . ID SUBASSIGN ID ;
+    (31) STATEMENT -> . ID MULASSIGN ID ;
+    (32) STATEMENT -> . ID DIVASSIGN ID ;
 
-    ID              shift and go to state 3
+    PRINT           shift and go to state 4
+    ID              shift and go to state 5
 
-    STATEMENT                      shift and go to state 4
+    TERM                           shift and go to state 6
+    STATEMENT                      shift and go to state 3
 
 state 2
 
-    (1) EXPRESSION -> STATEMENT .
+    (1) EXPRESSION -> TERM .
 
-    ID              reduce using rule 1 (EXPRESSION -> STATEMENT .)
-    $end            reduce using rule 1 (EXPRESSION -> STATEMENT .)
+    PRINT           reduce using rule 1 (EXPRESSION -> TERM .)
+    ID              reduce using rule 1 (EXPRESSION -> TERM .)
+    $end            reduce using rule 1 (EXPRESSION -> TERM .)
 
 
 state 3
 
-    (12) STATEMENT -> ID . = VAR ;
-    (13) STATEMENT -> ID . [ INTNUM , INTNUM ] = NUM ;
-    (27) STATEMENT -> ID . ADDASSIGN ID ;
-    (28) STATEMENT -> ID . SUBASSIGN ID ;
-    (29) STATEMENT -> ID . MULASSIGN ID ;
-    (30) STATEMENT -> ID . DIVASSIGN ID ;
+    (3) TERM -> STATEMENT .
 
-    =               shift and go to state 5
-    [               shift and go to state 6
-    ADDASSIGN       shift and go to state 7
-    SUBASSIGN       shift and go to state 8
-    MULASSIGN       shift and go to state 9
-    DIVASSIGN       shift and go to state 10
+    PRINT           reduce using rule 3 (TERM -> STATEMENT .)
+    ID              reduce using rule 3 (TERM -> STATEMENT .)
+    $end            reduce using rule 3 (TERM -> STATEMENT .)
 
 
 state 4
 
-    (2) EXPRESSION -> EXPRESSION STATEMENT .
+    (4) TERM -> PRINT .
+    (33) TERM -> PRINT . ( ID ) ;
+    (34) TERM -> PRINT . ( VAR ) ;
 
-    ID              reduce using rule 2 (EXPRESSION -> EXPRESSION STATEMENT .)
-    $end            reduce using rule 2 (EXPRESSION -> EXPRESSION STATEMENT .)
+    PRINT           reduce using rule 4 (TERM -> PRINT .)
+    ID              reduce using rule 4 (TERM -> PRINT .)
+    $end            reduce using rule 4 (TERM -> PRINT .)
+    (               shift and go to state 7
 
 
 state 5
 
-    (12) STATEMENT -> ID = . VAR ;
-    (3) VAR -> . NUM
-    (4) VAR -> . MATRIX
+    (27) STATEMENT -> ID . = VAR ;
+    (28) STATEMENT -> ID . [ INTNUM , INTNUM ] = NUM ;
+    (29) STATEMENT -> ID . ADDASSIGN ID ;
+    (30) STATEMENT -> ID . SUBASSIGN ID ;
+    (31) STATEMENT -> ID . MULASSIGN ID ;
+    (32) STATEMENT -> ID . DIVASSIGN ID ;
+
+    =               shift and go to state 8
+    [               shift and go to state 9
+    ADDASSIGN       shift and go to state 10
+    SUBASSIGN       shift and go to state 11
+    MULASSIGN       shift and go to state 12
+    DIVASSIGN       shift and go to state 13
+
+
+state 6
+
+    (2) EXPRESSION -> EXPRESSION TERM .
+
+    PRINT           reduce using rule 2 (EXPRESSION -> EXPRESSION TERM .)
+    ID              reduce using rule 2 (EXPRESSION -> EXPRESSION TERM .)
+    $end            reduce using rule 2 (EXPRESSION -> EXPRESSION TERM .)
+
+
+state 7
+
+    (33) TERM -> PRINT ( . ID ) ;
+    (34) TERM -> PRINT ( . VAR ) ;
+    (5) VAR -> . NUM
+    (6) VAR -> . MATRIX
     (19) VAR -> . ID + ID
     (20) VAR -> . ID - ID
     (21) VAR -> . ID * ID
     (22) VAR -> . ID / ID
-    (5) NUM -> . INTNUM
-    (6) NUM -> . FLOATNUM
-    (11) MATRIX -> . [ VECTORS ]
+    (7) NUM -> . INTNUM
+    (8) NUM -> . FLOATNUM
+    (13) MATRIX -> . [ VECTORS ]
     (14) MATRIX -> . ZEROS ( INTNUM )
     (15) MATRIX -> . ONES ( INTNUM )
     (16) MATRIX -> . EYE ( INTNUM )
@@ -192,55 +232,203 @@ state 5
     (25) MATRIX -> . ID DOTMUL ID
     (26) MATRIX -> . ID DOTDIV ID
 
-    ID              shift and go to state 11
-    INTNUM          shift and go to state 16
-    FLOATNUM        shift and go to state 17
-    [               shift and go to state 18
-    ZEROS           shift and go to state 19
-    ONES            shift and go to state 20
-    EYE             shift and go to state 21
-    -               shift and go to state 15
+    ID              shift and go to state 14
+    INTNUM          shift and go to state 19
+    FLOATNUM        shift and go to state 20
+    [               shift and go to state 21
+    ZEROS           shift and go to state 22
+    ONES            shift and go to state 23
+    EYE             shift and go to state 24
+    -               shift and go to state 18
 
-    VAR                            shift and go to state 12
-    NUM                            shift and go to state 13
-    MATRIX                         shift and go to state 14
-
-state 6
-
-    (13) STATEMENT -> ID [ . INTNUM , INTNUM ] = NUM ;
-
-    INTNUM          shift and go to state 22
-
-
-state 7
-
-    (27) STATEMENT -> ID ADDASSIGN . ID ;
-
-    ID              shift and go to state 23
-
+    VAR                            shift and go to state 15
+    NUM                            shift and go to state 16
+    MATRIX                         shift and go to state 17
 
 state 8
 
-    (28) STATEMENT -> ID SUBASSIGN . ID ;
+    (27) STATEMENT -> ID = . VAR ;
+    (5) VAR -> . NUM
+    (6) VAR -> . MATRIX
+    (19) VAR -> . ID + ID
+    (20) VAR -> . ID - ID
+    (21) VAR -> . ID * ID
+    (22) VAR -> . ID / ID
+    (7) NUM -> . INTNUM
+    (8) NUM -> . FLOATNUM
+    (13) MATRIX -> . [ VECTORS ]
+    (14) MATRIX -> . ZEROS ( INTNUM )
+    (15) MATRIX -> . ONES ( INTNUM )
+    (16) MATRIX -> . EYE ( INTNUM )
+    (17) MATRIX -> . - ID
+    (18) MATRIX -> . ID '
+    (23) MATRIX -> . ID DOTADD ID
+    (24) MATRIX -> . ID DOTSUB ID
+    (25) MATRIX -> . ID DOTMUL ID
+    (26) MATRIX -> . ID DOTDIV ID
 
-    ID              shift and go to state 24
+    ID              shift and go to state 25
+    INTNUM          shift and go to state 19
+    FLOATNUM        shift and go to state 20
+    [               shift and go to state 21
+    ZEROS           shift and go to state 22
+    ONES            shift and go to state 23
+    EYE             shift and go to state 24
+    -               shift and go to state 18
 
+    VAR                            shift and go to state 26
+    NUM                            shift and go to state 16
+    MATRIX                         shift and go to state 17
 
 state 9
 
-    (29) STATEMENT -> ID MULASSIGN . ID ;
+    (28) STATEMENT -> ID [ . INTNUM , INTNUM ] = NUM ;
 
-    ID              shift and go to state 25
+    INTNUM          shift and go to state 27
 
 
 state 10
 
-    (30) STATEMENT -> ID DIVASSIGN . ID ;
+    (29) STATEMENT -> ID ADDASSIGN . ID ;
 
-    ID              shift and go to state 26
+    ID              shift and go to state 28
 
 
 state 11
+
+    (30) STATEMENT -> ID SUBASSIGN . ID ;
+
+    ID              shift and go to state 29
+
+
+state 12
+
+    (31) STATEMENT -> ID MULASSIGN . ID ;
+
+    ID              shift and go to state 30
+
+
+state 13
+
+    (32) STATEMENT -> ID DIVASSIGN . ID ;
+
+    ID              shift and go to state 31
+
+
+state 14
+
+    (33) TERM -> PRINT ( ID . ) ;
+    (19) VAR -> ID . + ID
+    (20) VAR -> ID . - ID
+    (21) VAR -> ID . * ID
+    (22) VAR -> ID . / ID
+    (18) MATRIX -> ID . '
+    (23) MATRIX -> ID . DOTADD ID
+    (24) MATRIX -> ID . DOTSUB ID
+    (25) MATRIX -> ID . DOTMUL ID
+    (26) MATRIX -> ID . DOTDIV ID
+
+    )               shift and go to state 32
+    +               shift and go to state 33
+    -               shift and go to state 34
+    *               shift and go to state 35
+    /               shift and go to state 36
+    '               shift and go to state 37
+    DOTADD          shift and go to state 38
+    DOTSUB          shift and go to state 39
+    DOTMUL          shift and go to state 40
+    DOTDIV          shift and go to state 41
+
+
+state 15
+
+    (34) TERM -> PRINT ( VAR . ) ;
+
+    )               shift and go to state 42
+
+
+state 16
+
+    (5) VAR -> NUM .
+
+    )               reduce using rule 5 (VAR -> NUM .)
+    ;               reduce using rule 5 (VAR -> NUM .)
+
+
+state 17
+
+    (6) VAR -> MATRIX .
+
+    )               reduce using rule 6 (VAR -> MATRIX .)
+    ;               reduce using rule 6 (VAR -> MATRIX .)
+
+
+state 18
+
+    (17) MATRIX -> - . ID
+
+    ID              shift and go to state 43
+
+
+state 19
+
+    (7) NUM -> INTNUM .
+
+    )               reduce using rule 7 (NUM -> INTNUM .)
+    ;               reduce using rule 7 (NUM -> INTNUM .)
+    ,               reduce using rule 7 (NUM -> INTNUM .)
+    ]               reduce using rule 7 (NUM -> INTNUM .)
+
+
+state 20
+
+    (8) NUM -> FLOATNUM .
+
+    )               reduce using rule 8 (NUM -> FLOATNUM .)
+    ;               reduce using rule 8 (NUM -> FLOATNUM .)
+    ,               reduce using rule 8 (NUM -> FLOATNUM .)
+    ]               reduce using rule 8 (NUM -> FLOATNUM .)
+
+
+state 21
+
+    (13) MATRIX -> [ . VECTORS ]
+    (11) VECTORS -> . VECTORS ; VECTOR
+    (12) VECTORS -> . VECTOR
+    (9) VECTOR -> . VECTOR , NUM
+    (10) VECTOR -> . NUM
+    (7) NUM -> . INTNUM
+    (8) NUM -> . FLOATNUM
+
+    INTNUM          shift and go to state 19
+    FLOATNUM        shift and go to state 20
+
+    VECTORS                        shift and go to state 44
+    VECTOR                         shift and go to state 45
+    NUM                            shift and go to state 46
+
+state 22
+
+    (14) MATRIX -> ZEROS . ( INTNUM )
+
+    (               shift and go to state 47
+
+
+state 23
+
+    (15) MATRIX -> ONES . ( INTNUM )
+
+    (               shift and go to state 48
+
+
+state 24
+
+    (16) MATRIX -> EYE . ( INTNUM )
+
+    (               shift and go to state 49
+
+
+state 25
 
     (19) VAR -> ID . + ID
     (20) VAR -> ID . - ID
@@ -252,487 +440,462 @@ state 11
     (25) MATRIX -> ID . DOTMUL ID
     (26) MATRIX -> ID . DOTDIV ID
 
-    +               shift and go to state 27
-    -               shift and go to state 28
-    *               shift and go to state 29
-    /               shift and go to state 30
-    '               shift and go to state 31
-    DOTADD          shift and go to state 32
-    DOTSUB          shift and go to state 33
-    DOTMUL          shift and go to state 34
-    DOTDIV          shift and go to state 35
-
-
-state 12
-
-    (12) STATEMENT -> ID = VAR . ;
-
-    ;               shift and go to state 36
-
-
-state 13
-
-    (3) VAR -> NUM .
-
-    ;               reduce using rule 3 (VAR -> NUM .)
-
-
-state 14
-
-    (4) VAR -> MATRIX .
-
-    ;               reduce using rule 4 (VAR -> MATRIX .)
-
-
-state 15
-
-    (17) MATRIX -> - . ID
-
-    ID              shift and go to state 37
-
-
-state 16
-
-    (5) NUM -> INTNUM .
-
-    ;               reduce using rule 5 (NUM -> INTNUM .)
-    ,               reduce using rule 5 (NUM -> INTNUM .)
-    ]               reduce using rule 5 (NUM -> INTNUM .)
-
-
-state 17
-
-    (6) NUM -> FLOATNUM .
-
-    ;               reduce using rule 6 (NUM -> FLOATNUM .)
-    ,               reduce using rule 6 (NUM -> FLOATNUM .)
-    ]               reduce using rule 6 (NUM -> FLOATNUM .)
-
-
-state 18
-
-    (11) MATRIX -> [ . VECTORS ]
-    (9) VECTORS -> . VECTORS ; VECTOR
-    (10) VECTORS -> . VECTOR
-    (7) VECTOR -> . VECTOR , NUM
-    (8) VECTOR -> . NUM
-    (5) NUM -> . INTNUM
-    (6) NUM -> . FLOATNUM
-
-    INTNUM          shift and go to state 16
-    FLOATNUM        shift and go to state 17
-
-    VECTORS                        shift and go to state 38
-    VECTOR                         shift and go to state 39
-    NUM                            shift and go to state 40
-
-state 19
-
-    (14) MATRIX -> ZEROS . ( INTNUM )
-
-    (               shift and go to state 41
-
-
-state 20
-
-    (15) MATRIX -> ONES . ( INTNUM )
-
-    (               shift and go to state 42
-
-
-state 21
-
-    (16) MATRIX -> EYE . ( INTNUM )
-
-    (               shift and go to state 43
-
-
-state 22
-
-    (13) STATEMENT -> ID [ INTNUM . , INTNUM ] = NUM ;
-
-    ,               shift and go to state 44
-
-
-state 23
-
-    (27) STATEMENT -> ID ADDASSIGN ID . ;
-
-    ;               shift and go to state 45
-
-
-state 24
-
-    (28) STATEMENT -> ID SUBASSIGN ID . ;
-
-    ;               shift and go to state 46
-
-
-state 25
-
-    (29) STATEMENT -> ID MULASSIGN ID . ;
-
-    ;               shift and go to state 47
+    +               shift and go to state 33
+    -               shift and go to state 34
+    *               shift and go to state 35
+    /               shift and go to state 36
+    '               shift and go to state 37
+    DOTADD          shift and go to state 38
+    DOTSUB          shift and go to state 39
+    DOTMUL          shift and go to state 40
+    DOTDIV          shift and go to state 41
 
 
 state 26
 
-    (30) STATEMENT -> ID DIVASSIGN ID . ;
+    (27) STATEMENT -> ID = VAR . ;
 
-    ;               shift and go to state 48
+    ;               shift and go to state 50
 
 
 state 27
 
-    (19) VAR -> ID + . ID
+    (28) STATEMENT -> ID [ INTNUM . , INTNUM ] = NUM ;
 
-    ID              shift and go to state 49
+    ,               shift and go to state 51
 
 
 state 28
 
-    (20) VAR -> ID - . ID
+    (29) STATEMENT -> ID ADDASSIGN ID . ;
 
-    ID              shift and go to state 50
+    ;               shift and go to state 52
 
 
 state 29
 
-    (21) VAR -> ID * . ID
+    (30) STATEMENT -> ID SUBASSIGN ID . ;
 
-    ID              shift and go to state 51
+    ;               shift and go to state 53
 
 
 state 30
 
-    (22) VAR -> ID / . ID
+    (31) STATEMENT -> ID MULASSIGN ID . ;
 
-    ID              shift and go to state 52
+    ;               shift and go to state 54
 
 
 state 31
 
-    (18) MATRIX -> ID ' .
+    (32) STATEMENT -> ID DIVASSIGN ID . ;
 
-    ;               reduce using rule 18 (MATRIX -> ID ' .)
+    ;               shift and go to state 55
 
 
 state 32
 
-    (23) MATRIX -> ID DOTADD . ID
+    (33) TERM -> PRINT ( ID ) . ;
 
-    ID              shift and go to state 53
+    ;               shift and go to state 56
 
 
 state 33
 
-    (24) MATRIX -> ID DOTSUB . ID
+    (19) VAR -> ID + . ID
 
-    ID              shift and go to state 54
+    ID              shift and go to state 57
 
 
 state 34
 
-    (25) MATRIX -> ID DOTMUL . ID
+    (20) VAR -> ID - . ID
 
-    ID              shift and go to state 55
+    ID              shift and go to state 58
 
 
 state 35
 
-    (26) MATRIX -> ID DOTDIV . ID
+    (21) VAR -> ID * . ID
 
-    ID              shift and go to state 56
+    ID              shift and go to state 59
 
 
 state 36
 
-    (12) STATEMENT -> ID = VAR ; .
+    (22) VAR -> ID / . ID
 
-    ID              reduce using rule 12 (STATEMENT -> ID = VAR ; .)
-    $end            reduce using rule 12 (STATEMENT -> ID = VAR ; .)
+    ID              shift and go to state 60
 
 
 state 37
 
-    (17) MATRIX -> - ID .
+    (18) MATRIX -> ID ' .
 
-    ;               reduce using rule 17 (MATRIX -> - ID .)
+    )               reduce using rule 18 (MATRIX -> ID ' .)
+    ;               reduce using rule 18 (MATRIX -> ID ' .)
 
 
 state 38
 
-    (11) MATRIX -> [ VECTORS . ]
-    (9) VECTORS -> VECTORS . ; VECTOR
+    (23) MATRIX -> ID DOTADD . ID
 
-    ]               shift and go to state 57
-    ;               shift and go to state 58
+    ID              shift and go to state 61
 
 
 state 39
 
-    (10) VECTORS -> VECTOR .
-    (7) VECTOR -> VECTOR . , NUM
+    (24) MATRIX -> ID DOTSUB . ID
 
-    ]               reduce using rule 10 (VECTORS -> VECTOR .)
-    ;               reduce using rule 10 (VECTORS -> VECTOR .)
-    ,               shift and go to state 59
+    ID              shift and go to state 62
 
 
 state 40
 
-    (8) VECTOR -> NUM .
+    (25) MATRIX -> ID DOTMUL . ID
 
-    ,               reduce using rule 8 (VECTOR -> NUM .)
-    ]               reduce using rule 8 (VECTOR -> NUM .)
-    ;               reduce using rule 8 (VECTOR -> NUM .)
+    ID              shift and go to state 63
 
 
 state 41
 
-    (14) MATRIX -> ZEROS ( . INTNUM )
+    (26) MATRIX -> ID DOTDIV . ID
 
-    INTNUM          shift and go to state 60
+    ID              shift and go to state 64
 
 
 state 42
 
-    (15) MATRIX -> ONES ( . INTNUM )
+    (34) TERM -> PRINT ( VAR ) . ;
 
-    INTNUM          shift and go to state 61
+    ;               shift and go to state 65
 
 
 state 43
 
-    (16) MATRIX -> EYE ( . INTNUM )
+    (17) MATRIX -> - ID .
 
-    INTNUM          shift and go to state 62
+    )               reduce using rule 17 (MATRIX -> - ID .)
+    ;               reduce using rule 17 (MATRIX -> - ID .)
 
 
 state 44
 
-    (13) STATEMENT -> ID [ INTNUM , . INTNUM ] = NUM ;
+    (13) MATRIX -> [ VECTORS . ]
+    (11) VECTORS -> VECTORS . ; VECTOR
 
-    INTNUM          shift and go to state 63
+    ]               shift and go to state 66
+    ;               shift and go to state 67
 
 
 state 45
 
-    (27) STATEMENT -> ID ADDASSIGN ID ; .
+    (12) VECTORS -> VECTOR .
+    (9) VECTOR -> VECTOR . , NUM
 
-    ID              reduce using rule 27 (STATEMENT -> ID ADDASSIGN ID ; .)
-    $end            reduce using rule 27 (STATEMENT -> ID ADDASSIGN ID ; .)
+    ]               reduce using rule 12 (VECTORS -> VECTOR .)
+    ;               reduce using rule 12 (VECTORS -> VECTOR .)
+    ,               shift and go to state 68
 
 
 state 46
 
-    (28) STATEMENT -> ID SUBASSIGN ID ; .
+    (10) VECTOR -> NUM .
 
-    ID              reduce using rule 28 (STATEMENT -> ID SUBASSIGN ID ; .)
-    $end            reduce using rule 28 (STATEMENT -> ID SUBASSIGN ID ; .)
+    ,               reduce using rule 10 (VECTOR -> NUM .)
+    ]               reduce using rule 10 (VECTOR -> NUM .)
+    ;               reduce using rule 10 (VECTOR -> NUM .)
 
 
 state 47
 
-    (29) STATEMENT -> ID MULASSIGN ID ; .
+    (14) MATRIX -> ZEROS ( . INTNUM )
 
-    ID              reduce using rule 29 (STATEMENT -> ID MULASSIGN ID ; .)
-    $end            reduce using rule 29 (STATEMENT -> ID MULASSIGN ID ; .)
+    INTNUM          shift and go to state 69
 
 
 state 48
 
-    (30) STATEMENT -> ID DIVASSIGN ID ; .
+    (15) MATRIX -> ONES ( . INTNUM )
 
-    ID              reduce using rule 30 (STATEMENT -> ID DIVASSIGN ID ; .)
-    $end            reduce using rule 30 (STATEMENT -> ID DIVASSIGN ID ; .)
+    INTNUM          shift and go to state 70
 
 
 state 49
 
-    (19) VAR -> ID + ID .
+    (16) MATRIX -> EYE ( . INTNUM )
 
-    ;               reduce using rule 19 (VAR -> ID + ID .)
+    INTNUM          shift and go to state 71
 
 
 state 50
 
-    (20) VAR -> ID - ID .
+    (27) STATEMENT -> ID = VAR ; .
 
-    ;               reduce using rule 20 (VAR -> ID - ID .)
+    PRINT           reduce using rule 27 (STATEMENT -> ID = VAR ; .)
+    ID              reduce using rule 27 (STATEMENT -> ID = VAR ; .)
+    $end            reduce using rule 27 (STATEMENT -> ID = VAR ; .)
 
 
 state 51
 
-    (21) VAR -> ID * ID .
+    (28) STATEMENT -> ID [ INTNUM , . INTNUM ] = NUM ;
 
-    ;               reduce using rule 21 (VAR -> ID * ID .)
+    INTNUM          shift and go to state 72
 
 
 state 52
 
-    (22) VAR -> ID / ID .
+    (29) STATEMENT -> ID ADDASSIGN ID ; .
 
-    ;               reduce using rule 22 (VAR -> ID / ID .)
+    PRINT           reduce using rule 29 (STATEMENT -> ID ADDASSIGN ID ; .)
+    ID              reduce using rule 29 (STATEMENT -> ID ADDASSIGN ID ; .)
+    $end            reduce using rule 29 (STATEMENT -> ID ADDASSIGN ID ; .)
 
 
 state 53
 
-    (23) MATRIX -> ID DOTADD ID .
+    (30) STATEMENT -> ID SUBASSIGN ID ; .
 
-    ;               reduce using rule 23 (MATRIX -> ID DOTADD ID .)
+    PRINT           reduce using rule 30 (STATEMENT -> ID SUBASSIGN ID ; .)
+    ID              reduce using rule 30 (STATEMENT -> ID SUBASSIGN ID ; .)
+    $end            reduce using rule 30 (STATEMENT -> ID SUBASSIGN ID ; .)
 
 
 state 54
 
-    (24) MATRIX -> ID DOTSUB ID .
+    (31) STATEMENT -> ID MULASSIGN ID ; .
 
-    ;               reduce using rule 24 (MATRIX -> ID DOTSUB ID .)
+    PRINT           reduce using rule 31 (STATEMENT -> ID MULASSIGN ID ; .)
+    ID              reduce using rule 31 (STATEMENT -> ID MULASSIGN ID ; .)
+    $end            reduce using rule 31 (STATEMENT -> ID MULASSIGN ID ; .)
 
 
 state 55
 
-    (25) MATRIX -> ID DOTMUL ID .
+    (32) STATEMENT -> ID DIVASSIGN ID ; .
 
-    ;               reduce using rule 25 (MATRIX -> ID DOTMUL ID .)
+    PRINT           reduce using rule 32 (STATEMENT -> ID DIVASSIGN ID ; .)
+    ID              reduce using rule 32 (STATEMENT -> ID DIVASSIGN ID ; .)
+    $end            reduce using rule 32 (STATEMENT -> ID DIVASSIGN ID ; .)
 
 
 state 56
 
-    (26) MATRIX -> ID DOTDIV ID .
+    (33) TERM -> PRINT ( ID ) ; .
 
-    ;               reduce using rule 26 (MATRIX -> ID DOTDIV ID .)
+    PRINT           reduce using rule 33 (TERM -> PRINT ( ID ) ; .)
+    ID              reduce using rule 33 (TERM -> PRINT ( ID ) ; .)
+    $end            reduce using rule 33 (TERM -> PRINT ( ID ) ; .)
 
 
 state 57
 
-    (11) MATRIX -> [ VECTORS ] .
+    (19) VAR -> ID + ID .
 
-    ;               reduce using rule 11 (MATRIX -> [ VECTORS ] .)
+    )               reduce using rule 19 (VAR -> ID + ID .)
+    ;               reduce using rule 19 (VAR -> ID + ID .)
 
 
 state 58
 
-    (9) VECTORS -> VECTORS ; . VECTOR
-    (7) VECTOR -> . VECTOR , NUM
-    (8) VECTOR -> . NUM
-    (5) NUM -> . INTNUM
-    (6) NUM -> . FLOATNUM
+    (20) VAR -> ID - ID .
 
-    INTNUM          shift and go to state 16
-    FLOATNUM        shift and go to state 17
+    )               reduce using rule 20 (VAR -> ID - ID .)
+    ;               reduce using rule 20 (VAR -> ID - ID .)
 
-    VECTOR                         shift and go to state 64
-    NUM                            shift and go to state 40
 
 state 59
 
-    (7) VECTOR -> VECTOR , . NUM
-    (5) NUM -> . INTNUM
-    (6) NUM -> . FLOATNUM
+    (21) VAR -> ID * ID .
 
-    INTNUM          shift and go to state 16
-    FLOATNUM        shift and go to state 17
+    )               reduce using rule 21 (VAR -> ID * ID .)
+    ;               reduce using rule 21 (VAR -> ID * ID .)
 
-    NUM                            shift and go to state 65
 
 state 60
 
-    (14) MATRIX -> ZEROS ( INTNUM . )
+    (22) VAR -> ID / ID .
 
-    )               shift and go to state 66
+    )               reduce using rule 22 (VAR -> ID / ID .)
+    ;               reduce using rule 22 (VAR -> ID / ID .)
 
 
 state 61
 
-    (15) MATRIX -> ONES ( INTNUM . )
+    (23) MATRIX -> ID DOTADD ID .
 
-    )               shift and go to state 67
+    )               reduce using rule 23 (MATRIX -> ID DOTADD ID .)
+    ;               reduce using rule 23 (MATRIX -> ID DOTADD ID .)
 
 
 state 62
 
-    (16) MATRIX -> EYE ( INTNUM . )
+    (24) MATRIX -> ID DOTSUB ID .
 
-    )               shift and go to state 68
+    )               reduce using rule 24 (MATRIX -> ID DOTSUB ID .)
+    ;               reduce using rule 24 (MATRIX -> ID DOTSUB ID .)
 
 
 state 63
 
-    (13) STATEMENT -> ID [ INTNUM , INTNUM . ] = NUM ;
+    (25) MATRIX -> ID DOTMUL ID .
 
-    ]               shift and go to state 69
+    )               reduce using rule 25 (MATRIX -> ID DOTMUL ID .)
+    ;               reduce using rule 25 (MATRIX -> ID DOTMUL ID .)
 
 
 state 64
 
-    (9) VECTORS -> VECTORS ; VECTOR .
-    (7) VECTOR -> VECTOR . , NUM
+    (26) MATRIX -> ID DOTDIV ID .
 
-    ]               reduce using rule 9 (VECTORS -> VECTORS ; VECTOR .)
-    ;               reduce using rule 9 (VECTORS -> VECTORS ; VECTOR .)
-    ,               shift and go to state 59
+    )               reduce using rule 26 (MATRIX -> ID DOTDIV ID .)
+    ;               reduce using rule 26 (MATRIX -> ID DOTDIV ID .)
 
 
 state 65
 
-    (7) VECTOR -> VECTOR , NUM .
+    (34) TERM -> PRINT ( VAR ) ; .
 
-    ,               reduce using rule 7 (VECTOR -> VECTOR , NUM .)
-    ]               reduce using rule 7 (VECTOR -> VECTOR , NUM .)
-    ;               reduce using rule 7 (VECTOR -> VECTOR , NUM .)
+    PRINT           reduce using rule 34 (TERM -> PRINT ( VAR ) ; .)
+    ID              reduce using rule 34 (TERM -> PRINT ( VAR ) ; .)
+    $end            reduce using rule 34 (TERM -> PRINT ( VAR ) ; .)
 
 
 state 66
 
-    (14) MATRIX -> ZEROS ( INTNUM ) .
+    (13) MATRIX -> [ VECTORS ] .
 
-    ;               reduce using rule 14 (MATRIX -> ZEROS ( INTNUM ) .)
+    )               reduce using rule 13 (MATRIX -> [ VECTORS ] .)
+    ;               reduce using rule 13 (MATRIX -> [ VECTORS ] .)
 
 
 state 67
 
-    (15) MATRIX -> ONES ( INTNUM ) .
+    (11) VECTORS -> VECTORS ; . VECTOR
+    (9) VECTOR -> . VECTOR , NUM
+    (10) VECTOR -> . NUM
+    (7) NUM -> . INTNUM
+    (8) NUM -> . FLOATNUM
 
-    ;               reduce using rule 15 (MATRIX -> ONES ( INTNUM ) .)
+    INTNUM          shift and go to state 19
+    FLOATNUM        shift and go to state 20
 
+    VECTOR                         shift and go to state 73
+    NUM                            shift and go to state 46
 
 state 68
 
-    (16) MATRIX -> EYE ( INTNUM ) .
+    (9) VECTOR -> VECTOR , . NUM
+    (7) NUM -> . INTNUM
+    (8) NUM -> . FLOATNUM
 
-    ;               reduce using rule 16 (MATRIX -> EYE ( INTNUM ) .)
+    INTNUM          shift and go to state 19
+    FLOATNUM        shift and go to state 20
 
+    NUM                            shift and go to state 74
 
 state 69
 
-    (13) STATEMENT -> ID [ INTNUM , INTNUM ] . = NUM ;
+    (14) MATRIX -> ZEROS ( INTNUM . )
 
-    =               shift and go to state 70
+    )               shift and go to state 75
 
 
 state 70
 
-    (13) STATEMENT -> ID [ INTNUM , INTNUM ] = . NUM ;
-    (5) NUM -> . INTNUM
-    (6) NUM -> . FLOATNUM
+    (15) MATRIX -> ONES ( INTNUM . )
 
-    INTNUM          shift and go to state 16
-    FLOATNUM        shift and go to state 17
+    )               shift and go to state 76
 
-    NUM                            shift and go to state 71
 
 state 71
 
-    (13) STATEMENT -> ID [ INTNUM , INTNUM ] = NUM . ;
+    (16) MATRIX -> EYE ( INTNUM . )
 
-    ;               shift and go to state 72
+    )               shift and go to state 77
 
 
 state 72
 
-    (13) STATEMENT -> ID [ INTNUM , INTNUM ] = NUM ; .
+    (28) STATEMENT -> ID [ INTNUM , INTNUM . ] = NUM ;
 
-    ID              reduce using rule 13 (STATEMENT -> ID [ INTNUM , INTNUM ] = NUM ; .)
-    $end            reduce using rule 13 (STATEMENT -> ID [ INTNUM , INTNUM ] = NUM ; .)
+    ]               shift and go to state 78
+
+
+state 73
+
+    (11) VECTORS -> VECTORS ; VECTOR .
+    (9) VECTOR -> VECTOR . , NUM
+
+    ]               reduce using rule 11 (VECTORS -> VECTORS ; VECTOR .)
+    ;               reduce using rule 11 (VECTORS -> VECTORS ; VECTOR .)
+    ,               shift and go to state 68
+
+
+state 74
+
+    (9) VECTOR -> VECTOR , NUM .
+
+    ,               reduce using rule 9 (VECTOR -> VECTOR , NUM .)
+    ]               reduce using rule 9 (VECTOR -> VECTOR , NUM .)
+    ;               reduce using rule 9 (VECTOR -> VECTOR , NUM .)
+
+
+state 75
+
+    (14) MATRIX -> ZEROS ( INTNUM ) .
+
+    )               reduce using rule 14 (MATRIX -> ZEROS ( INTNUM ) .)
+    ;               reduce using rule 14 (MATRIX -> ZEROS ( INTNUM ) .)
+
+
+state 76
+
+    (15) MATRIX -> ONES ( INTNUM ) .
+
+    )               reduce using rule 15 (MATRIX -> ONES ( INTNUM ) .)
+    ;               reduce using rule 15 (MATRIX -> ONES ( INTNUM ) .)
+
+
+state 77
+
+    (16) MATRIX -> EYE ( INTNUM ) .
+
+    )               reduce using rule 16 (MATRIX -> EYE ( INTNUM ) .)
+    ;               reduce using rule 16 (MATRIX -> EYE ( INTNUM ) .)
+
+
+state 78
+
+    (28) STATEMENT -> ID [ INTNUM , INTNUM ] . = NUM ;
+
+    =               shift and go to state 79
+
+
+state 79
+
+    (28) STATEMENT -> ID [ INTNUM , INTNUM ] = . NUM ;
+    (7) NUM -> . INTNUM
+    (8) NUM -> . FLOATNUM
+
+    INTNUM          shift and go to state 19
+    FLOATNUM        shift and go to state 20
+
+    NUM                            shift and go to state 80
+
+state 80
+
+    (28) STATEMENT -> ID [ INTNUM , INTNUM ] = NUM . ;
+
+    ;               shift and go to state 81
+
+
+state 81
+
+    (28) STATEMENT -> ID [ INTNUM , INTNUM ] = NUM ; .
+
+    PRINT           reduce using rule 28 (STATEMENT -> ID [ INTNUM , INTNUM ] = NUM ; .)
+    ID              reduce using rule 28 (STATEMENT -> ID [ INTNUM , INTNUM ] = NUM ; .)
+    $end            reduce using rule 28 (STATEMENT -> ID [ INTNUM , INTNUM ] = NUM ; .)
 
