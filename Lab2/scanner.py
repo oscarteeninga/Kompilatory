@@ -24,7 +24,7 @@ t_DOTSUB = r'\.\-'
 t_DOTMUL = r'\.\*'
 t_DOTDIV = r'\.\/'
 
-literals = [ '+','-','*','/','(',')','[',']','{','}','=',',',';','\'', '<', '>']
+literals = [ '+','-','*','/','(',')','[',']','{','}','=',',',';','\'', '<', '>', ',']
 
 def t_newline(t):
     r'\n'
@@ -113,8 +113,9 @@ def t_ID(t):
     return t
 
 lexer = lex.lex()
-fh = open("example1.m", "r")
-lexer.input( fh.read() )
+file = open("example2.m", "r")
+text = file.read()
+lexer.input( text )
 
 for token in lexer:
     print("%d: %s(%s)" %(token.lineno, token.type, token.value))

@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = "left+-left*/ADDASSIGN BREAK CONTINUE DIVASSIGN DOTADD DOTDIV DOTMUL DOTSUB ELSE EQORGT EQORLESS EQUAL EYE FLOATNUM FOR ID IF INTNUM MULASSIGN NOTEQUAL ONES PRINT RETURN STRING SUBASSIGN WHILE ZEROSstart : EXPRESSIONEXPRESSION : INTNUMEXPRESSION : STRINGEXPRESSION : EXPRESSION '+' EXPRESSION\n                  | EXPRESSION '-' EXPRESSIONEXPRESSION : EXPRESSION '*' EXPRESSION\n                  | EXPRESSION '/' EXPRESSIONEXPRESSION : '(' EXPRESSION ')'"
+_lr_signature = "ADDASSIGN BREAK CONTINUE DIVASSIGN DOTADD DOTDIV DOTMUL DOTSUB ELSE EQORGT EQORLESS EQUAL EYE FLOATNUM FOR ID IF INTNUM MULASSIGN NOTEQUAL ONES PRINT RETURN STRING SUBASSIGN WHILE ZEROSEXPRESSION : STATEMENT \n                  | EXPRESSION STATEMENTVAR : NUM \n           | MATRIXNUM : INTNUM\n           | FLOATNUMVECTOR : VECTOR ',' NUM\n              | NUMVECTORS : VECTORS ';' VECTOR\n               | VECTORMATRIX : '[' VECTORS ']'STATEMENT : ID '=' VAR ';'STATEMENT : ID '[' INTNUM ',' INTNUM ']' '=' NUM ';'MATRIX : ZEROS '(' INTNUM ')'MATRIX : ONES '(' INTNUM ')'MATRIX : EYE '(' INTNUM ')'MATRIX : '-' IDMATRIX : ID '\\''VAR : ID '+' IDVAR : ID '-' IDVAR : ID '*' IDVAR : ID '/' IDMATRIX : ID DOTADD IDMATRIX : ID DOTSUB IDMATRIX : ID DOTMUL IDMATRIX : ID DOTDIV IDSTATEMENT : ID ADDASSIGN ID ';'STATEMENT : ID SUBASSIGN ID ';'STATEMENT : ID MULASSIGN ID ';'STATEMENT : ID DIVASSIGN ID ';'"
     
-_lr_action_items = {'INTNUM':([0,5,6,7,8,9,],[3,3,3,3,3,3,]),'STRING':([0,5,6,7,8,9,],[4,4,4,4,4,4,]),'(':([0,5,6,7,8,9,],[5,5,5,5,5,5,]),'$end':([1,2,3,4,11,12,13,14,15,],[0,-1,-2,-3,-4,-5,-6,-7,-8,]),'+':([2,3,4,10,11,12,13,14,15,],[6,-2,-3,6,-4,-5,-6,-7,-8,]),'-':([2,3,4,10,11,12,13,14,15,],[7,-2,-3,7,-4,-5,-6,-7,-8,]),'*':([2,3,4,10,11,12,13,14,15,],[8,-2,-3,8,8,8,-6,-7,-8,]),'/':([2,3,4,10,11,12,13,14,15,],[9,-2,-3,9,9,9,-6,-7,-8,]),')':([3,4,10,11,12,13,14,15,],[-2,-3,15,-4,-5,-6,-7,-8,]),}
+_lr_action_items = {'ID':([0,1,2,4,5,7,8,9,10,15,27,28,29,30,32,33,34,35,36,45,46,47,48,72,],[3,3,-1,-2,11,23,24,25,26,37,49,50,51,52,53,54,55,56,-12,-27,-28,-29,-30,-13,]),'$end':([1,2,4,36,45,46,47,48,72,],[0,-1,-2,-12,-27,-28,-29,-30,-13,]),'=':([3,69,],[5,70,]),'[':([3,5,],[6,18,]),'ADDASSIGN':([3,],[7,]),'SUBASSIGN':([3,],[8,]),'MULASSIGN':([3,],[9,]),'DIVASSIGN':([3,],[10,]),'INTNUM':([5,6,18,41,42,43,44,58,59,70,],[16,22,16,60,61,62,63,16,16,16,]),'FLOATNUM':([5,18,58,59,70,],[17,17,17,17,17,]),'ZEROS':([5,],[19,]),'ONES':([5,],[20,]),'EYE':([5,],[21,]),'-':([5,11,],[15,28,]),'+':([11,],[27,]),'*':([11,],[29,]),'/':([11,],[30,]),"'":([11,],[31,]),'DOTADD':([11,],[32,]),'DOTSUB':([11,],[33,]),'DOTMUL':([11,],[34,]),'DOTDIV':([11,],[35,]),';':([12,13,14,16,17,23,24,25,26,31,37,38,39,40,49,50,51,52,53,54,55,56,57,64,65,66,67,68,71,],[36,-3,-4,-5,-6,45,46,47,48,-18,-17,58,-10,-8,-19,-20,-21,-22,-23,-24,-25,-26,-11,-9,-7,-14,-15,-16,72,]),',':([16,17,22,39,40,64,65,],[-5,-6,44,59,-8,59,-7,]),']':([16,17,38,39,40,63,64,65,],[-5,-6,57,-10,-8,69,-9,-7,]),'(':([19,20,21,],[41,42,43,]),')':([60,61,62,],[66,67,68,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'start':([0,],[1,]),'EXPRESSION':([0,5,6,7,8,9,],[2,10,11,12,13,14,]),}
+_lr_goto_items = {'EXPRESSION':([0,],[1,]),'STATEMENT':([0,1,],[2,4,]),'VAR':([5,],[12,]),'NUM':([5,18,58,59,70,],[13,40,40,65,71,]),'MATRIX':([5,],[14,]),'VECTORS':([18,],[38,]),'VECTOR':([18,58,],[39,64,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,13 +26,35 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> start","S'",1,None,None,None),
-  ('start -> EXPRESSION','start',1,'p_start','parser.py',21),
-  ('EXPRESSION -> INTNUM','EXPRESSION',1,'p_expression_number','parser.py',25),
-  ('EXPRESSION -> STRING','EXPRESSION',1,'p_expression_string','parser.py',29),
-  ('EXPRESSION -> EXPRESSION + EXPRESSION','EXPRESSION',3,'p_expression_sum','parser.py',34),
-  ('EXPRESSION -> EXPRESSION - EXPRESSION','EXPRESSION',3,'p_expression_sum','parser.py',35),
-  ('EXPRESSION -> EXPRESSION * EXPRESSION','EXPRESSION',3,'p_expression_mul','parser.py',41),
-  ('EXPRESSION -> EXPRESSION / EXPRESSION','EXPRESSION',3,'p_expression_mul','parser.py',42),
-  ('EXPRESSION -> ( EXPRESSION )','EXPRESSION',3,'p_expression_group','parser.py',48),
+  ("S' -> EXPRESSION","S'",1,None,None,None),
+  ('EXPRESSION -> STATEMENT','EXPRESSION',1,'p_expression_statement','parser.py',22),
+  ('EXPRESSION -> EXPRESSION STATEMENT','EXPRESSION',2,'p_expression_statement','parser.py',23),
+  ('VAR -> NUM','VAR',1,'p_var','parser.py',27),
+  ('VAR -> MATRIX','VAR',1,'p_var','parser.py',28),
+  ('NUM -> INTNUM','NUM',1,'p_num','parser.py',32),
+  ('NUM -> FLOATNUM','NUM',1,'p_num','parser.py',33),
+  ('VECTOR -> VECTOR , NUM','VECTOR',3,'p_vector','parser.py',37),
+  ('VECTOR -> NUM','VECTOR',1,'p_vector','parser.py',38),
+  ('VECTORS -> VECTORS ; VECTOR','VECTORS',3,'p_vectors','parser.py',43),
+  ('VECTORS -> VECTOR','VECTORS',1,'p_vectors','parser.py',44),
+  ('MATRIX -> [ VECTORS ]','MATRIX',3,'p_matrix','parser.py',49),
+  ('STATEMENT -> ID = VAR ;','STATEMENT',4,'p_var_statement_assignment','parser.py',60),
+  ('STATEMENT -> ID [ INTNUM , INTNUM ] = NUM ;','STATEMENT',9,'p_matrix_element_assignment','parser.py',66),
+  ('MATRIX -> ZEROS ( INTNUM )','MATRIX',4,'p_zeros','parser.py',70),
+  ('MATRIX -> ONES ( INTNUM )','MATRIX',4,'p_ones','parser.py',74),
+  ('MATRIX -> EYE ( INTNUM )','MATRIX',4,'p_eye','parser.py',78),
+  ('MATRIX -> - ID','MATRIX',2,'p_matrix_min','parser.py',82),
+  ("MATRIX -> ID '",'MATRIX',2,'p_matrix_trans','parser.py',86),
+  ('VAR -> ID + ID','VAR',3,'p_sum','parser.py',90),
+  ('VAR -> ID - ID','VAR',3,'p_sub','parser.py',94),
+  ('VAR -> ID * ID','VAR',3,'p_mul','parser.py',98),
+  ('VAR -> ID / ID','VAR',3,'p_div','parser.py',102),
+  ('MATRIX -> ID DOTADD ID','MATRIX',3,'p_dotadd','parser.py',106),
+  ('MATRIX -> ID DOTSUB ID','MATRIX',3,'p_dotsub','parser.py',110),
+  ('MATRIX -> ID DOTMUL ID','MATRIX',3,'p_dotmul','parser.py',114),
+  ('MATRIX -> ID DOTDIV ID','MATRIX',3,'p_dotdiv','parser.py',118),
+  ('STATEMENT -> ID ADDASSIGN ID ;','STATEMENT',4,'p_addassign','parser.py',122),
+  ('STATEMENT -> ID SUBASSIGN ID ;','STATEMENT',4,'p_subassign','parser.py',127),
+  ('STATEMENT -> ID MULASSIGN ID ;','STATEMENT',4,'p_mulassign','parser.py',132),
+  ('STATEMENT -> ID DIVASSIGN ID ;','STATEMENT',4,'p_divassign','parser.py',137),
 ]
