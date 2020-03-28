@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = "ADDASSIGN BREAK CONTINUE DIVASSIGN DOTADD DOTDIV DOTMUL DOTSUB ELSE EQORGT EQORLESS EQUAL EYE FLOATNUM FOR ID IF INTNUM MULASSIGN NOTEQUAL ONES PRINT RETURN STRING SUBASSIGN WHILE ZEROSEXPRESSION : TERM\n                  | EXPRESSION TERMTERM : STATEMENT\n            | PRINTVAR : NUM \n           | MATRIXNUM : INTNUM\n           | FLOATNUMVECTOR : VECTOR ',' NUM\n              | NUMVECTORS : VECTORS ';' VECTOR\n               | VECTORMATRIX : '[' VECTORS ']'MATRIX : ZEROS '(' INTNUM ')'MATRIX : ONES '(' INTNUM ')'MATRIX : EYE '(' INTNUM ')'MATRIX : '-' IDMATRIX : ID '\\''VAR : ID '+' IDVAR : ID '-' IDVAR : ID '*' IDVAR : ID '/' IDMATRIX : ID DOTADD IDMATRIX : ID DOTSUB IDMATRIX : ID DOTMUL IDMATRIX : ID DOTDIV IDSTATEMENT : ID '=' VAR ';'STATEMENT : ID '[' INTNUM ',' INTNUM ']' '=' NUM ';'STATEMENT : ID ADDASSIGN ID ';'STATEMENT : ID SUBASSIGN ID ';'STATEMENT : ID MULASSIGN ID ';'STATEMENT : ID DIVASSIGN ID ';'TERM : PRINT '(' ID ')' ';'TERM : PRINT '(' VAR ')' ';'"
+_lr_signature = "ADDASSIGN BREAK CONTINUE DIVASSIGN DOTADD DOTDIV DOTMUL DOTSUB ELSE ELSEIF EQORGT EQORLESS EQUAL EYE FLOATNUM FOR ID IF INTNUM MULASSIGN NOTEQUAL ONES PRINT RETURN STRING SUBASSIGN WHILE ZEROSEXPRESSION : TERM\n                  | EXPRESSION TERM\n                  | EXPRESSION IF_CONDITIONTERM : STATEMENT\n            | PRINTVAR : NUM\n           | MATRIXNUM : INTNUM\n           | FLOATNUMVECTOR : VECTOR ',' NUM\n              | NUMVECTORS : VECTORS ';' VECTOR\n               | VECTORMATRIX : '[' VECTORS ']'MATRIX : ZEROS '(' INTNUM ')'MATRIX : ONES '(' INTNUM ')'MATRIX : EYE '(' INTNUM ')'MATRIX : '-' IDMATRIX : ID '\\''VAR : ID '+' IDVAR : ID '-' IDVAR : ID '*' IDVAR : ID '/' IDMATRIX : ID DOTADD IDMATRIX : ID DOTSUB IDMATRIX : ID DOTMUL IDMATRIX : ID DOTDIV IDSTATEMENT : ID '=' VAR ';'STATEMENT : ID '[' INTNUM ',' INTNUM ']' '=' NUM ';'STATEMENT : ID ADDASSIGN ID ';'STATEMENT : ID SUBASSIGN ID ';'STATEMENT : ID MULASSIGN ID ';'STATEMENT : ID DIVASSIGN ID ';'TERM : PRINT '(' ID ')' ';'TERM : PRINT '(' VAR ')' ';'TERM : PRINT '(' STRING ')' ';'\n    IF_CONDITION   : IF '(' LOGICAL_EXPRESSION ')' EXPRESSION ELSE_STATEMENT\n    ELSE_STATEMENT : ELSE EXPRESSION\n                   |\n    LOGICAL_EXPRESSION : ID EQUAL INTNUM"
     
-_lr_action_items = {'PRINT':([0,1,2,3,4,6,50,52,53,54,55,56,65,81,],[4,4,-1,-3,-4,-2,-27,-29,-30,-31,-32,-33,-34,-28,]),'ID':([0,1,2,3,4,6,7,8,10,11,12,13,18,33,34,35,36,38,39,40,41,50,52,53,54,55,56,65,81,],[5,5,-1,-3,-4,-2,14,25,28,29,30,31,43,57,58,59,60,61,62,63,64,-27,-29,-30,-31,-32,-33,-34,-28,]),'$end':([1,2,3,4,6,50,52,53,54,55,56,65,81,],[0,-1,-3,-4,-2,-27,-29,-30,-31,-32,-33,-34,-28,]),'(':([4,22,23,24,],[7,47,48,49,]),'=':([5,78,],[8,79,]),'[':([5,7,8,],[9,21,21,]),'ADDASSIGN':([5,],[10,]),'SUBASSIGN':([5,],[11,]),'MULASSIGN':([5,],[12,]),'DIVASSIGN':([5,],[13,]),'INTNUM':([7,8,9,21,47,48,49,51,67,68,79,],[19,19,27,19,69,70,71,72,19,19,19,]),'FLOATNUM':([7,8,21,67,68,79,],[20,20,20,20,20,20,]),'ZEROS':([7,8,],[22,22,]),'ONES':([7,8,],[23,23,]),'EYE':([7,8,],[24,24,]),'-':([7,8,14,25,],[18,18,34,34,]),')':([14,15,16,17,19,20,37,43,57,58,59,60,61,62,63,64,66,69,70,71,75,76,77,],[32,42,-5,-6,-7,-8,-18,-17,-19,-20,-21,-22,-23,-24,-25,-26,-13,75,76,77,-14,-15,-16,]),'+':([14,25,],[33,33,]),'*':([14,25,],[35,35,]),'/':([14,25,],[36,36,]),"'":([14,25,],[37,37,]),'DOTADD':([14,25,],[38,38,]),'DOTSUB':([14,25,],[39,39,]),'DOTMUL':([14,25,],[40,40,]),'DOTDIV':([14,25,],[41,41,]),';':([16,17,19,20,26,28,29,30,31,32,37,42,43,44,45,46,57,58,59,60,61,62,63,64,66,73,74,75,76,77,80,],[-5,-6,-7,-8,50,52,53,54,55,56,-18,65,-17,67,-12,-10,-19,-20,-21,-22,-23,-24,-25,-26,-13,-11,-9,-14,-15,-16,81,]),',':([19,20,27,45,46,73,74,],[-7,-8,51,68,-10,68,-9,]),']':([19,20,44,45,46,72,73,74,],[-7,-8,66,-12,-10,78,-11,-9,]),}
+_lr_action_items = {'PRINT':([0,1,2,3,4,6,7,57,59,60,61,62,63,65,74,75,83,91,92,94,96,],[4,4,-1,-4,-5,-2,-3,-28,-30,-31,-32,-33,4,-34,-35,-36,4,-37,4,4,-29,]),'ID':([0,1,2,3,4,6,7,9,10,12,13,14,15,16,22,39,40,41,42,44,45,46,47,57,59,60,61,62,63,65,74,75,83,91,92,94,96,],[5,5,-1,-4,-5,-2,-3,17,29,32,33,34,35,37,50,66,67,68,69,70,71,72,73,-28,-30,-31,-32,-33,5,-34,-35,-36,5,-37,5,5,-29,]),'$end':([1,2,3,4,6,7,57,59,60,61,62,65,74,75,83,91,94,96,],[0,-1,-4,-5,-2,-3,-28,-30,-31,-32,-33,-34,-35,-36,-39,-37,-38,-29,]),'IF':([1,2,3,4,6,7,57,59,60,61,62,65,74,75,83,91,94,96,],[8,-1,-4,-5,-2,-3,-28,-30,-31,-32,-33,-34,-35,-36,8,-37,8,-29,]),'ELSE':([2,3,4,6,7,57,59,60,61,62,65,74,75,83,91,94,96,],[-1,-4,-5,-2,-3,-28,-30,-31,-32,-33,-34,-35,-36,92,-37,-38,-29,]),'(':([4,8,26,27,28,],[9,16,54,55,56,]),'=':([5,90,],[10,93,]),'[':([5,9,10,],[11,25,25,]),'ADDASSIGN':([5,],[12,]),'SUBASSIGN':([5,],[13,]),'MULASSIGN':([5,],[14,]),'DIVASSIGN':([5,],[15,]),'STRING':([9,],[19,]),'INTNUM':([9,10,11,25,54,55,56,58,64,77,78,93,],[23,23,31,23,79,80,81,82,84,23,23,23,]),'FLOATNUM':([9,10,25,77,78,93,],[24,24,24,24,24,24,]),'ZEROS':([9,10,],[26,26,]),'ONES':([9,10,],[27,27,]),'EYE':([9,10,],[28,28,]),'-':([9,10,17,29,],[22,22,40,40,]),')':([17,18,19,20,21,23,24,36,43,50,66,67,68,69,70,71,72,73,76,79,80,81,84,87,88,89,],[38,48,49,-6,-7,-8,-9,63,-19,-18,-20,-21,-22,-23,-24,-25,-26,-27,-14,87,88,89,-40,-15,-16,-17,]),'+':([17,29,],[39,39,]),'*':([17,29,],[41,41,]),'/':([17,29,],[42,42,]),"'":([17,29,],[43,43,]),'DOTADD':([17,29,],[44,44,]),'DOTSUB':([17,29,],[45,45,]),'DOTMUL':([17,29,],[46,46,]),'DOTDIV':([17,29,],[47,47,]),';':([20,21,23,24,30,32,33,34,35,38,43,48,49,50,51,52,53,66,67,68,69,70,71,72,73,76,85,86,87,88,89,95,],[-6,-7,-8,-9,57,59,60,61,62,65,-19,74,75,-18,77,-13,-11,-20,-21,-22,-23,-24,-25,-26,-27,-14,-12,-10,-15,-16,-17,96,]),',':([23,24,31,52,53,85,86,],[-8,-9,58,78,-11,78,-10,]),']':([23,24,51,52,53,82,85,86,],[-8,-9,76,-13,-11,90,-12,-10,]),'EQUAL':([37,],[64,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'EXPRESSION':([0,],[1,]),'TERM':([0,1,],[2,6,]),'STATEMENT':([0,1,],[3,3,]),'VAR':([7,8,],[15,26,]),'NUM':([7,8,21,67,68,79,],[16,16,46,46,74,80,]),'MATRIX':([7,8,],[17,17,]),'VECTORS':([21,],[44,]),'VECTOR':([21,67,],[45,73,]),}
+_lr_goto_items = {'EXPRESSION':([0,63,92,],[1,83,94,]),'TERM':([0,1,63,83,92,94,],[2,6,2,6,2,6,]),'STATEMENT':([0,1,63,83,92,94,],[3,3,3,3,3,3,]),'IF_CONDITION':([1,83,94,],[7,7,7,]),'VAR':([9,10,],[18,30,]),'NUM':([9,10,25,77,78,93,],[20,20,53,53,86,95,]),'MATRIX':([9,10,],[21,21,]),'LOGICAL_EXPRESSION':([16,],[36,]),'VECTORS':([25,],[51,]),'VECTOR':([25,77,],[52,85,]),'ELSE_STATEMENT':([83,],[91,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,38 +27,44 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> EXPRESSION","S'",1,None,None,None),
-  ('EXPRESSION -> TERM','EXPRESSION',1,'p_expression_statement','parser.py',21),
-  ('EXPRESSION -> EXPRESSION TERM','EXPRESSION',2,'p_expression_statement','parser.py',22),
-  ('TERM -> STATEMENT','TERM',1,'p_term','parser.py',26),
-  ('TERM -> PRINT','TERM',1,'p_term','parser.py',27),
-  ('VAR -> NUM','VAR',1,'p_var','parser.py',31),
-  ('VAR -> MATRIX','VAR',1,'p_var','parser.py',32),
-  ('NUM -> INTNUM','NUM',1,'p_num','parser.py',36),
-  ('NUM -> FLOATNUM','NUM',1,'p_num','parser.py',37),
-  ('VECTOR -> VECTOR , NUM','VECTOR',3,'p_vector','parser.py',41),
-  ('VECTOR -> NUM','VECTOR',1,'p_vector','parser.py',42),
-  ('VECTORS -> VECTORS ; VECTOR','VECTORS',3,'p_vectors','parser.py',47),
-  ('VECTORS -> VECTOR','VECTORS',1,'p_vectors','parser.py',48),
-  ('MATRIX -> [ VECTORS ]','MATRIX',3,'p_matrix','parser.py',53),
-  ('MATRIX -> ZEROS ( INTNUM )','MATRIX',4,'p_zeros','parser.py',65),
-  ('MATRIX -> ONES ( INTNUM )','MATRIX',4,'p_ones','parser.py',69),
-  ('MATRIX -> EYE ( INTNUM )','MATRIX',4,'p_eye','parser.py',73),
-  ('MATRIX -> - ID','MATRIX',2,'p_matrix_min','parser.py',77),
-  ("MATRIX -> ID '",'MATRIX',2,'p_matrix_trans','parser.py',81),
-  ('VAR -> ID + ID','VAR',3,'p_sum','parser.py',85),
-  ('VAR -> ID - ID','VAR',3,'p_sub','parser.py',89),
-  ('VAR -> ID * ID','VAR',3,'p_mul','parser.py',93),
-  ('VAR -> ID / ID','VAR',3,'p_div','parser.py',97),
-  ('MATRIX -> ID DOTADD ID','MATRIX',3,'p_dotadd','parser.py',101),
-  ('MATRIX -> ID DOTSUB ID','MATRIX',3,'p_dotsub','parser.py',105),
-  ('MATRIX -> ID DOTMUL ID','MATRIX',3,'p_dotmul','parser.py',109),
-  ('MATRIX -> ID DOTDIV ID','MATRIX',3,'p_dotdiv','parser.py',113),
-  ('STATEMENT -> ID = VAR ;','STATEMENT',4,'p_var_statement_assignment','parser.py',117),
-  ('STATEMENT -> ID [ INTNUM , INTNUM ] = NUM ;','STATEMENT',9,'p_matrix_element_assignment','parser.py',123),
-  ('STATEMENT -> ID ADDASSIGN ID ;','STATEMENT',4,'p_addassign','parser.py',128),
-  ('STATEMENT -> ID SUBASSIGN ID ;','STATEMENT',4,'p_subassign','parser.py',133),
-  ('STATEMENT -> ID MULASSIGN ID ;','STATEMENT',4,'p_mulassign','parser.py',138),
-  ('STATEMENT -> ID DIVASSIGN ID ;','STATEMENT',4,'p_divassign','parser.py',143),
-  ('TERM -> PRINT ( ID ) ;','TERM',5,'p_print_id','parser.py',148),
-  ('TERM -> PRINT ( VAR ) ;','TERM',5,'p_print_var','parser.py',152),
+  ('EXPRESSION -> TERM','EXPRESSION',1,'p_expression_statement','parser.py',36),
+  ('EXPRESSION -> EXPRESSION TERM','EXPRESSION',2,'p_expression_statement','parser.py',37),
+  ('EXPRESSION -> EXPRESSION IF_CONDITION','EXPRESSION',2,'p_expression_statement','parser.py',38),
+  ('TERM -> STATEMENT','TERM',1,'p_term','parser.py',43),
+  ('TERM -> PRINT','TERM',1,'p_term','parser.py',44),
+  ('VAR -> NUM','VAR',1,'p_var','parser.py',49),
+  ('VAR -> MATRIX','VAR',1,'p_var','parser.py',50),
+  ('NUM -> INTNUM','NUM',1,'p_num','parser.py',55),
+  ('NUM -> FLOATNUM','NUM',1,'p_num','parser.py',56),
+  ('VECTOR -> VECTOR , NUM','VECTOR',3,'p_vector','parser.py',61),
+  ('VECTOR -> NUM','VECTOR',1,'p_vector','parser.py',62),
+  ('VECTORS -> VECTORS ; VECTOR','VECTORS',3,'p_vectors','parser.py',70),
+  ('VECTORS -> VECTOR','VECTORS',1,'p_vectors','parser.py',71),
+  ('MATRIX -> [ VECTORS ]','MATRIX',3,'p_matrix','parser.py',79),
+  ('MATRIX -> ZEROS ( INTNUM )','MATRIX',4,'p_zeros','parser.py',91),
+  ('MATRIX -> ONES ( INTNUM )','MATRIX',4,'p_ones','parser.py',96),
+  ('MATRIX -> EYE ( INTNUM )','MATRIX',4,'p_eye','parser.py',101),
+  ('MATRIX -> - ID','MATRIX',2,'p_matrix_min','parser.py',106),
+  ("MATRIX -> ID '",'MATRIX',2,'p_matrix_trans','parser.py',111),
+  ('VAR -> ID + ID','VAR',3,'p_sum','parser.py',116),
+  ('VAR -> ID - ID','VAR',3,'p_sub','parser.py',121),
+  ('VAR -> ID * ID','VAR',3,'p_mul','parser.py',126),
+  ('VAR -> ID / ID','VAR',3,'p_div','parser.py',131),
+  ('MATRIX -> ID DOTADD ID','MATRIX',3,'p_dotadd','parser.py',136),
+  ('MATRIX -> ID DOTSUB ID','MATRIX',3,'p_dotsub','parser.py',141),
+  ('MATRIX -> ID DOTMUL ID','MATRIX',3,'p_dotmul','parser.py',146),
+  ('MATRIX -> ID DOTDIV ID','MATRIX',3,'p_dotdiv','parser.py',151),
+  ('STATEMENT -> ID = VAR ;','STATEMENT',4,'p_var_statement_assignment','parser.py',156),
+  ('STATEMENT -> ID [ INTNUM , INTNUM ] = NUM ;','STATEMENT',9,'p_matrix_element_assignment','parser.py',162),
+  ('STATEMENT -> ID ADDASSIGN ID ;','STATEMENT',4,'p_addassign','parser.py',167),
+  ('STATEMENT -> ID SUBASSIGN ID ;','STATEMENT',4,'p_subassign','parser.py',172),
+  ('STATEMENT -> ID MULASSIGN ID ;','STATEMENT',4,'p_mulassign','parser.py',177),
+  ('STATEMENT -> ID DIVASSIGN ID ;','STATEMENT',4,'p_divassign','parser.py',182),
+  ('TERM -> PRINT ( ID ) ;','TERM',5,'p_print_id','parser.py',187),
+  ('TERM -> PRINT ( VAR ) ;','TERM',5,'p_print_var','parser.py',192),
+  ('TERM -> PRINT ( STRING ) ;','TERM',5,'p_print_string','parser.py',197),
+  ('IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) EXPRESSION ELSE_STATEMENT','IF_CONDITION',6,'p_if_condition','parser.py',203),
+  ('ELSE_STATEMENT -> ELSE EXPRESSION','ELSE_STATEMENT',2,'p_if_condition','parser.py',204),
+  ('ELSE_STATEMENT -> <empty>','ELSE_STATEMENT',0,'p_if_condition','parser.py',205),
+  ('LOGICAL_EXPRESSION -> ID EQUAL INTNUM','LOGICAL_EXPRESSION',3,'p_logical_expression','parser.py',214),
 ]
