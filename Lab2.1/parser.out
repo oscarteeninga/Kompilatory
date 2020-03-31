@@ -1,9 +1,5 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
-Unused terminals:
-
-    ELSEIF
-
 Grammar
 
 Rule 0     S' -> CODE
@@ -66,34 +62,39 @@ Rule 56    FUNCTION_NAME -> EYE
 Rule 57    CONTROL_INSTRUCTION -> BREAK
 Rule 58    CONTROL_INSTRUCTION -> CONTINUE
 Rule 59    CONTROL_INSTRUCTION -> RETURN
-Rule 60    PRINT_CALL -> PRINT PRINT_TERMS
-Rule 61    PRINT_TERMS -> PRINT_TERMS , TERM
-Rule 62    PRINT_TERMS -> TERM
-Rule 63    IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT
-Rule 64    IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT
-Rule 65    ELSE_STATEMENT -> ELSE INSTRUCTION
-Rule 66    ELSE_STATEMENT -> ELSE { INSTRUCTIONS }
-Rule 67    ELSE_STATEMENT -> <empty>
-Rule 68    FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS }
-Rule 69    FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION
-Rule 70    FOR_CONDITION -> ID = INTNUM_OR_ID : INTNUM_OR_ID
-Rule 71    WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
-Rule 72    WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
+Rule 60    CONTROL_INSTRUCTION -> RETURN TERM
+Rule 61    PRINT_CALL -> PRINT PRINT_TERMS
+Rule 62    PRINT_TERMS -> PRINT_TERMS , TERM
+Rule 63    PRINT_TERMS -> TERM
+Rule 64    IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT
+Rule 65    IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT
+Rule 66    ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS
+Rule 67    ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS
+Rule 68    ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION
+Rule 69    ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
+Rule 70    ELSE_STATEMENT -> ELSE INSTRUCTION
+Rule 71    ELSE_STATEMENT -> ELSE { INSTRUCTIONS }
+Rule 72    ELSE_STATEMENT -> <empty>
+Rule 73    FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS }
+Rule 74    FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION
+Rule 75    FOR_CONDITION -> ID = INTNUM_OR_ID : INTNUM_OR_ID
+Rule 76    WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
+Rule 77    WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
 
 Terminals, with rules where they appear
 
 '                    : 44
-(                    : 22 53 63 64 71 72
-)                    : 22 53 63 64 71 72
+(                    : 22 53 64 65 66 67 68 69 76 77
+)                    : 22 53 64 65 66 67 68 69 76 77
 *                    : 26
 +                    : 24
-,                    : 13 51 61
+,                    : 13 51 62
 -                    : 25 45
 /                    : 27
-:                    : 70
+:                    : 75
 ;                    : 5 9 10 49
 <                    : 29
-=                    : 14 70
+=                    : 14 75
 >                    : 28
 ADDASSIGN            : 15
 BREAK                : 57
@@ -103,31 +104,31 @@ DOTADD               : 34
 DOTDIV               : 37
 DOTMUL               : 36
 DOTSUB               : 35
-ELSE                 : 65 66
-ELSEIF               : 
+ELSE                 : 70 71
+ELSEIF               : 66 67 68 69
 EQORGT               : 30
 EQORLESS             : 31
 EQUAL                : 32
 EYE                  : 56
 FLOATNUM             : 40
-FOR                  : 68 69
-ID                   : 11 12 13 38 47 70
-IF                   : 63 64
+FOR                  : 73 74
+ID                   : 11 12 13 38 47 75
+IF                   : 64 65
 INTNUM               : 12 13 13 39 46
 MULASSIGN            : 18
 NOTEQUAL             : 33
 ONES                 : 55
-PRINT                : 60
-RETURN               : 59
+PRINT                : 61
+RETURN               : 59 60
 STRING               : 41
 SUBASSIGN            : 16
-WHILE                : 71 72
+WHILE                : 76 77
 ZEROS                : 54
 [                    : 12 13 48
 ]                    : 12 13 48
 error                : 
-{                    : 2 64 66 68 71
-}                    : 2 64 66 68 71
+{                    : 2 65 67 69 71 73 76
+}                    : 2 65 67 69 71 73 76
 
 Nonterminals, with rules where they appear
 
@@ -136,22 +137,23 @@ ASSIGN_TYPE          : 11 12 13
 BINARY_EXPRESSION    : 19
 CODE                 : 0
 CONTROL_INSTRUCTION  : 9
-ELSE_STATEMENT       : 63 64
+ELIF_STATEMENTS      : 64 65 66 67
+ELSE_STATEMENT       : 64 65
 EXPRESSION           : 11 12 13 22 24 24 25 25 26 26 27 27 28 28 29 29 30 30 31 31 32 32 33 33 34 34 35 35 36 36 37 37
-FOR_CONDITION        : 68 69
+FOR_CONDITION        : 73 74
 FOR_LOOP             : 7
 FUNCTION_CALL        : 43
 FUNCTION_NAME        : 53
 IF_CONDITION         : 6
-INSTRUCTION          : 3 4 63 65 69 72
-INSTRUCTIONS         : 1 2 3 64 66 68 71
-INTNUM_OR_ID         : 70 70
-LOGICAL_EXPRESSION   : 20 63 64 71 72
+INSTRUCTION          : 3 4 64 66 68 70 74 77
+INSTRUCTIONS         : 1 2 3 65 67 69 71 73 76
+INTNUM_OR_ID         : 75 75
+LOGICAL_EXPRESSION   : 20 64 65 66 67 68 69 76 77
 MATRIX               : 42
 MATRIX_EXPRESSION    : 21
 PRINT_CALL           : 10
-PRINT_TERMS          : 60 61
-TERM                 : 23 44 45 51 52 53 61 62
+PRINT_TERMS          : 61 62
+TERM                 : 23 44 45 51 52 53 60 62 63
 VECTOR               : 49 50 51
 VECTORS              : 48 49
 WHILE_LOOP           : 8
@@ -174,16 +176,17 @@ state 0
     (11) ASSIGN -> . ID ASSIGN_TYPE EXPRESSION
     (12) ASSIGN -> . ID [ INTNUM ] ASSIGN_TYPE EXPRESSION
     (13) ASSIGN -> . ID [ INTNUM , INTNUM ] ASSIGN_TYPE EXPRESSION
-    (63) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT
-    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT
-    (68) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
-    (69) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
-    (71) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
-    (72) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
+    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT
+    (65) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT
+    (73) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
+    (74) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
+    (76) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
+    (77) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
     (57) CONTROL_INSTRUCTION -> . BREAK
     (58) CONTROL_INSTRUCTION -> . CONTINUE
     (59) CONTROL_INSTRUCTION -> . RETURN
-    (60) PRINT_CALL -> . PRINT PRINT_TERMS
+    (60) CONTROL_INSTRUCTION -> . RETURN TERM
+    (61) PRINT_CALL -> . PRINT PRINT_TERMS
 
     {               shift and go to state 3
     ID              shift and go to state 11
@@ -233,16 +236,17 @@ state 3
     (11) ASSIGN -> . ID ASSIGN_TYPE EXPRESSION
     (12) ASSIGN -> . ID [ INTNUM ] ASSIGN_TYPE EXPRESSION
     (13) ASSIGN -> . ID [ INTNUM , INTNUM ] ASSIGN_TYPE EXPRESSION
-    (63) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT
-    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT
-    (68) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
-    (69) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
-    (71) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
-    (72) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
+    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT
+    (65) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT
+    (73) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
+    (74) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
+    (76) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
+    (77) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
     (57) CONTROL_INSTRUCTION -> . BREAK
     (58) CONTROL_INSTRUCTION -> . CONTINUE
     (59) CONTROL_INSTRUCTION -> . RETURN
-    (60) PRINT_CALL -> . PRINT PRINT_TERMS
+    (60) CONTROL_INSTRUCTION -> . RETURN TERM
+    (61) PRINT_CALL -> . PRINT PRINT_TERMS
 
     {               shift and go to state 3
     ID              shift and go to state 11
@@ -279,16 +283,17 @@ state 4
     (11) ASSIGN -> . ID ASSIGN_TYPE EXPRESSION
     (12) ASSIGN -> . ID [ INTNUM ] ASSIGN_TYPE EXPRESSION
     (13) ASSIGN -> . ID [ INTNUM , INTNUM ] ASSIGN_TYPE EXPRESSION
-    (63) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT
-    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT
-    (68) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
-    (69) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
-    (71) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
-    (72) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
+    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT
+    (65) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT
+    (73) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
+    (74) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
+    (76) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
+    (77) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
     (57) CONTROL_INSTRUCTION -> . BREAK
     (58) CONTROL_INSTRUCTION -> . CONTINUE
     (59) CONTROL_INSTRUCTION -> . RETURN
-    (60) PRINT_CALL -> . PRINT PRINT_TERMS
+    (60) CONTROL_INSTRUCTION -> . RETURN TERM
+    (61) PRINT_CALL -> . PRINT PRINT_TERMS
 
     $end            reduce using rule 4 (INSTRUCTIONS -> INSTRUCTION .)
     }               reduce using rule 4 (INSTRUCTIONS -> INSTRUCTION .)
@@ -333,6 +338,7 @@ state 6
     PRINT           reduce using rule 6 (INSTRUCTION -> IF_CONDITION .)
     $end            reduce using rule 6 (INSTRUCTION -> IF_CONDITION .)
     }               reduce using rule 6 (INSTRUCTION -> IF_CONDITION .)
+    ELSEIF          reduce using rule 6 (INSTRUCTION -> IF_CONDITION .)
     ELSE            reduce using rule 6 (INSTRUCTION -> IF_CONDITION .)
 
 
@@ -351,6 +357,7 @@ state 7
     PRINT           reduce using rule 7 (INSTRUCTION -> FOR_LOOP .)
     $end            reduce using rule 7 (INSTRUCTION -> FOR_LOOP .)
     }               reduce using rule 7 (INSTRUCTION -> FOR_LOOP .)
+    ELSEIF          reduce using rule 7 (INSTRUCTION -> FOR_LOOP .)
     ELSE            reduce using rule 7 (INSTRUCTION -> FOR_LOOP .)
 
 
@@ -369,6 +376,7 @@ state 8
     PRINT           reduce using rule 8 (INSTRUCTION -> WHILE_LOOP .)
     $end            reduce using rule 8 (INSTRUCTION -> WHILE_LOOP .)
     }               reduce using rule 8 (INSTRUCTION -> WHILE_LOOP .)
+    ELSEIF          reduce using rule 8 (INSTRUCTION -> WHILE_LOOP .)
     ELSE            reduce using rule 8 (INSTRUCTION -> WHILE_LOOP .)
 
 
@@ -408,17 +416,17 @@ state 11
 
 state 12
 
-    (63) IF_CONDITION -> IF . ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT
-    (64) IF_CONDITION -> IF . ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT
+    (64) IF_CONDITION -> IF . ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT
+    (65) IF_CONDITION -> IF . ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT
 
     (               shift and go to state 31
 
 
 state 13
 
-    (68) FOR_LOOP -> FOR . FOR_CONDITION { INSTRUCTIONS }
-    (69) FOR_LOOP -> FOR . FOR_CONDITION INSTRUCTION
-    (70) FOR_CONDITION -> . ID = INTNUM_OR_ID : INTNUM_OR_ID
+    (73) FOR_LOOP -> FOR . FOR_CONDITION { INSTRUCTIONS }
+    (74) FOR_LOOP -> FOR . FOR_CONDITION INSTRUCTION
+    (75) FOR_CONDITION -> . ID = INTNUM_OR_ID : INTNUM_OR_ID
 
     ID              shift and go to state 33
 
@@ -426,8 +434,8 @@ state 13
 
 state 14
 
-    (71) WHILE_LOOP -> WHILE . ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
-    (72) WHILE_LOOP -> WHILE . ( LOGICAL_EXPRESSION ) INSTRUCTION
+    (76) WHILE_LOOP -> WHILE . ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
+    (77) WHILE_LOOP -> WHILE . ( LOGICAL_EXPRESSION ) INSTRUCTION
 
     (               shift and go to state 34
 
@@ -449,15 +457,7 @@ state 16
 state 17
 
     (59) CONTROL_INSTRUCTION -> RETURN .
-
-    ;               reduce using rule 59 (CONTROL_INSTRUCTION -> RETURN .)
-
-
-state 18
-
-    (60) PRINT_CALL -> PRINT . PRINT_TERMS
-    (61) PRINT_TERMS -> . PRINT_TERMS , TERM
-    (62) PRINT_TERMS -> . TERM
+    (60) CONTROL_INSTRUCTION -> RETURN . TERM
     (38) TERM -> . ID
     (39) TERM -> . INTNUM
     (40) TERM -> . FLOATNUM
@@ -472,27 +472,62 @@ state 18
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    ;               reduce using rule 59 (CONTROL_INSTRUCTION -> RETURN .)
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    PRINT_TERMS                    shift and go to state 35
-    TERM                           shift and go to state 36
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    TERM                           shift and go to state 35
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
+
+state 18
+
+    (61) PRINT_CALL -> PRINT . PRINT_TERMS
+    (62) PRINT_TERMS -> . PRINT_TERMS , TERM
+    (63) PRINT_TERMS -> . TERM
+    (38) TERM -> . ID
+    (39) TERM -> . INTNUM
+    (40) TERM -> . FLOATNUM
+    (41) TERM -> . STRING
+    (42) TERM -> . MATRIX
+    (43) TERM -> . FUNCTION_CALL
+    (44) TERM -> . TERM '
+    (45) TERM -> . - TERM
+    (48) MATRIX -> . [ VECTORS ]
+    (53) FUNCTION_CALL -> . FUNCTION_NAME ( TERM )
+    (54) FUNCTION_NAME -> . ZEROS
+    (55) FUNCTION_NAME -> . ONES
+    (56) FUNCTION_NAME -> . EYE
+
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
+
+    PRINT_TERMS                    shift and go to state 48
+    TERM                           shift and go to state 49
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
 state 19
 
     (2) INSTRUCTIONS -> { INSTRUCTIONS . }
 
-    }               shift and go to state 49
+    }               shift and go to state 50
 
 
 state 20
@@ -518,6 +553,7 @@ state 21
     PRINT           reduce using rule 5 (INSTRUCTION -> ASSIGN ; .)
     $end            reduce using rule 5 (INSTRUCTION -> ASSIGN ; .)
     }               reduce using rule 5 (INSTRUCTION -> ASSIGN ; .)
+    ELSEIF          reduce using rule 5 (INSTRUCTION -> ASSIGN ; .)
     ELSE            reduce using rule 5 (INSTRUCTION -> ASSIGN ; .)
 
 
@@ -536,6 +572,7 @@ state 22
     PRINT           reduce using rule 9 (INSTRUCTION -> CONTROL_INSTRUCTION ; .)
     $end            reduce using rule 9 (INSTRUCTION -> CONTROL_INSTRUCTION ; .)
     }               reduce using rule 9 (INSTRUCTION -> CONTROL_INSTRUCTION ; .)
+    ELSEIF          reduce using rule 9 (INSTRUCTION -> CONTROL_INSTRUCTION ; .)
     ELSE            reduce using rule 9 (INSTRUCTION -> CONTROL_INSTRUCTION ; .)
 
 
@@ -554,6 +591,7 @@ state 23
     PRINT           reduce using rule 10 (INSTRUCTION -> PRINT_CALL ; .)
     $end            reduce using rule 10 (INSTRUCTION -> PRINT_CALL ; .)
     }               reduce using rule 10 (INSTRUCTION -> PRINT_CALL ; .)
+    ELSEIF          reduce using rule 10 (INSTRUCTION -> PRINT_CALL ; .)
     ELSE            reduce using rule 10 (INSTRUCTION -> PRINT_CALL ; .)
 
 
@@ -593,32 +631,32 @@ state 24
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    (               shift and go to state 54
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    (               shift and go to state 55
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    EXPRESSION                     shift and go to state 50
-    BINARY_EXPRESSION              shift and go to state 51
-    LOGICAL_EXPRESSION             shift and go to state 52
-    MATRIX_EXPRESSION              shift and go to state 53
-    TERM                           shift and go to state 55
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    EXPRESSION                     shift and go to state 51
+    BINARY_EXPRESSION              shift and go to state 52
+    LOGICAL_EXPRESSION             shift and go to state 53
+    MATRIX_EXPRESSION              shift and go to state 54
+    TERM                           shift and go to state 56
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
 state 25
 
     (12) ASSIGN -> ID [ . INTNUM ] ASSIGN_TYPE EXPRESSION
     (13) ASSIGN -> ID [ . INTNUM , INTNUM ] ASSIGN_TYPE EXPRESSION
 
-    INTNUM          shift and go to state 56
+    INTNUM          shift and go to state 57
 
 
 state 26
@@ -703,8 +741,8 @@ state 30
 
 state 31
 
-    (63) IF_CONDITION -> IF ( . LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT
-    (64) IF_CONDITION -> IF ( . LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT
+    (64) IF_CONDITION -> IF ( . LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT
+    (65) IF_CONDITION -> IF ( . LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT
     (28) LOGICAL_EXPRESSION -> . EXPRESSION > EXPRESSION
     (29) LOGICAL_EXPRESSION -> . EXPRESSION < EXPRESSION
     (30) LOGICAL_EXPRESSION -> . EXPRESSION EQORGT EXPRESSION
@@ -738,30 +776,30 @@ state 31
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    (               shift and go to state 54
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    (               shift and go to state 55
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    LOGICAL_EXPRESSION             shift and go to state 57
-    EXPRESSION                     shift and go to state 58
-    BINARY_EXPRESSION              shift and go to state 51
-    MATRIX_EXPRESSION              shift and go to state 53
-    TERM                           shift and go to state 55
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    LOGICAL_EXPRESSION             shift and go to state 58
+    EXPRESSION                     shift and go to state 59
+    BINARY_EXPRESSION              shift and go to state 52
+    MATRIX_EXPRESSION              shift and go to state 54
+    TERM                           shift and go to state 56
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
 state 32
 
-    (68) FOR_LOOP -> FOR FOR_CONDITION . { INSTRUCTIONS }
-    (69) FOR_LOOP -> FOR FOR_CONDITION . INSTRUCTION
+    (73) FOR_LOOP -> FOR FOR_CONDITION . { INSTRUCTIONS }
+    (74) FOR_LOOP -> FOR FOR_CONDITION . INSTRUCTION
     (5) INSTRUCTION -> . ASSIGN ;
     (6) INSTRUCTION -> . IF_CONDITION
     (7) INSTRUCTION -> . FOR_LOOP
@@ -771,18 +809,19 @@ state 32
     (11) ASSIGN -> . ID ASSIGN_TYPE EXPRESSION
     (12) ASSIGN -> . ID [ INTNUM ] ASSIGN_TYPE EXPRESSION
     (13) ASSIGN -> . ID [ INTNUM , INTNUM ] ASSIGN_TYPE EXPRESSION
-    (63) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT
-    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT
-    (68) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
-    (69) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
-    (71) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
-    (72) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
+    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT
+    (65) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT
+    (73) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
+    (74) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
+    (76) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
+    (77) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
     (57) CONTROL_INSTRUCTION -> . BREAK
     (58) CONTROL_INSTRUCTION -> . CONTINUE
     (59) CONTROL_INSTRUCTION -> . RETURN
-    (60) PRINT_CALL -> . PRINT PRINT_TERMS
+    (60) CONTROL_INSTRUCTION -> . RETURN TERM
+    (61) PRINT_CALL -> . PRINT PRINT_TERMS
 
-    {               shift and go to state 59
+    {               shift and go to state 60
     ID              shift and go to state 11
     IF              shift and go to state 12
     FOR             shift and go to state 13
@@ -792,7 +831,7 @@ state 32
     RETURN          shift and go to state 17
     PRINT           shift and go to state 18
 
-    INSTRUCTION                    shift and go to state 60
+    INSTRUCTION                    shift and go to state 61
     ASSIGN                         shift and go to state 5
     IF_CONDITION                   shift and go to state 6
     FOR_LOOP                       shift and go to state 7
@@ -802,15 +841,15 @@ state 32
 
 state 33
 
-    (70) FOR_CONDITION -> ID . = INTNUM_OR_ID : INTNUM_OR_ID
+    (75) FOR_CONDITION -> ID . = INTNUM_OR_ID : INTNUM_OR_ID
 
-    =               shift and go to state 61
+    =               shift and go to state 62
 
 
 state 34
 
-    (71) WHILE_LOOP -> WHILE ( . LOGICAL_EXPRESSION ) { INSTRUCTIONS }
-    (72) WHILE_LOOP -> WHILE ( . LOGICAL_EXPRESSION ) INSTRUCTION
+    (76) WHILE_LOOP -> WHILE ( . LOGICAL_EXPRESSION ) { INSTRUCTIONS }
+    (77) WHILE_LOOP -> WHILE ( . LOGICAL_EXPRESSION ) INSTRUCTION
     (28) LOGICAL_EXPRESSION -> . EXPRESSION > EXPRESSION
     (29) LOGICAL_EXPRESSION -> . EXPRESSION < EXPRESSION
     (30) LOGICAL_EXPRESSION -> . EXPRESSION EQORGT EXPRESSION
@@ -844,52 +883,42 @@ state 34
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    (               shift and go to state 54
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    (               shift and go to state 55
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    LOGICAL_EXPRESSION             shift and go to state 62
-    EXPRESSION                     shift and go to state 58
-    BINARY_EXPRESSION              shift and go to state 51
-    MATRIX_EXPRESSION              shift and go to state 53
-    TERM                           shift and go to state 55
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    LOGICAL_EXPRESSION             shift and go to state 63
+    EXPRESSION                     shift and go to state 59
+    BINARY_EXPRESSION              shift and go to state 52
+    MATRIX_EXPRESSION              shift and go to state 54
+    TERM                           shift and go to state 56
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
 state 35
 
-    (60) PRINT_CALL -> PRINT PRINT_TERMS .
-    (61) PRINT_TERMS -> PRINT_TERMS . , TERM
+    (60) CONTROL_INSTRUCTION -> RETURN TERM .
+    (44) TERM -> TERM . '
 
-    ;               reduce using rule 60 (PRINT_CALL -> PRINT PRINT_TERMS .)
-    ,               shift and go to state 63
+    ;               reduce using rule 60 (CONTROL_INSTRUCTION -> RETURN TERM .)
+    '               shift and go to state 64
 
 
 state 36
 
-    (62) PRINT_TERMS -> TERM .
-    (44) TERM -> TERM . '
-
-    ,               reduce using rule 62 (PRINT_TERMS -> TERM .)
-    ;               reduce using rule 62 (PRINT_TERMS -> TERM .)
-    '               shift and go to state 64
-
-
-state 37
-
     (38) TERM -> ID .
 
     '               reduce using rule 38 (TERM -> ID .)
-    ,               reduce using rule 38 (TERM -> ID .)
     ;               reduce using rule 38 (TERM -> ID .)
+    ,               reduce using rule 38 (TERM -> ID .)
     +               reduce using rule 38 (TERM -> ID .)
     -               reduce using rule 38 (TERM -> ID .)
     *               reduce using rule 38 (TERM -> ID .)
@@ -908,13 +937,13 @@ state 37
     )               reduce using rule 38 (TERM -> ID .)
 
 
-state 38
+state 37
 
     (39) TERM -> INTNUM .
 
     '               reduce using rule 39 (TERM -> INTNUM .)
-    ,               reduce using rule 39 (TERM -> INTNUM .)
     ;               reduce using rule 39 (TERM -> INTNUM .)
+    ,               reduce using rule 39 (TERM -> INTNUM .)
     +               reduce using rule 39 (TERM -> INTNUM .)
     -               reduce using rule 39 (TERM -> INTNUM .)
     *               reduce using rule 39 (TERM -> INTNUM .)
@@ -933,13 +962,13 @@ state 38
     )               reduce using rule 39 (TERM -> INTNUM .)
 
 
-state 39
+state 38
 
     (40) TERM -> FLOATNUM .
 
     '               reduce using rule 40 (TERM -> FLOATNUM .)
-    ,               reduce using rule 40 (TERM -> FLOATNUM .)
     ;               reduce using rule 40 (TERM -> FLOATNUM .)
+    ,               reduce using rule 40 (TERM -> FLOATNUM .)
     +               reduce using rule 40 (TERM -> FLOATNUM .)
     -               reduce using rule 40 (TERM -> FLOATNUM .)
     *               reduce using rule 40 (TERM -> FLOATNUM .)
@@ -958,13 +987,13 @@ state 39
     )               reduce using rule 40 (TERM -> FLOATNUM .)
 
 
-state 40
+state 39
 
     (41) TERM -> STRING .
 
     '               reduce using rule 41 (TERM -> STRING .)
-    ,               reduce using rule 41 (TERM -> STRING .)
     ;               reduce using rule 41 (TERM -> STRING .)
+    ,               reduce using rule 41 (TERM -> STRING .)
     +               reduce using rule 41 (TERM -> STRING .)
     -               reduce using rule 41 (TERM -> STRING .)
     *               reduce using rule 41 (TERM -> STRING .)
@@ -983,13 +1012,13 @@ state 40
     )               reduce using rule 41 (TERM -> STRING .)
 
 
-state 41
+state 40
 
     (42) TERM -> MATRIX .
 
     '               reduce using rule 42 (TERM -> MATRIX .)
-    ,               reduce using rule 42 (TERM -> MATRIX .)
     ;               reduce using rule 42 (TERM -> MATRIX .)
+    ,               reduce using rule 42 (TERM -> MATRIX .)
     +               reduce using rule 42 (TERM -> MATRIX .)
     -               reduce using rule 42 (TERM -> MATRIX .)
     *               reduce using rule 42 (TERM -> MATRIX .)
@@ -1008,13 +1037,13 @@ state 41
     )               reduce using rule 42 (TERM -> MATRIX .)
 
 
-state 42
+state 41
 
     (43) TERM -> FUNCTION_CALL .
 
     '               reduce using rule 43 (TERM -> FUNCTION_CALL .)
-    ,               reduce using rule 43 (TERM -> FUNCTION_CALL .)
     ;               reduce using rule 43 (TERM -> FUNCTION_CALL .)
+    ,               reduce using rule 43 (TERM -> FUNCTION_CALL .)
     +               reduce using rule 43 (TERM -> FUNCTION_CALL .)
     -               reduce using rule 43 (TERM -> FUNCTION_CALL .)
     *               reduce using rule 43 (TERM -> FUNCTION_CALL .)
@@ -1033,7 +1062,7 @@ state 42
     )               reduce using rule 43 (TERM -> FUNCTION_CALL .)
 
 
-state 43
+state 42
 
     (45) TERM -> - . TERM
     (38) TERM -> . ID
@@ -1050,22 +1079,22 @@ state 43
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
     TERM                           shift and go to state 65
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
-state 44
+state 43
 
     (48) MATRIX -> [ . VECTORS ]
     (49) VECTORS -> . VECTORS ; VECTOR
@@ -1086,52 +1115,71 @@ state 44
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
     VECTORS                        shift and go to state 66
     VECTOR                         shift and go to state 67
     TERM                           shift and go to state 68
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
-state 45
+state 44
 
     (53) FUNCTION_CALL -> FUNCTION_NAME . ( TERM )
 
     (               shift and go to state 69
 
 
-state 46
+state 45
 
     (54) FUNCTION_NAME -> ZEROS .
 
     (               reduce using rule 54 (FUNCTION_NAME -> ZEROS .)
 
 
-state 47
+state 46
 
     (55) FUNCTION_NAME -> ONES .
 
     (               reduce using rule 55 (FUNCTION_NAME -> ONES .)
 
 
-state 48
+state 47
 
     (56) FUNCTION_NAME -> EYE .
 
     (               reduce using rule 56 (FUNCTION_NAME -> EYE .)
 
 
+state 48
+
+    (61) PRINT_CALL -> PRINT PRINT_TERMS .
+    (62) PRINT_TERMS -> PRINT_TERMS . , TERM
+
+    ;               reduce using rule 61 (PRINT_CALL -> PRINT PRINT_TERMS .)
+    ,               shift and go to state 70
+
+
 state 49
+
+    (63) PRINT_TERMS -> TERM .
+    (44) TERM -> TERM . '
+
+    ,               reduce using rule 63 (PRINT_TERMS -> TERM .)
+    ;               reduce using rule 63 (PRINT_TERMS -> TERM .)
+    '               shift and go to state 64
+
+
+state 50
 
     (2) INSTRUCTIONS -> { INSTRUCTIONS } .
 
@@ -1139,7 +1187,7 @@ state 49
     }               reduce using rule 2 (INSTRUCTIONS -> { INSTRUCTIONS } .)
 
 
-state 50
+state 51
 
     (11) ASSIGN -> ID ASSIGN_TYPE EXPRESSION .
     (24) BINARY_EXPRESSION -> EXPRESSION . + EXPRESSION
@@ -1158,23 +1206,23 @@ state 50
     (37) MATRIX_EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
 
     ;               reduce using rule 11 (ASSIGN -> ID ASSIGN_TYPE EXPRESSION .)
-    +               shift and go to state 70
-    -               shift and go to state 71
-    *               shift and go to state 72
-    /               shift and go to state 73
-    >               shift and go to state 74
-    <               shift and go to state 75
-    EQORGT          shift and go to state 76
-    EQORLESS        shift and go to state 77
-    EQUAL           shift and go to state 78
-    NOTEQUAL        shift and go to state 79
-    DOTADD          shift and go to state 80
-    DOTSUB          shift and go to state 81
-    DOTMUL          shift and go to state 82
-    DOTDIV          shift and go to state 83
+    +               shift and go to state 71
+    -               shift and go to state 72
+    *               shift and go to state 73
+    /               shift and go to state 74
+    >               shift and go to state 75
+    <               shift and go to state 76
+    EQORGT          shift and go to state 77
+    EQORLESS        shift and go to state 78
+    EQUAL           shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    DOTADD          shift and go to state 81
+    DOTSUB          shift and go to state 82
+    DOTMUL          shift and go to state 83
+    DOTDIV          shift and go to state 84
 
 
-state 51
+state 52
 
     (19) EXPRESSION -> BINARY_EXPRESSION .
 
@@ -1196,7 +1244,7 @@ state 51
     )               reduce using rule 19 (EXPRESSION -> BINARY_EXPRESSION .)
 
 
-state 52
+state 53
 
     (20) EXPRESSION -> LOGICAL_EXPRESSION .
 
@@ -1218,7 +1266,7 @@ state 52
     )               reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
 
 
-state 53
+state 54
 
     (21) EXPRESSION -> MATRIX_EXPRESSION .
 
@@ -1240,7 +1288,7 @@ state 53
     )               reduce using rule 21 (EXPRESSION -> MATRIX_EXPRESSION .)
 
 
-state 54
+state 55
 
     (22) EXPRESSION -> ( . EXPRESSION )
     (19) EXPRESSION -> . BINARY_EXPRESSION
@@ -1276,27 +1324,27 @@ state 54
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    (               shift and go to state 54
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    (               shift and go to state 55
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    EXPRESSION                     shift and go to state 84
-    BINARY_EXPRESSION              shift and go to state 51
-    LOGICAL_EXPRESSION             shift and go to state 52
-    MATRIX_EXPRESSION              shift and go to state 53
-    TERM                           shift and go to state 55
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    EXPRESSION                     shift and go to state 85
+    BINARY_EXPRESSION              shift and go to state 52
+    LOGICAL_EXPRESSION             shift and go to state 53
+    MATRIX_EXPRESSION              shift and go to state 54
+    TERM                           shift and go to state 56
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
-state 55
+state 56
 
     (23) EXPRESSION -> TERM .
     (44) TERM -> TERM . '
@@ -1320,22 +1368,22 @@ state 55
     '               shift and go to state 64
 
 
-state 56
+state 57
 
     (12) ASSIGN -> ID [ INTNUM . ] ASSIGN_TYPE EXPRESSION
     (13) ASSIGN -> ID [ INTNUM . , INTNUM ] ASSIGN_TYPE EXPRESSION
 
-    ]               shift and go to state 85
-    ,               shift and go to state 86
+    ]               shift and go to state 86
+    ,               shift and go to state 87
 
 
-state 57
+state 58
 
-    (63) IF_CONDITION -> IF ( LOGICAL_EXPRESSION . ) INSTRUCTION ELSE_STATEMENT
-    (64) IF_CONDITION -> IF ( LOGICAL_EXPRESSION . ) { INSTRUCTIONS } ELSE_STATEMENT
+    (64) IF_CONDITION -> IF ( LOGICAL_EXPRESSION . ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT
+    (65) IF_CONDITION -> IF ( LOGICAL_EXPRESSION . ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT
     (20) EXPRESSION -> LOGICAL_EXPRESSION .
 
-    )               shift and go to state 87
+    )               shift and go to state 88
     >               reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
     <               reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
     EQORGT          reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
@@ -1352,7 +1400,7 @@ state 57
     DOTDIV          reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
 
 
-state 58
+state 59
 
     (28) LOGICAL_EXPRESSION -> EXPRESSION . > EXPRESSION
     (29) LOGICAL_EXPRESSION -> EXPRESSION . < EXPRESSION
@@ -1369,25 +1417,25 @@ state 58
     (36) MATRIX_EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
     (37) MATRIX_EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
 
-    >               shift and go to state 74
-    <               shift and go to state 75
-    EQORGT          shift and go to state 76
-    EQORLESS        shift and go to state 77
-    EQUAL           shift and go to state 78
-    NOTEQUAL        shift and go to state 79
-    +               shift and go to state 70
-    -               shift and go to state 71
-    *               shift and go to state 72
-    /               shift and go to state 73
-    DOTADD          shift and go to state 80
-    DOTSUB          shift and go to state 81
-    DOTMUL          shift and go to state 82
-    DOTDIV          shift and go to state 83
+    >               shift and go to state 75
+    <               shift and go to state 76
+    EQORGT          shift and go to state 77
+    EQORLESS        shift and go to state 78
+    EQUAL           shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    +               shift and go to state 71
+    -               shift and go to state 72
+    *               shift and go to state 73
+    /               shift and go to state 74
+    DOTADD          shift and go to state 81
+    DOTSUB          shift and go to state 82
+    DOTMUL          shift and go to state 83
+    DOTDIV          shift and go to state 84
 
 
-state 59
+state 60
 
-    (68) FOR_LOOP -> FOR FOR_CONDITION { . INSTRUCTIONS }
+    (73) FOR_LOOP -> FOR FOR_CONDITION { . INSTRUCTIONS }
     (2) INSTRUCTIONS -> . { INSTRUCTIONS }
     (3) INSTRUCTIONS -> . INSTRUCTION INSTRUCTIONS
     (4) INSTRUCTIONS -> . INSTRUCTION
@@ -1400,16 +1448,17 @@ state 59
     (11) ASSIGN -> . ID ASSIGN_TYPE EXPRESSION
     (12) ASSIGN -> . ID [ INTNUM ] ASSIGN_TYPE EXPRESSION
     (13) ASSIGN -> . ID [ INTNUM , INTNUM ] ASSIGN_TYPE EXPRESSION
-    (63) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT
-    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT
-    (68) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
-    (69) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
-    (71) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
-    (72) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
+    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT
+    (65) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT
+    (73) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
+    (74) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
+    (76) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
+    (77) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
     (57) CONTROL_INSTRUCTION -> . BREAK
     (58) CONTROL_INSTRUCTION -> . CONTINUE
     (59) CONTROL_INSTRUCTION -> . RETURN
-    (60) PRINT_CALL -> . PRINT PRINT_TERMS
+    (60) CONTROL_INSTRUCTION -> . RETURN TERM
+    (61) PRINT_CALL -> . PRINT PRINT_TERMS
 
     {               shift and go to state 3
     ID              shift and go to state 11
@@ -1421,7 +1470,7 @@ state 59
     RETURN          shift and go to state 17
     PRINT           shift and go to state 18
 
-    INSTRUCTIONS                   shift and go to state 88
+    INSTRUCTIONS                   shift and go to state 89
     INSTRUCTION                    shift and go to state 4
     ASSIGN                         shift and go to state 5
     IF_CONDITION                   shift and go to state 6
@@ -1430,42 +1479,43 @@ state 59
     CONTROL_INSTRUCTION            shift and go to state 9
     PRINT_CALL                     shift and go to state 10
 
-state 60
-
-    (69) FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .
-
-    {               reduce using rule 69 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
-    ID              reduce using rule 69 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
-    IF              reduce using rule 69 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
-    FOR             reduce using rule 69 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
-    WHILE           reduce using rule 69 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
-    BREAK           reduce using rule 69 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
-    CONTINUE        reduce using rule 69 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
-    RETURN          reduce using rule 69 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
-    PRINT           reduce using rule 69 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
-    $end            reduce using rule 69 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
-    }               reduce using rule 69 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
-    ELSE            reduce using rule 69 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
-
-
 state 61
 
-    (70) FOR_CONDITION -> ID = . INTNUM_OR_ID : INTNUM_OR_ID
-    (46) INTNUM_OR_ID -> . INTNUM
-    (47) INTNUM_OR_ID -> . ID
+    (74) FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .
 
-    INTNUM          shift and go to state 91
-    ID              shift and go to state 89
+    {               reduce using rule 74 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
+    ID              reduce using rule 74 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
+    IF              reduce using rule 74 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
+    FOR             reduce using rule 74 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
+    WHILE           reduce using rule 74 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
+    BREAK           reduce using rule 74 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
+    CONTINUE        reduce using rule 74 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
+    RETURN          reduce using rule 74 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
+    PRINT           reduce using rule 74 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
+    $end            reduce using rule 74 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
+    }               reduce using rule 74 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
+    ELSEIF          reduce using rule 74 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
+    ELSE            reduce using rule 74 (FOR_LOOP -> FOR FOR_CONDITION INSTRUCTION .)
 
-    INTNUM_OR_ID                   shift and go to state 90
 
 state 62
 
-    (71) WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION . ) { INSTRUCTIONS }
-    (72) WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION . ) INSTRUCTION
+    (75) FOR_CONDITION -> ID = . INTNUM_OR_ID : INTNUM_OR_ID
+    (46) INTNUM_OR_ID -> . INTNUM
+    (47) INTNUM_OR_ID -> . ID
+
+    INTNUM          shift and go to state 92
+    ID              shift and go to state 90
+
+    INTNUM_OR_ID                   shift and go to state 91
+
+state 63
+
+    (76) WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION . ) { INSTRUCTIONS }
+    (77) WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION . ) INSTRUCTION
     (20) EXPRESSION -> LOGICAL_EXPRESSION .
 
-    )               shift and go to state 92
+    )               shift and go to state 93
     >               reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
     <               reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
     EQORGT          reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
@@ -1482,45 +1532,13 @@ state 62
     DOTDIV          reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
 
 
-state 63
-
-    (61) PRINT_TERMS -> PRINT_TERMS , . TERM
-    (38) TERM -> . ID
-    (39) TERM -> . INTNUM
-    (40) TERM -> . FLOATNUM
-    (41) TERM -> . STRING
-    (42) TERM -> . MATRIX
-    (43) TERM -> . FUNCTION_CALL
-    (44) TERM -> . TERM '
-    (45) TERM -> . - TERM
-    (48) MATRIX -> . [ VECTORS ]
-    (53) FUNCTION_CALL -> . FUNCTION_NAME ( TERM )
-    (54) FUNCTION_NAME -> . ZEROS
-    (55) FUNCTION_NAME -> . ONES
-    (56) FUNCTION_NAME -> . EYE
-
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
-
-    TERM                           shift and go to state 93
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
-
 state 64
 
     (44) TERM -> TERM ' .
 
     '               reduce using rule 44 (TERM -> TERM ' .)
-    ,               reduce using rule 44 (TERM -> TERM ' .)
     ;               reduce using rule 44 (TERM -> TERM ' .)
+    ,               reduce using rule 44 (TERM -> TERM ' .)
     +               reduce using rule 44 (TERM -> TERM ' .)
     -               reduce using rule 44 (TERM -> TERM ' .)
     *               reduce using rule 44 (TERM -> TERM ' .)
@@ -1545,8 +1563,8 @@ state 65
     (44) TERM -> TERM . '
 
   ! shift/reduce conflict for ' resolved as shift
-    ,               reduce using rule 45 (TERM -> - TERM .)
     ;               reduce using rule 45 (TERM -> - TERM .)
+    ,               reduce using rule 45 (TERM -> - TERM .)
     +               reduce using rule 45 (TERM -> - TERM .)
     -               reduce using rule 45 (TERM -> - TERM .)
     *               reduce using rule 45 (TERM -> - TERM .)
@@ -1615,22 +1633,54 @@ state 69
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    FUNCTION_NAME                  shift and go to state 45
+    FUNCTION_NAME                  shift and go to state 44
     TERM                           shift and go to state 97
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
 
 state 70
+
+    (62) PRINT_TERMS -> PRINT_TERMS , . TERM
+    (38) TERM -> . ID
+    (39) TERM -> . INTNUM
+    (40) TERM -> . FLOATNUM
+    (41) TERM -> . STRING
+    (42) TERM -> . MATRIX
+    (43) TERM -> . FUNCTION_CALL
+    (44) TERM -> . TERM '
+    (45) TERM -> . - TERM
+    (48) MATRIX -> . [ VECTORS ]
+    (53) FUNCTION_CALL -> . FUNCTION_NAME ( TERM )
+    (54) FUNCTION_NAME -> . ZEROS
+    (55) FUNCTION_NAME -> . ONES
+    (56) FUNCTION_NAME -> . EYE
+
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
+
+    TERM                           shift and go to state 98
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
+
+state 71
 
     (24) BINARY_EXPRESSION -> EXPRESSION + . EXPRESSION
     (19) EXPRESSION -> . BINARY_EXPRESSION
@@ -1666,27 +1716,27 @@ state 70
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    (               shift and go to state 54
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    (               shift and go to state 55
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    EXPRESSION                     shift and go to state 98
-    BINARY_EXPRESSION              shift and go to state 51
-    LOGICAL_EXPRESSION             shift and go to state 52
-    MATRIX_EXPRESSION              shift and go to state 53
-    TERM                           shift and go to state 55
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    EXPRESSION                     shift and go to state 99
+    BINARY_EXPRESSION              shift and go to state 52
+    LOGICAL_EXPRESSION             shift and go to state 53
+    MATRIX_EXPRESSION              shift and go to state 54
+    TERM                           shift and go to state 56
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
-state 71
+state 72
 
     (25) BINARY_EXPRESSION -> EXPRESSION - . EXPRESSION
     (19) EXPRESSION -> . BINARY_EXPRESSION
@@ -1722,27 +1772,27 @@ state 71
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    (               shift and go to state 54
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    (               shift and go to state 55
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    EXPRESSION                     shift and go to state 99
-    BINARY_EXPRESSION              shift and go to state 51
-    LOGICAL_EXPRESSION             shift and go to state 52
-    MATRIX_EXPRESSION              shift and go to state 53
-    TERM                           shift and go to state 55
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    EXPRESSION                     shift and go to state 100
+    BINARY_EXPRESSION              shift and go to state 52
+    LOGICAL_EXPRESSION             shift and go to state 53
+    MATRIX_EXPRESSION              shift and go to state 54
+    TERM                           shift and go to state 56
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
-state 72
+state 73
 
     (26) BINARY_EXPRESSION -> EXPRESSION * . EXPRESSION
     (19) EXPRESSION -> . BINARY_EXPRESSION
@@ -1778,27 +1828,27 @@ state 72
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    (               shift and go to state 54
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    (               shift and go to state 55
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    EXPRESSION                     shift and go to state 100
-    BINARY_EXPRESSION              shift and go to state 51
-    LOGICAL_EXPRESSION             shift and go to state 52
-    MATRIX_EXPRESSION              shift and go to state 53
-    TERM                           shift and go to state 55
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    EXPRESSION                     shift and go to state 101
+    BINARY_EXPRESSION              shift and go to state 52
+    LOGICAL_EXPRESSION             shift and go to state 53
+    MATRIX_EXPRESSION              shift and go to state 54
+    TERM                           shift and go to state 56
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
-state 73
+state 74
 
     (27) BINARY_EXPRESSION -> EXPRESSION / . EXPRESSION
     (19) EXPRESSION -> . BINARY_EXPRESSION
@@ -1834,27 +1884,27 @@ state 73
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    (               shift and go to state 54
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    (               shift and go to state 55
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    EXPRESSION                     shift and go to state 101
-    BINARY_EXPRESSION              shift and go to state 51
-    LOGICAL_EXPRESSION             shift and go to state 52
-    MATRIX_EXPRESSION              shift and go to state 53
-    TERM                           shift and go to state 55
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    EXPRESSION                     shift and go to state 102
+    BINARY_EXPRESSION              shift and go to state 52
+    LOGICAL_EXPRESSION             shift and go to state 53
+    MATRIX_EXPRESSION              shift and go to state 54
+    TERM                           shift and go to state 56
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
-state 74
+state 75
 
     (28) LOGICAL_EXPRESSION -> EXPRESSION > . EXPRESSION
     (19) EXPRESSION -> . BINARY_EXPRESSION
@@ -1890,27 +1940,27 @@ state 74
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    (               shift and go to state 54
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    (               shift and go to state 55
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    EXPRESSION                     shift and go to state 102
-    BINARY_EXPRESSION              shift and go to state 51
-    LOGICAL_EXPRESSION             shift and go to state 52
-    MATRIX_EXPRESSION              shift and go to state 53
-    TERM                           shift and go to state 55
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    EXPRESSION                     shift and go to state 103
+    BINARY_EXPRESSION              shift and go to state 52
+    LOGICAL_EXPRESSION             shift and go to state 53
+    MATRIX_EXPRESSION              shift and go to state 54
+    TERM                           shift and go to state 56
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
-state 75
+state 76
 
     (29) LOGICAL_EXPRESSION -> EXPRESSION < . EXPRESSION
     (19) EXPRESSION -> . BINARY_EXPRESSION
@@ -1946,27 +1996,27 @@ state 75
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    (               shift and go to state 54
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    (               shift and go to state 55
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    EXPRESSION                     shift and go to state 103
-    BINARY_EXPRESSION              shift and go to state 51
-    LOGICAL_EXPRESSION             shift and go to state 52
-    MATRIX_EXPRESSION              shift and go to state 53
-    TERM                           shift and go to state 55
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    EXPRESSION                     shift and go to state 104
+    BINARY_EXPRESSION              shift and go to state 52
+    LOGICAL_EXPRESSION             shift and go to state 53
+    MATRIX_EXPRESSION              shift and go to state 54
+    TERM                           shift and go to state 56
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
-state 76
+state 77
 
     (30) LOGICAL_EXPRESSION -> EXPRESSION EQORGT . EXPRESSION
     (19) EXPRESSION -> . BINARY_EXPRESSION
@@ -2002,27 +2052,27 @@ state 76
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    (               shift and go to state 54
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    (               shift and go to state 55
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    EXPRESSION                     shift and go to state 104
-    BINARY_EXPRESSION              shift and go to state 51
-    LOGICAL_EXPRESSION             shift and go to state 52
-    MATRIX_EXPRESSION              shift and go to state 53
-    TERM                           shift and go to state 55
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    EXPRESSION                     shift and go to state 105
+    BINARY_EXPRESSION              shift and go to state 52
+    LOGICAL_EXPRESSION             shift and go to state 53
+    MATRIX_EXPRESSION              shift and go to state 54
+    TERM                           shift and go to state 56
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
-state 77
+state 78
 
     (31) LOGICAL_EXPRESSION -> EXPRESSION EQORLESS . EXPRESSION
     (19) EXPRESSION -> . BINARY_EXPRESSION
@@ -2058,27 +2108,27 @@ state 77
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    (               shift and go to state 54
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    (               shift and go to state 55
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    EXPRESSION                     shift and go to state 105
-    BINARY_EXPRESSION              shift and go to state 51
-    LOGICAL_EXPRESSION             shift and go to state 52
-    MATRIX_EXPRESSION              shift and go to state 53
-    TERM                           shift and go to state 55
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    EXPRESSION                     shift and go to state 106
+    BINARY_EXPRESSION              shift and go to state 52
+    LOGICAL_EXPRESSION             shift and go to state 53
+    MATRIX_EXPRESSION              shift and go to state 54
+    TERM                           shift and go to state 56
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
-state 78
+state 79
 
     (32) LOGICAL_EXPRESSION -> EXPRESSION EQUAL . EXPRESSION
     (19) EXPRESSION -> . BINARY_EXPRESSION
@@ -2114,27 +2164,27 @@ state 78
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    (               shift and go to state 54
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    (               shift and go to state 55
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    EXPRESSION                     shift and go to state 106
-    BINARY_EXPRESSION              shift and go to state 51
-    LOGICAL_EXPRESSION             shift and go to state 52
-    MATRIX_EXPRESSION              shift and go to state 53
-    TERM                           shift and go to state 55
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    EXPRESSION                     shift and go to state 107
+    BINARY_EXPRESSION              shift and go to state 52
+    LOGICAL_EXPRESSION             shift and go to state 53
+    MATRIX_EXPRESSION              shift and go to state 54
+    TERM                           shift and go to state 56
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
-state 79
+state 80
 
     (33) LOGICAL_EXPRESSION -> EXPRESSION NOTEQUAL . EXPRESSION
     (19) EXPRESSION -> . BINARY_EXPRESSION
@@ -2170,27 +2220,27 @@ state 79
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    (               shift and go to state 54
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    (               shift and go to state 55
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    EXPRESSION                     shift and go to state 107
-    BINARY_EXPRESSION              shift and go to state 51
-    LOGICAL_EXPRESSION             shift and go to state 52
-    MATRIX_EXPRESSION              shift and go to state 53
-    TERM                           shift and go to state 55
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    EXPRESSION                     shift and go to state 108
+    BINARY_EXPRESSION              shift and go to state 52
+    LOGICAL_EXPRESSION             shift and go to state 53
+    MATRIX_EXPRESSION              shift and go to state 54
+    TERM                           shift and go to state 56
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
-state 80
+state 81
 
     (34) MATRIX_EXPRESSION -> EXPRESSION DOTADD . EXPRESSION
     (19) EXPRESSION -> . BINARY_EXPRESSION
@@ -2226,27 +2276,27 @@ state 80
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    (               shift and go to state 54
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    (               shift and go to state 55
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    EXPRESSION                     shift and go to state 108
-    BINARY_EXPRESSION              shift and go to state 51
-    LOGICAL_EXPRESSION             shift and go to state 52
-    MATRIX_EXPRESSION              shift and go to state 53
-    TERM                           shift and go to state 55
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    EXPRESSION                     shift and go to state 109
+    BINARY_EXPRESSION              shift and go to state 52
+    LOGICAL_EXPRESSION             shift and go to state 53
+    MATRIX_EXPRESSION              shift and go to state 54
+    TERM                           shift and go to state 56
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
-state 81
+state 82
 
     (35) MATRIX_EXPRESSION -> EXPRESSION DOTSUB . EXPRESSION
     (19) EXPRESSION -> . BINARY_EXPRESSION
@@ -2282,27 +2332,27 @@ state 81
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    (               shift and go to state 54
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    (               shift and go to state 55
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    EXPRESSION                     shift and go to state 109
-    BINARY_EXPRESSION              shift and go to state 51
-    LOGICAL_EXPRESSION             shift and go to state 52
-    MATRIX_EXPRESSION              shift and go to state 53
-    TERM                           shift and go to state 55
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    EXPRESSION                     shift and go to state 110
+    BINARY_EXPRESSION              shift and go to state 52
+    LOGICAL_EXPRESSION             shift and go to state 53
+    MATRIX_EXPRESSION              shift and go to state 54
+    TERM                           shift and go to state 56
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
-state 82
+state 83
 
     (36) MATRIX_EXPRESSION -> EXPRESSION DOTMUL . EXPRESSION
     (19) EXPRESSION -> . BINARY_EXPRESSION
@@ -2338,27 +2388,27 @@ state 82
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    (               shift and go to state 54
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    (               shift and go to state 55
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    EXPRESSION                     shift and go to state 110
-    BINARY_EXPRESSION              shift and go to state 51
-    LOGICAL_EXPRESSION             shift and go to state 52
-    MATRIX_EXPRESSION              shift and go to state 53
-    TERM                           shift and go to state 55
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    EXPRESSION                     shift and go to state 111
+    BINARY_EXPRESSION              shift and go to state 52
+    LOGICAL_EXPRESSION             shift and go to state 53
+    MATRIX_EXPRESSION              shift and go to state 54
+    TERM                           shift and go to state 56
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
-state 83
+state 84
 
     (37) MATRIX_EXPRESSION -> EXPRESSION DOTDIV . EXPRESSION
     (19) EXPRESSION -> . BINARY_EXPRESSION
@@ -2394,27 +2444,27 @@ state 83
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    (               shift and go to state 54
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    (               shift and go to state 55
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    EXPRESSION                     shift and go to state 111
-    BINARY_EXPRESSION              shift and go to state 51
-    LOGICAL_EXPRESSION             shift and go to state 52
-    MATRIX_EXPRESSION              shift and go to state 53
-    TERM                           shift and go to state 55
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    EXPRESSION                     shift and go to state 112
+    BINARY_EXPRESSION              shift and go to state 52
+    LOGICAL_EXPRESSION             shift and go to state 53
+    MATRIX_EXPRESSION              shift and go to state 54
+    TERM                           shift and go to state 56
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
-state 84
+state 85
 
     (22) EXPRESSION -> ( EXPRESSION . )
     (24) BINARY_EXPRESSION -> EXPRESSION . + EXPRESSION
@@ -2432,24 +2482,24 @@ state 84
     (36) MATRIX_EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
     (37) MATRIX_EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
 
-    )               shift and go to state 112
-    +               shift and go to state 70
-    -               shift and go to state 71
-    *               shift and go to state 72
-    /               shift and go to state 73
-    >               shift and go to state 74
-    <               shift and go to state 75
-    EQORGT          shift and go to state 76
-    EQORLESS        shift and go to state 77
-    EQUAL           shift and go to state 78
-    NOTEQUAL        shift and go to state 79
-    DOTADD          shift and go to state 80
-    DOTSUB          shift and go to state 81
-    DOTMUL          shift and go to state 82
-    DOTDIV          shift and go to state 83
+    )               shift and go to state 113
+    +               shift and go to state 71
+    -               shift and go to state 72
+    *               shift and go to state 73
+    /               shift and go to state 74
+    >               shift and go to state 75
+    <               shift and go to state 76
+    EQORGT          shift and go to state 77
+    EQORLESS        shift and go to state 78
+    EQUAL           shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    DOTADD          shift and go to state 81
+    DOTSUB          shift and go to state 82
+    DOTMUL          shift and go to state 83
+    DOTDIV          shift and go to state 84
 
 
-state 85
+state 86
 
     (12) ASSIGN -> ID [ INTNUM ] . ASSIGN_TYPE EXPRESSION
     (14) ASSIGN_TYPE -> . =
@@ -2464,19 +2514,19 @@ state 85
     DIVASSIGN       shift and go to state 29
     MULASSIGN       shift and go to state 30
 
-    ASSIGN_TYPE                    shift and go to state 113
-
-state 86
-
-    (13) ASSIGN -> ID [ INTNUM , . INTNUM ] ASSIGN_TYPE EXPRESSION
-
-    INTNUM          shift and go to state 114
-
+    ASSIGN_TYPE                    shift and go to state 114
 
 state 87
 
-    (63) IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) . INSTRUCTION ELSE_STATEMENT
-    (64) IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) . { INSTRUCTIONS } ELSE_STATEMENT
+    (13) ASSIGN -> ID [ INTNUM , . INTNUM ] ASSIGN_TYPE EXPRESSION
+
+    INTNUM          shift and go to state 115
+
+
+state 88
+
+    (64) IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) . INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT
+    (65) IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) . { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT
     (5) INSTRUCTION -> . ASSIGN ;
     (6) INSTRUCTION -> . IF_CONDITION
     (7) INSTRUCTION -> . FOR_LOOP
@@ -2486,18 +2536,19 @@ state 87
     (11) ASSIGN -> . ID ASSIGN_TYPE EXPRESSION
     (12) ASSIGN -> . ID [ INTNUM ] ASSIGN_TYPE EXPRESSION
     (13) ASSIGN -> . ID [ INTNUM , INTNUM ] ASSIGN_TYPE EXPRESSION
-    (63) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT
-    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT
-    (68) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
-    (69) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
-    (71) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
-    (72) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
+    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT
+    (65) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT
+    (73) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
+    (74) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
+    (76) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
+    (77) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
     (57) CONTROL_INSTRUCTION -> . BREAK
     (58) CONTROL_INSTRUCTION -> . CONTINUE
     (59) CONTROL_INSTRUCTION -> . RETURN
-    (60) PRINT_CALL -> . PRINT PRINT_TERMS
+    (60) CONTROL_INSTRUCTION -> . RETURN TERM
+    (61) PRINT_CALL -> . PRINT PRINT_TERMS
 
-    {               shift and go to state 116
+    {               shift and go to state 117
     ID              shift and go to state 11
     IF              shift and go to state 12
     FOR             shift and go to state 13
@@ -2507,7 +2558,7 @@ state 87
     RETURN          shift and go to state 17
     PRINT           shift and go to state 18
 
-    INSTRUCTION                    shift and go to state 115
+    INSTRUCTION                    shift and go to state 116
     ASSIGN                         shift and go to state 5
     IF_CONDITION                   shift and go to state 6
     FOR_LOOP                       shift and go to state 7
@@ -2515,14 +2566,14 @@ state 87
     CONTROL_INSTRUCTION            shift and go to state 9
     PRINT_CALL                     shift and go to state 10
 
-state 88
-
-    (68) FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS . }
-
-    }               shift and go to state 117
-
-
 state 89
+
+    (73) FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS . }
+
+    }               shift and go to state 118
+
+
+state 90
 
     (47) INTNUM_OR_ID -> ID .
 
@@ -2538,14 +2589,14 @@ state 89
     PRINT           reduce using rule 47 (INTNUM_OR_ID -> ID .)
 
 
-state 90
-
-    (70) FOR_CONDITION -> ID = INTNUM_OR_ID . : INTNUM_OR_ID
-
-    :               shift and go to state 118
-
-
 state 91
+
+    (75) FOR_CONDITION -> ID = INTNUM_OR_ID . : INTNUM_OR_ID
+
+    :               shift and go to state 119
+
+
+state 92
 
     (46) INTNUM_OR_ID -> INTNUM .
 
@@ -2561,10 +2612,10 @@ state 91
     PRINT           reduce using rule 46 (INTNUM_OR_ID -> INTNUM .)
 
 
-state 92
+state 93
 
-    (71) WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) . { INSTRUCTIONS }
-    (72) WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) . INSTRUCTION
+    (76) WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) . { INSTRUCTIONS }
+    (77) WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) . INSTRUCTION
     (5) INSTRUCTION -> . ASSIGN ;
     (6) INSTRUCTION -> . IF_CONDITION
     (7) INSTRUCTION -> . FOR_LOOP
@@ -2574,18 +2625,19 @@ state 92
     (11) ASSIGN -> . ID ASSIGN_TYPE EXPRESSION
     (12) ASSIGN -> . ID [ INTNUM ] ASSIGN_TYPE EXPRESSION
     (13) ASSIGN -> . ID [ INTNUM , INTNUM ] ASSIGN_TYPE EXPRESSION
-    (63) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT
-    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT
-    (68) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
-    (69) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
-    (71) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
-    (72) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
+    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT
+    (65) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT
+    (73) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
+    (74) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
+    (76) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
+    (77) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
     (57) CONTROL_INSTRUCTION -> . BREAK
     (58) CONTROL_INSTRUCTION -> . CONTINUE
     (59) CONTROL_INSTRUCTION -> . RETURN
-    (60) PRINT_CALL -> . PRINT PRINT_TERMS
+    (60) CONTROL_INSTRUCTION -> . RETURN TERM
+    (61) PRINT_CALL -> . PRINT PRINT_TERMS
 
-    {               shift and go to state 119
+    {               shift and go to state 120
     ID              shift and go to state 11
     IF              shift and go to state 12
     FOR             shift and go to state 13
@@ -2595,7 +2647,7 @@ state 92
     RETURN          shift and go to state 17
     PRINT           shift and go to state 18
 
-    INSTRUCTION                    shift and go to state 120
+    INSTRUCTION                    shift and go to state 121
     ASSIGN                         shift and go to state 5
     IF_CONDITION                   shift and go to state 6
     FOR_LOOP                       shift and go to state 7
@@ -2603,23 +2655,13 @@ state 92
     CONTROL_INSTRUCTION            shift and go to state 9
     PRINT_CALL                     shift and go to state 10
 
-state 93
-
-    (61) PRINT_TERMS -> PRINT_TERMS , TERM .
-    (44) TERM -> TERM . '
-
-    ,               reduce using rule 61 (PRINT_TERMS -> PRINT_TERMS , TERM .)
-    ;               reduce using rule 61 (PRINT_TERMS -> PRINT_TERMS , TERM .)
-    '               shift and go to state 64
-
-
 state 94
 
     (48) MATRIX -> [ VECTORS ] .
 
     '               reduce using rule 48 (MATRIX -> [ VECTORS ] .)
-    ,               reduce using rule 48 (MATRIX -> [ VECTORS ] .)
     ;               reduce using rule 48 (MATRIX -> [ VECTORS ] .)
+    ,               reduce using rule 48 (MATRIX -> [ VECTORS ] .)
     +               reduce using rule 48 (MATRIX -> [ VECTORS ] .)
     -               reduce using rule 48 (MATRIX -> [ VECTORS ] .)
     *               reduce using rule 48 (MATRIX -> [ VECTORS ] .)
@@ -2657,21 +2699,21 @@ state 95
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    VECTOR                         shift and go to state 121
+    VECTOR                         shift and go to state 122
     TERM                           shift and go to state 68
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
 state 96
 
@@ -2690,31 +2732,41 @@ state 96
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    TERM                           shift and go to state 122
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
+    TERM                           shift and go to state 123
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
 state 97
 
     (53) FUNCTION_CALL -> FUNCTION_NAME ( TERM . )
     (44) TERM -> TERM . '
 
-    )               shift and go to state 123
+    )               shift and go to state 124
     '               shift and go to state 64
 
 
 state 98
+
+    (62) PRINT_TERMS -> PRINT_TERMS , TERM .
+    (44) TERM -> TERM . '
+
+    ,               reduce using rule 62 (PRINT_TERMS -> PRINT_TERMS , TERM .)
+    ;               reduce using rule 62 (PRINT_TERMS -> PRINT_TERMS , TERM .)
+    '               shift and go to state 64
+
+
+state 99
 
     (24) BINARY_EXPRESSION -> EXPRESSION + EXPRESSION .
     (24) BINARY_EXPRESSION -> EXPRESSION . + EXPRESSION
@@ -2748,20 +2800,20 @@ state 98
   ! shift/reduce conflict for DOTDIV resolved as shift
     ;               reduce using rule 24 (BINARY_EXPRESSION -> EXPRESSION + EXPRESSION .)
     )               reduce using rule 24 (BINARY_EXPRESSION -> EXPRESSION + EXPRESSION .)
-    +               shift and go to state 70
-    -               shift and go to state 71
-    *               shift and go to state 72
-    /               shift and go to state 73
-    >               shift and go to state 74
-    <               shift and go to state 75
-    EQORGT          shift and go to state 76
-    EQORLESS        shift and go to state 77
-    EQUAL           shift and go to state 78
-    NOTEQUAL        shift and go to state 79
-    DOTADD          shift and go to state 80
-    DOTSUB          shift and go to state 81
-    DOTMUL          shift and go to state 82
-    DOTDIV          shift and go to state 83
+    +               shift and go to state 71
+    -               shift and go to state 72
+    *               shift and go to state 73
+    /               shift and go to state 74
+    >               shift and go to state 75
+    <               shift and go to state 76
+    EQORGT          shift and go to state 77
+    EQORLESS        shift and go to state 78
+    EQUAL           shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    DOTADD          shift and go to state 81
+    DOTSUB          shift and go to state 82
+    DOTMUL          shift and go to state 83
+    DOTDIV          shift and go to state 84
 
   ! +               [ reduce using rule 24 (BINARY_EXPRESSION -> EXPRESSION + EXPRESSION .) ]
   ! -               [ reduce using rule 24 (BINARY_EXPRESSION -> EXPRESSION + EXPRESSION .) ]
@@ -2779,7 +2831,7 @@ state 98
   ! DOTDIV          [ reduce using rule 24 (BINARY_EXPRESSION -> EXPRESSION + EXPRESSION .) ]
 
 
-state 99
+state 100
 
     (25) BINARY_EXPRESSION -> EXPRESSION - EXPRESSION .
     (24) BINARY_EXPRESSION -> EXPRESSION . + EXPRESSION
@@ -2813,20 +2865,20 @@ state 99
   ! shift/reduce conflict for DOTDIV resolved as shift
     ;               reduce using rule 25 (BINARY_EXPRESSION -> EXPRESSION - EXPRESSION .)
     )               reduce using rule 25 (BINARY_EXPRESSION -> EXPRESSION - EXPRESSION .)
-    +               shift and go to state 70
-    -               shift and go to state 71
-    *               shift and go to state 72
-    /               shift and go to state 73
-    >               shift and go to state 74
-    <               shift and go to state 75
-    EQORGT          shift and go to state 76
-    EQORLESS        shift and go to state 77
-    EQUAL           shift and go to state 78
-    NOTEQUAL        shift and go to state 79
-    DOTADD          shift and go to state 80
-    DOTSUB          shift and go to state 81
-    DOTMUL          shift and go to state 82
-    DOTDIV          shift and go to state 83
+    +               shift and go to state 71
+    -               shift and go to state 72
+    *               shift and go to state 73
+    /               shift and go to state 74
+    >               shift and go to state 75
+    <               shift and go to state 76
+    EQORGT          shift and go to state 77
+    EQORLESS        shift and go to state 78
+    EQUAL           shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    DOTADD          shift and go to state 81
+    DOTSUB          shift and go to state 82
+    DOTMUL          shift and go to state 83
+    DOTDIV          shift and go to state 84
 
   ! +               [ reduce using rule 25 (BINARY_EXPRESSION -> EXPRESSION - EXPRESSION .) ]
   ! -               [ reduce using rule 25 (BINARY_EXPRESSION -> EXPRESSION - EXPRESSION .) ]
@@ -2844,7 +2896,7 @@ state 99
   ! DOTDIV          [ reduce using rule 25 (BINARY_EXPRESSION -> EXPRESSION - EXPRESSION .) ]
 
 
-state 100
+state 101
 
     (26) BINARY_EXPRESSION -> EXPRESSION * EXPRESSION .
     (24) BINARY_EXPRESSION -> EXPRESSION . + EXPRESSION
@@ -2878,20 +2930,20 @@ state 100
   ! shift/reduce conflict for DOTDIV resolved as shift
     ;               reduce using rule 26 (BINARY_EXPRESSION -> EXPRESSION * EXPRESSION .)
     )               reduce using rule 26 (BINARY_EXPRESSION -> EXPRESSION * EXPRESSION .)
-    +               shift and go to state 70
-    -               shift and go to state 71
-    *               shift and go to state 72
-    /               shift and go to state 73
-    >               shift and go to state 74
-    <               shift and go to state 75
-    EQORGT          shift and go to state 76
-    EQORLESS        shift and go to state 77
-    EQUAL           shift and go to state 78
-    NOTEQUAL        shift and go to state 79
-    DOTADD          shift and go to state 80
-    DOTSUB          shift and go to state 81
-    DOTMUL          shift and go to state 82
-    DOTDIV          shift and go to state 83
+    +               shift and go to state 71
+    -               shift and go to state 72
+    *               shift and go to state 73
+    /               shift and go to state 74
+    >               shift and go to state 75
+    <               shift and go to state 76
+    EQORGT          shift and go to state 77
+    EQORLESS        shift and go to state 78
+    EQUAL           shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    DOTADD          shift and go to state 81
+    DOTSUB          shift and go to state 82
+    DOTMUL          shift and go to state 83
+    DOTDIV          shift and go to state 84
 
   ! +               [ reduce using rule 26 (BINARY_EXPRESSION -> EXPRESSION * EXPRESSION .) ]
   ! -               [ reduce using rule 26 (BINARY_EXPRESSION -> EXPRESSION * EXPRESSION .) ]
@@ -2909,7 +2961,7 @@ state 100
   ! DOTDIV          [ reduce using rule 26 (BINARY_EXPRESSION -> EXPRESSION * EXPRESSION .) ]
 
 
-state 101
+state 102
 
     (27) BINARY_EXPRESSION -> EXPRESSION / EXPRESSION .
     (24) BINARY_EXPRESSION -> EXPRESSION . + EXPRESSION
@@ -2943,20 +2995,20 @@ state 101
   ! shift/reduce conflict for DOTDIV resolved as shift
     ;               reduce using rule 27 (BINARY_EXPRESSION -> EXPRESSION / EXPRESSION .)
     )               reduce using rule 27 (BINARY_EXPRESSION -> EXPRESSION / EXPRESSION .)
-    +               shift and go to state 70
-    -               shift and go to state 71
-    *               shift and go to state 72
-    /               shift and go to state 73
-    >               shift and go to state 74
-    <               shift and go to state 75
-    EQORGT          shift and go to state 76
-    EQORLESS        shift and go to state 77
-    EQUAL           shift and go to state 78
-    NOTEQUAL        shift and go to state 79
-    DOTADD          shift and go to state 80
-    DOTSUB          shift and go to state 81
-    DOTMUL          shift and go to state 82
-    DOTDIV          shift and go to state 83
+    +               shift and go to state 71
+    -               shift and go to state 72
+    *               shift and go to state 73
+    /               shift and go to state 74
+    >               shift and go to state 75
+    <               shift and go to state 76
+    EQORGT          shift and go to state 77
+    EQORLESS        shift and go to state 78
+    EQUAL           shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    DOTADD          shift and go to state 81
+    DOTSUB          shift and go to state 82
+    DOTMUL          shift and go to state 83
+    DOTDIV          shift and go to state 84
 
   ! +               [ reduce using rule 27 (BINARY_EXPRESSION -> EXPRESSION / EXPRESSION .) ]
   ! -               [ reduce using rule 27 (BINARY_EXPRESSION -> EXPRESSION / EXPRESSION .) ]
@@ -2974,7 +3026,7 @@ state 101
   ! DOTDIV          [ reduce using rule 27 (BINARY_EXPRESSION -> EXPRESSION / EXPRESSION .) ]
 
 
-state 102
+state 103
 
     (28) LOGICAL_EXPRESSION -> EXPRESSION > EXPRESSION .
     (24) BINARY_EXPRESSION -> EXPRESSION . + EXPRESSION
@@ -3008,20 +3060,20 @@ state 102
   ! shift/reduce conflict for DOTDIV resolved as shift
     ;               reduce using rule 28 (LOGICAL_EXPRESSION -> EXPRESSION > EXPRESSION .)
     )               reduce using rule 28 (LOGICAL_EXPRESSION -> EXPRESSION > EXPRESSION .)
-    +               shift and go to state 70
-    -               shift and go to state 71
-    *               shift and go to state 72
-    /               shift and go to state 73
-    >               shift and go to state 74
-    <               shift and go to state 75
-    EQORGT          shift and go to state 76
-    EQORLESS        shift and go to state 77
-    EQUAL           shift and go to state 78
-    NOTEQUAL        shift and go to state 79
-    DOTADD          shift and go to state 80
-    DOTSUB          shift and go to state 81
-    DOTMUL          shift and go to state 82
-    DOTDIV          shift and go to state 83
+    +               shift and go to state 71
+    -               shift and go to state 72
+    *               shift and go to state 73
+    /               shift and go to state 74
+    >               shift and go to state 75
+    <               shift and go to state 76
+    EQORGT          shift and go to state 77
+    EQORLESS        shift and go to state 78
+    EQUAL           shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    DOTADD          shift and go to state 81
+    DOTSUB          shift and go to state 82
+    DOTMUL          shift and go to state 83
+    DOTDIV          shift and go to state 84
 
   ! +               [ reduce using rule 28 (LOGICAL_EXPRESSION -> EXPRESSION > EXPRESSION .) ]
   ! -               [ reduce using rule 28 (LOGICAL_EXPRESSION -> EXPRESSION > EXPRESSION .) ]
@@ -3039,7 +3091,7 @@ state 102
   ! DOTDIV          [ reduce using rule 28 (LOGICAL_EXPRESSION -> EXPRESSION > EXPRESSION .) ]
 
 
-state 103
+state 104
 
     (29) LOGICAL_EXPRESSION -> EXPRESSION < EXPRESSION .
     (24) BINARY_EXPRESSION -> EXPRESSION . + EXPRESSION
@@ -3073,20 +3125,20 @@ state 103
   ! shift/reduce conflict for DOTDIV resolved as shift
     ;               reduce using rule 29 (LOGICAL_EXPRESSION -> EXPRESSION < EXPRESSION .)
     )               reduce using rule 29 (LOGICAL_EXPRESSION -> EXPRESSION < EXPRESSION .)
-    +               shift and go to state 70
-    -               shift and go to state 71
-    *               shift and go to state 72
-    /               shift and go to state 73
-    >               shift and go to state 74
-    <               shift and go to state 75
-    EQORGT          shift and go to state 76
-    EQORLESS        shift and go to state 77
-    EQUAL           shift and go to state 78
-    NOTEQUAL        shift and go to state 79
-    DOTADD          shift and go to state 80
-    DOTSUB          shift and go to state 81
-    DOTMUL          shift and go to state 82
-    DOTDIV          shift and go to state 83
+    +               shift and go to state 71
+    -               shift and go to state 72
+    *               shift and go to state 73
+    /               shift and go to state 74
+    >               shift and go to state 75
+    <               shift and go to state 76
+    EQORGT          shift and go to state 77
+    EQORLESS        shift and go to state 78
+    EQUAL           shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    DOTADD          shift and go to state 81
+    DOTSUB          shift and go to state 82
+    DOTMUL          shift and go to state 83
+    DOTDIV          shift and go to state 84
 
   ! +               [ reduce using rule 29 (LOGICAL_EXPRESSION -> EXPRESSION < EXPRESSION .) ]
   ! -               [ reduce using rule 29 (LOGICAL_EXPRESSION -> EXPRESSION < EXPRESSION .) ]
@@ -3104,7 +3156,7 @@ state 103
   ! DOTDIV          [ reduce using rule 29 (LOGICAL_EXPRESSION -> EXPRESSION < EXPRESSION .) ]
 
 
-state 104
+state 105
 
     (30) LOGICAL_EXPRESSION -> EXPRESSION EQORGT EXPRESSION .
     (24) BINARY_EXPRESSION -> EXPRESSION . + EXPRESSION
@@ -3138,20 +3190,20 @@ state 104
   ! shift/reduce conflict for DOTDIV resolved as shift
     ;               reduce using rule 30 (LOGICAL_EXPRESSION -> EXPRESSION EQORGT EXPRESSION .)
     )               reduce using rule 30 (LOGICAL_EXPRESSION -> EXPRESSION EQORGT EXPRESSION .)
-    +               shift and go to state 70
-    -               shift and go to state 71
-    *               shift and go to state 72
-    /               shift and go to state 73
-    >               shift and go to state 74
-    <               shift and go to state 75
-    EQORGT          shift and go to state 76
-    EQORLESS        shift and go to state 77
-    EQUAL           shift and go to state 78
-    NOTEQUAL        shift and go to state 79
-    DOTADD          shift and go to state 80
-    DOTSUB          shift and go to state 81
-    DOTMUL          shift and go to state 82
-    DOTDIV          shift and go to state 83
+    +               shift and go to state 71
+    -               shift and go to state 72
+    *               shift and go to state 73
+    /               shift and go to state 74
+    >               shift and go to state 75
+    <               shift and go to state 76
+    EQORGT          shift and go to state 77
+    EQORLESS        shift and go to state 78
+    EQUAL           shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    DOTADD          shift and go to state 81
+    DOTSUB          shift and go to state 82
+    DOTMUL          shift and go to state 83
+    DOTDIV          shift and go to state 84
 
   ! +               [ reduce using rule 30 (LOGICAL_EXPRESSION -> EXPRESSION EQORGT EXPRESSION .) ]
   ! -               [ reduce using rule 30 (LOGICAL_EXPRESSION -> EXPRESSION EQORGT EXPRESSION .) ]
@@ -3169,7 +3221,7 @@ state 104
   ! DOTDIV          [ reduce using rule 30 (LOGICAL_EXPRESSION -> EXPRESSION EQORGT EXPRESSION .) ]
 
 
-state 105
+state 106
 
     (31) LOGICAL_EXPRESSION -> EXPRESSION EQORLESS EXPRESSION .
     (24) BINARY_EXPRESSION -> EXPRESSION . + EXPRESSION
@@ -3203,20 +3255,20 @@ state 105
   ! shift/reduce conflict for DOTDIV resolved as shift
     ;               reduce using rule 31 (LOGICAL_EXPRESSION -> EXPRESSION EQORLESS EXPRESSION .)
     )               reduce using rule 31 (LOGICAL_EXPRESSION -> EXPRESSION EQORLESS EXPRESSION .)
-    +               shift and go to state 70
-    -               shift and go to state 71
-    *               shift and go to state 72
-    /               shift and go to state 73
-    >               shift and go to state 74
-    <               shift and go to state 75
-    EQORGT          shift and go to state 76
-    EQORLESS        shift and go to state 77
-    EQUAL           shift and go to state 78
-    NOTEQUAL        shift and go to state 79
-    DOTADD          shift and go to state 80
-    DOTSUB          shift and go to state 81
-    DOTMUL          shift and go to state 82
-    DOTDIV          shift and go to state 83
+    +               shift and go to state 71
+    -               shift and go to state 72
+    *               shift and go to state 73
+    /               shift and go to state 74
+    >               shift and go to state 75
+    <               shift and go to state 76
+    EQORGT          shift and go to state 77
+    EQORLESS        shift and go to state 78
+    EQUAL           shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    DOTADD          shift and go to state 81
+    DOTSUB          shift and go to state 82
+    DOTMUL          shift and go to state 83
+    DOTDIV          shift and go to state 84
 
   ! +               [ reduce using rule 31 (LOGICAL_EXPRESSION -> EXPRESSION EQORLESS EXPRESSION .) ]
   ! -               [ reduce using rule 31 (LOGICAL_EXPRESSION -> EXPRESSION EQORLESS EXPRESSION .) ]
@@ -3234,7 +3286,7 @@ state 105
   ! DOTDIV          [ reduce using rule 31 (LOGICAL_EXPRESSION -> EXPRESSION EQORLESS EXPRESSION .) ]
 
 
-state 106
+state 107
 
     (32) LOGICAL_EXPRESSION -> EXPRESSION EQUAL EXPRESSION .
     (24) BINARY_EXPRESSION -> EXPRESSION . + EXPRESSION
@@ -3268,20 +3320,20 @@ state 106
   ! shift/reduce conflict for DOTDIV resolved as shift
     ;               reduce using rule 32 (LOGICAL_EXPRESSION -> EXPRESSION EQUAL EXPRESSION .)
     )               reduce using rule 32 (LOGICAL_EXPRESSION -> EXPRESSION EQUAL EXPRESSION .)
-    +               shift and go to state 70
-    -               shift and go to state 71
-    *               shift and go to state 72
-    /               shift and go to state 73
-    >               shift and go to state 74
-    <               shift and go to state 75
-    EQORGT          shift and go to state 76
-    EQORLESS        shift and go to state 77
-    EQUAL           shift and go to state 78
-    NOTEQUAL        shift and go to state 79
-    DOTADD          shift and go to state 80
-    DOTSUB          shift and go to state 81
-    DOTMUL          shift and go to state 82
-    DOTDIV          shift and go to state 83
+    +               shift and go to state 71
+    -               shift and go to state 72
+    *               shift and go to state 73
+    /               shift and go to state 74
+    >               shift and go to state 75
+    <               shift and go to state 76
+    EQORGT          shift and go to state 77
+    EQORLESS        shift and go to state 78
+    EQUAL           shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    DOTADD          shift and go to state 81
+    DOTSUB          shift and go to state 82
+    DOTMUL          shift and go to state 83
+    DOTDIV          shift and go to state 84
 
   ! +               [ reduce using rule 32 (LOGICAL_EXPRESSION -> EXPRESSION EQUAL EXPRESSION .) ]
   ! -               [ reduce using rule 32 (LOGICAL_EXPRESSION -> EXPRESSION EQUAL EXPRESSION .) ]
@@ -3299,7 +3351,7 @@ state 106
   ! DOTDIV          [ reduce using rule 32 (LOGICAL_EXPRESSION -> EXPRESSION EQUAL EXPRESSION .) ]
 
 
-state 107
+state 108
 
     (33) LOGICAL_EXPRESSION -> EXPRESSION NOTEQUAL EXPRESSION .
     (24) BINARY_EXPRESSION -> EXPRESSION . + EXPRESSION
@@ -3333,20 +3385,20 @@ state 107
   ! shift/reduce conflict for DOTDIV resolved as shift
     ;               reduce using rule 33 (LOGICAL_EXPRESSION -> EXPRESSION NOTEQUAL EXPRESSION .)
     )               reduce using rule 33 (LOGICAL_EXPRESSION -> EXPRESSION NOTEQUAL EXPRESSION .)
-    +               shift and go to state 70
-    -               shift and go to state 71
-    *               shift and go to state 72
-    /               shift and go to state 73
-    >               shift and go to state 74
-    <               shift and go to state 75
-    EQORGT          shift and go to state 76
-    EQORLESS        shift and go to state 77
-    EQUAL           shift and go to state 78
-    NOTEQUAL        shift and go to state 79
-    DOTADD          shift and go to state 80
-    DOTSUB          shift and go to state 81
-    DOTMUL          shift and go to state 82
-    DOTDIV          shift and go to state 83
+    +               shift and go to state 71
+    -               shift and go to state 72
+    *               shift and go to state 73
+    /               shift and go to state 74
+    >               shift and go to state 75
+    <               shift and go to state 76
+    EQORGT          shift and go to state 77
+    EQORLESS        shift and go to state 78
+    EQUAL           shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    DOTADD          shift and go to state 81
+    DOTSUB          shift and go to state 82
+    DOTMUL          shift and go to state 83
+    DOTDIV          shift and go to state 84
 
   ! +               [ reduce using rule 33 (LOGICAL_EXPRESSION -> EXPRESSION NOTEQUAL EXPRESSION .) ]
   ! -               [ reduce using rule 33 (LOGICAL_EXPRESSION -> EXPRESSION NOTEQUAL EXPRESSION .) ]
@@ -3364,7 +3416,7 @@ state 107
   ! DOTDIV          [ reduce using rule 33 (LOGICAL_EXPRESSION -> EXPRESSION NOTEQUAL EXPRESSION .) ]
 
 
-state 108
+state 109
 
     (34) MATRIX_EXPRESSION -> EXPRESSION DOTADD EXPRESSION .
     (24) BINARY_EXPRESSION -> EXPRESSION . + EXPRESSION
@@ -3398,20 +3450,20 @@ state 108
   ! shift/reduce conflict for DOTDIV resolved as shift
     ;               reduce using rule 34 (MATRIX_EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
     )               reduce using rule 34 (MATRIX_EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
-    +               shift and go to state 70
-    -               shift and go to state 71
-    *               shift and go to state 72
-    /               shift and go to state 73
-    >               shift and go to state 74
-    <               shift and go to state 75
-    EQORGT          shift and go to state 76
-    EQORLESS        shift and go to state 77
-    EQUAL           shift and go to state 78
-    NOTEQUAL        shift and go to state 79
-    DOTADD          shift and go to state 80
-    DOTSUB          shift and go to state 81
-    DOTMUL          shift and go to state 82
-    DOTDIV          shift and go to state 83
+    +               shift and go to state 71
+    -               shift and go to state 72
+    *               shift and go to state 73
+    /               shift and go to state 74
+    >               shift and go to state 75
+    <               shift and go to state 76
+    EQORGT          shift and go to state 77
+    EQORLESS        shift and go to state 78
+    EQUAL           shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    DOTADD          shift and go to state 81
+    DOTSUB          shift and go to state 82
+    DOTMUL          shift and go to state 83
+    DOTDIV          shift and go to state 84
 
   ! +               [ reduce using rule 34 (MATRIX_EXPRESSION -> EXPRESSION DOTADD EXPRESSION .) ]
   ! -               [ reduce using rule 34 (MATRIX_EXPRESSION -> EXPRESSION DOTADD EXPRESSION .) ]
@@ -3429,7 +3481,7 @@ state 108
   ! DOTDIV          [ reduce using rule 34 (MATRIX_EXPRESSION -> EXPRESSION DOTADD EXPRESSION .) ]
 
 
-state 109
+state 110
 
     (35) MATRIX_EXPRESSION -> EXPRESSION DOTSUB EXPRESSION .
     (24) BINARY_EXPRESSION -> EXPRESSION . + EXPRESSION
@@ -3463,20 +3515,20 @@ state 109
   ! shift/reduce conflict for DOTDIV resolved as shift
     ;               reduce using rule 35 (MATRIX_EXPRESSION -> EXPRESSION DOTSUB EXPRESSION .)
     )               reduce using rule 35 (MATRIX_EXPRESSION -> EXPRESSION DOTSUB EXPRESSION .)
-    +               shift and go to state 70
-    -               shift and go to state 71
-    *               shift and go to state 72
-    /               shift and go to state 73
-    >               shift and go to state 74
-    <               shift and go to state 75
-    EQORGT          shift and go to state 76
-    EQORLESS        shift and go to state 77
-    EQUAL           shift and go to state 78
-    NOTEQUAL        shift and go to state 79
-    DOTADD          shift and go to state 80
-    DOTSUB          shift and go to state 81
-    DOTMUL          shift and go to state 82
-    DOTDIV          shift and go to state 83
+    +               shift and go to state 71
+    -               shift and go to state 72
+    *               shift and go to state 73
+    /               shift and go to state 74
+    >               shift and go to state 75
+    <               shift and go to state 76
+    EQORGT          shift and go to state 77
+    EQORLESS        shift and go to state 78
+    EQUAL           shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    DOTADD          shift and go to state 81
+    DOTSUB          shift and go to state 82
+    DOTMUL          shift and go to state 83
+    DOTDIV          shift and go to state 84
 
   ! +               [ reduce using rule 35 (MATRIX_EXPRESSION -> EXPRESSION DOTSUB EXPRESSION .) ]
   ! -               [ reduce using rule 35 (MATRIX_EXPRESSION -> EXPRESSION DOTSUB EXPRESSION .) ]
@@ -3494,7 +3546,7 @@ state 109
   ! DOTDIV          [ reduce using rule 35 (MATRIX_EXPRESSION -> EXPRESSION DOTSUB EXPRESSION .) ]
 
 
-state 110
+state 111
 
     (36) MATRIX_EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .
     (24) BINARY_EXPRESSION -> EXPRESSION . + EXPRESSION
@@ -3528,20 +3580,20 @@ state 110
   ! shift/reduce conflict for DOTDIV resolved as shift
     ;               reduce using rule 36 (MATRIX_EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
     )               reduce using rule 36 (MATRIX_EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
-    +               shift and go to state 70
-    -               shift and go to state 71
-    *               shift and go to state 72
-    /               shift and go to state 73
-    >               shift and go to state 74
-    <               shift and go to state 75
-    EQORGT          shift and go to state 76
-    EQORLESS        shift and go to state 77
-    EQUAL           shift and go to state 78
-    NOTEQUAL        shift and go to state 79
-    DOTADD          shift and go to state 80
-    DOTSUB          shift and go to state 81
-    DOTMUL          shift and go to state 82
-    DOTDIV          shift and go to state 83
+    +               shift and go to state 71
+    -               shift and go to state 72
+    *               shift and go to state 73
+    /               shift and go to state 74
+    >               shift and go to state 75
+    <               shift and go to state 76
+    EQORGT          shift and go to state 77
+    EQORLESS        shift and go to state 78
+    EQUAL           shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    DOTADD          shift and go to state 81
+    DOTSUB          shift and go to state 82
+    DOTMUL          shift and go to state 83
+    DOTDIV          shift and go to state 84
 
   ! +               [ reduce using rule 36 (MATRIX_EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .) ]
   ! -               [ reduce using rule 36 (MATRIX_EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .) ]
@@ -3559,7 +3611,7 @@ state 110
   ! DOTDIV          [ reduce using rule 36 (MATRIX_EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .) ]
 
 
-state 111
+state 112
 
     (37) MATRIX_EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .
     (24) BINARY_EXPRESSION -> EXPRESSION . + EXPRESSION
@@ -3593,20 +3645,20 @@ state 111
   ! shift/reduce conflict for DOTDIV resolved as shift
     ;               reduce using rule 37 (MATRIX_EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
     )               reduce using rule 37 (MATRIX_EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
-    +               shift and go to state 70
-    -               shift and go to state 71
-    *               shift and go to state 72
-    /               shift and go to state 73
-    >               shift and go to state 74
-    <               shift and go to state 75
-    EQORGT          shift and go to state 76
-    EQORLESS        shift and go to state 77
-    EQUAL           shift and go to state 78
-    NOTEQUAL        shift and go to state 79
-    DOTADD          shift and go to state 80
-    DOTSUB          shift and go to state 81
-    DOTMUL          shift and go to state 82
-    DOTDIV          shift and go to state 83
+    +               shift and go to state 71
+    -               shift and go to state 72
+    *               shift and go to state 73
+    /               shift and go to state 74
+    >               shift and go to state 75
+    <               shift and go to state 76
+    EQORGT          shift and go to state 77
+    EQORLESS        shift and go to state 78
+    EQUAL           shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    DOTADD          shift and go to state 81
+    DOTSUB          shift and go to state 82
+    DOTMUL          shift and go to state 83
+    DOTDIV          shift and go to state 84
 
   ! +               [ reduce using rule 37 (MATRIX_EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .) ]
   ! -               [ reduce using rule 37 (MATRIX_EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .) ]
@@ -3624,7 +3676,7 @@ state 111
   ! DOTDIV          [ reduce using rule 37 (MATRIX_EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .) ]
 
 
-state 112
+state 113
 
     (22) EXPRESSION -> ( EXPRESSION ) .
 
@@ -3646,7 +3698,7 @@ state 112
     )               reduce using rule 22 (EXPRESSION -> ( EXPRESSION ) .)
 
 
-state 113
+state 114
 
     (12) ASSIGN -> ID [ INTNUM ] ASSIGN_TYPE . EXPRESSION
     (19) EXPRESSION -> . BINARY_EXPRESSION
@@ -3682,135 +3734,48 @@ state 113
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    (               shift and go to state 54
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    (               shift and go to state 55
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    EXPRESSION                     shift and go to state 124
-    BINARY_EXPRESSION              shift and go to state 51
-    LOGICAL_EXPRESSION             shift and go to state 52
-    MATRIX_EXPRESSION              shift and go to state 53
-    TERM                           shift and go to state 55
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
-
-state 114
-
-    (13) ASSIGN -> ID [ INTNUM , INTNUM . ] ASSIGN_TYPE EXPRESSION
-
-    ]               shift and go to state 125
-
+    EXPRESSION                     shift and go to state 125
+    BINARY_EXPRESSION              shift and go to state 52
+    LOGICAL_EXPRESSION             shift and go to state 53
+    MATRIX_EXPRESSION              shift and go to state 54
+    TERM                           shift and go to state 56
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
 state 115
 
-    (63) IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION . ELSE_STATEMENT
-    (65) ELSE_STATEMENT -> . ELSE INSTRUCTION
-    (66) ELSE_STATEMENT -> . ELSE { INSTRUCTIONS }
-    (67) ELSE_STATEMENT -> .
+    (13) ASSIGN -> ID [ INTNUM , INTNUM . ] ASSIGN_TYPE EXPRESSION
 
-  ! shift/reduce conflict for ELSE resolved as shift
-    ELSE            shift and go to state 127
-    {               reduce using rule 67 (ELSE_STATEMENT -> .)
-    ID              reduce using rule 67 (ELSE_STATEMENT -> .)
-    IF              reduce using rule 67 (ELSE_STATEMENT -> .)
-    FOR             reduce using rule 67 (ELSE_STATEMENT -> .)
-    WHILE           reduce using rule 67 (ELSE_STATEMENT -> .)
-    BREAK           reduce using rule 67 (ELSE_STATEMENT -> .)
-    CONTINUE        reduce using rule 67 (ELSE_STATEMENT -> .)
-    RETURN          reduce using rule 67 (ELSE_STATEMENT -> .)
-    PRINT           reduce using rule 67 (ELSE_STATEMENT -> .)
-    $end            reduce using rule 67 (ELSE_STATEMENT -> .)
-    }               reduce using rule 67 (ELSE_STATEMENT -> .)
+    ]               shift and go to state 126
 
-  ! ELSE            [ reduce using rule 67 (ELSE_STATEMENT -> .) ]
-
-    ELSE_STATEMENT                 shift and go to state 126
 
 state 116
 
-    (64) IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { . INSTRUCTIONS } ELSE_STATEMENT
-    (2) INSTRUCTIONS -> . { INSTRUCTIONS }
-    (3) INSTRUCTIONS -> . INSTRUCTION INSTRUCTIONS
-    (4) INSTRUCTIONS -> . INSTRUCTION
-    (5) INSTRUCTION -> . ASSIGN ;
-    (6) INSTRUCTION -> . IF_CONDITION
-    (7) INSTRUCTION -> . FOR_LOOP
-    (8) INSTRUCTION -> . WHILE_LOOP
-    (9) INSTRUCTION -> . CONTROL_INSTRUCTION ;
-    (10) INSTRUCTION -> . PRINT_CALL ;
-    (11) ASSIGN -> . ID ASSIGN_TYPE EXPRESSION
-    (12) ASSIGN -> . ID [ INTNUM ] ASSIGN_TYPE EXPRESSION
-    (13) ASSIGN -> . ID [ INTNUM , INTNUM ] ASSIGN_TYPE EXPRESSION
-    (63) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT
-    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT
-    (68) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
-    (69) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
-    (71) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
-    (72) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
-    (57) CONTROL_INSTRUCTION -> . BREAK
-    (58) CONTROL_INSTRUCTION -> . CONTINUE
-    (59) CONTROL_INSTRUCTION -> . RETURN
-    (60) PRINT_CALL -> . PRINT PRINT_TERMS
+    (64) IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION . ELIF_STATEMENTS ELSE_STATEMENT
+    (66) ELIF_STATEMENTS -> . ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS
+    (67) ELIF_STATEMENTS -> . ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS
+    (68) ELIF_STATEMENTS -> . ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION
+    (69) ELIF_STATEMENTS -> . ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
 
-    {               shift and go to state 3
-    ID              shift and go to state 11
-    IF              shift and go to state 12
-    FOR             shift and go to state 13
-    WHILE           shift and go to state 14
-    BREAK           shift and go to state 15
-    CONTINUE        shift and go to state 16
-    RETURN          shift and go to state 17
-    PRINT           shift and go to state 18
+    ELSEIF          shift and go to state 128
 
-    INSTRUCTIONS                   shift and go to state 128
-    INSTRUCTION                    shift and go to state 4
-    ASSIGN                         shift and go to state 5
-    IF_CONDITION                   shift and go to state 6
-    FOR_LOOP                       shift and go to state 7
-    WHILE_LOOP                     shift and go to state 8
-    CONTROL_INSTRUCTION            shift and go to state 9
-    PRINT_CALL                     shift and go to state 10
+    ELIF_STATEMENTS                shift and go to state 127
 
 state 117
 
-    (68) FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .
-
-    {               reduce using rule 68 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
-    ID              reduce using rule 68 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
-    IF              reduce using rule 68 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
-    FOR             reduce using rule 68 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
-    WHILE           reduce using rule 68 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
-    BREAK           reduce using rule 68 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
-    CONTINUE        reduce using rule 68 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
-    RETURN          reduce using rule 68 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
-    PRINT           reduce using rule 68 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
-    $end            reduce using rule 68 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
-    }               reduce using rule 68 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
-    ELSE            reduce using rule 68 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
-
-
-state 118
-
-    (70) FOR_CONDITION -> ID = INTNUM_OR_ID : . INTNUM_OR_ID
-    (46) INTNUM_OR_ID -> . INTNUM
-    (47) INTNUM_OR_ID -> . ID
-
-    INTNUM          shift and go to state 91
-    ID              shift and go to state 89
-
-    INTNUM_OR_ID                   shift and go to state 129
-
-state 119
-
-    (71) WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { . INSTRUCTIONS }
+    (65) IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { . INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT
     (2) INSTRUCTIONS -> . { INSTRUCTIONS }
     (3) INSTRUCTIONS -> . INSTRUCTION INSTRUCTIONS
     (4) INSTRUCTIONS -> . INSTRUCTION
@@ -3823,16 +3788,17 @@ state 119
     (11) ASSIGN -> . ID ASSIGN_TYPE EXPRESSION
     (12) ASSIGN -> . ID [ INTNUM ] ASSIGN_TYPE EXPRESSION
     (13) ASSIGN -> . ID [ INTNUM , INTNUM ] ASSIGN_TYPE EXPRESSION
-    (63) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT
-    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT
-    (68) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
-    (69) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
-    (71) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
-    (72) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
+    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT
+    (65) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT
+    (73) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
+    (74) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
+    (76) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
+    (77) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
     (57) CONTROL_INSTRUCTION -> . BREAK
     (58) CONTROL_INSTRUCTION -> . CONTINUE
     (59) CONTROL_INSTRUCTION -> . RETURN
-    (60) PRINT_CALL -> . PRINT PRINT_TERMS
+    (60) CONTROL_INSTRUCTION -> . RETURN TERM
+    (61) PRINT_CALL -> . PRINT PRINT_TERMS
 
     {               shift and go to state 3
     ID              shift and go to state 11
@@ -3844,7 +3810,7 @@ state 119
     RETURN          shift and go to state 17
     PRINT           shift and go to state 18
 
-    INSTRUCTIONS                   shift and go to state 130
+    INSTRUCTIONS                   shift and go to state 129
     INSTRUCTION                    shift and go to state 4
     ASSIGN                         shift and go to state 5
     IF_CONDITION                   shift and go to state 6
@@ -3853,25 +3819,102 @@ state 119
     CONTROL_INSTRUCTION            shift and go to state 9
     PRINT_CALL                     shift and go to state 10
 
+state 118
+
+    (73) FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .
+
+    {               reduce using rule 73 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
+    ID              reduce using rule 73 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
+    IF              reduce using rule 73 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
+    FOR             reduce using rule 73 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
+    WHILE           reduce using rule 73 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
+    BREAK           reduce using rule 73 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
+    CONTINUE        reduce using rule 73 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
+    RETURN          reduce using rule 73 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
+    PRINT           reduce using rule 73 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
+    $end            reduce using rule 73 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
+    }               reduce using rule 73 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
+    ELSEIF          reduce using rule 73 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
+    ELSE            reduce using rule 73 (FOR_LOOP -> FOR FOR_CONDITION { INSTRUCTIONS } .)
+
+
+state 119
+
+    (75) FOR_CONDITION -> ID = INTNUM_OR_ID : . INTNUM_OR_ID
+    (46) INTNUM_OR_ID -> . INTNUM
+    (47) INTNUM_OR_ID -> . ID
+
+    INTNUM          shift and go to state 92
+    ID              shift and go to state 90
+
+    INTNUM_OR_ID                   shift and go to state 130
+
 state 120
 
-    (72) WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .
+    (76) WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { . INSTRUCTIONS }
+    (2) INSTRUCTIONS -> . { INSTRUCTIONS }
+    (3) INSTRUCTIONS -> . INSTRUCTION INSTRUCTIONS
+    (4) INSTRUCTIONS -> . INSTRUCTION
+    (5) INSTRUCTION -> . ASSIGN ;
+    (6) INSTRUCTION -> . IF_CONDITION
+    (7) INSTRUCTION -> . FOR_LOOP
+    (8) INSTRUCTION -> . WHILE_LOOP
+    (9) INSTRUCTION -> . CONTROL_INSTRUCTION ;
+    (10) INSTRUCTION -> . PRINT_CALL ;
+    (11) ASSIGN -> . ID ASSIGN_TYPE EXPRESSION
+    (12) ASSIGN -> . ID [ INTNUM ] ASSIGN_TYPE EXPRESSION
+    (13) ASSIGN -> . ID [ INTNUM , INTNUM ] ASSIGN_TYPE EXPRESSION
+    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT
+    (65) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT
+    (73) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
+    (74) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
+    (76) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
+    (77) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
+    (57) CONTROL_INSTRUCTION -> . BREAK
+    (58) CONTROL_INSTRUCTION -> . CONTINUE
+    (59) CONTROL_INSTRUCTION -> . RETURN
+    (60) CONTROL_INSTRUCTION -> . RETURN TERM
+    (61) PRINT_CALL -> . PRINT PRINT_TERMS
 
-    {               reduce using rule 72 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
-    ID              reduce using rule 72 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
-    IF              reduce using rule 72 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
-    FOR             reduce using rule 72 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
-    WHILE           reduce using rule 72 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
-    BREAK           reduce using rule 72 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
-    CONTINUE        reduce using rule 72 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
-    RETURN          reduce using rule 72 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
-    PRINT           reduce using rule 72 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
-    $end            reduce using rule 72 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
-    }               reduce using rule 72 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
-    ELSE            reduce using rule 72 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    {               shift and go to state 3
+    ID              shift and go to state 11
+    IF              shift and go to state 12
+    FOR             shift and go to state 13
+    WHILE           shift and go to state 14
+    BREAK           shift and go to state 15
+    CONTINUE        shift and go to state 16
+    RETURN          shift and go to state 17
+    PRINT           shift and go to state 18
 
+    INSTRUCTIONS                   shift and go to state 131
+    INSTRUCTION                    shift and go to state 4
+    ASSIGN                         shift and go to state 5
+    IF_CONDITION                   shift and go to state 6
+    FOR_LOOP                       shift and go to state 7
+    WHILE_LOOP                     shift and go to state 8
+    CONTROL_INSTRUCTION            shift and go to state 9
+    PRINT_CALL                     shift and go to state 10
 
 state 121
+
+    (77) WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .
+
+    {               reduce using rule 77 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    ID              reduce using rule 77 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    IF              reduce using rule 77 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    FOR             reduce using rule 77 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    WHILE           reduce using rule 77 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    BREAK           reduce using rule 77 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    CONTINUE        reduce using rule 77 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    RETURN          reduce using rule 77 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    PRINT           reduce using rule 77 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    $end            reduce using rule 77 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    }               reduce using rule 77 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    ELSEIF          reduce using rule 77 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    ELSE            reduce using rule 77 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+
+
+state 122
 
     (49) VECTORS -> VECTORS ; VECTOR .
     (51) VECTOR -> VECTOR . , TERM
@@ -3881,7 +3924,7 @@ state 121
     ,               shift and go to state 96
 
 
-state 122
+state 123
 
     (51) VECTOR -> VECTOR , TERM .
     (44) TERM -> TERM . '
@@ -3892,13 +3935,13 @@ state 122
     '               shift and go to state 64
 
 
-state 123
+state 124
 
     (53) FUNCTION_CALL -> FUNCTION_NAME ( TERM ) .
 
     '               reduce using rule 53 (FUNCTION_CALL -> FUNCTION_NAME ( TERM ) .)
-    ,               reduce using rule 53 (FUNCTION_CALL -> FUNCTION_NAME ( TERM ) .)
     ;               reduce using rule 53 (FUNCTION_CALL -> FUNCTION_NAME ( TERM ) .)
+    ,               reduce using rule 53 (FUNCTION_CALL -> FUNCTION_NAME ( TERM ) .)
     +               reduce using rule 53 (FUNCTION_CALL -> FUNCTION_NAME ( TERM ) .)
     -               reduce using rule 53 (FUNCTION_CALL -> FUNCTION_NAME ( TERM ) .)
     *               reduce using rule 53 (FUNCTION_CALL -> FUNCTION_NAME ( TERM ) .)
@@ -3917,7 +3960,7 @@ state 123
     )               reduce using rule 53 (FUNCTION_CALL -> FUNCTION_NAME ( TERM ) .)
 
 
-state 124
+state 125
 
     (12) ASSIGN -> ID [ INTNUM ] ASSIGN_TYPE EXPRESSION .
     (24) BINARY_EXPRESSION -> EXPRESSION . + EXPRESSION
@@ -3936,23 +3979,23 @@ state 124
     (37) MATRIX_EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
 
     ;               reduce using rule 12 (ASSIGN -> ID [ INTNUM ] ASSIGN_TYPE EXPRESSION .)
-    +               shift and go to state 70
-    -               shift and go to state 71
-    *               shift and go to state 72
-    /               shift and go to state 73
-    >               shift and go to state 74
-    <               shift and go to state 75
-    EQORGT          shift and go to state 76
-    EQORLESS        shift and go to state 77
-    EQUAL           shift and go to state 78
-    NOTEQUAL        shift and go to state 79
-    DOTADD          shift and go to state 80
-    DOTSUB          shift and go to state 81
-    DOTMUL          shift and go to state 82
-    DOTDIV          shift and go to state 83
+    +               shift and go to state 71
+    -               shift and go to state 72
+    *               shift and go to state 73
+    /               shift and go to state 74
+    >               shift and go to state 75
+    <               shift and go to state 76
+    EQORGT          shift and go to state 77
+    EQORLESS        shift and go to state 78
+    EQUAL           shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    DOTADD          shift and go to state 81
+    DOTSUB          shift and go to state 82
+    DOTMUL          shift and go to state 83
+    DOTDIV          shift and go to state 84
 
 
-state 125
+state 126
 
     (13) ASSIGN -> ID [ INTNUM , INTNUM ] . ASSIGN_TYPE EXPRESSION
     (14) ASSIGN_TYPE -> . =
@@ -3967,98 +4010,74 @@ state 125
     DIVASSIGN       shift and go to state 29
     MULASSIGN       shift and go to state 30
 
-    ASSIGN_TYPE                    shift and go to state 131
-
-state 126
-
-    (63) IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT .
-
-    {               reduce using rule 63 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT .)
-    ID              reduce using rule 63 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT .)
-    IF              reduce using rule 63 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT .)
-    FOR             reduce using rule 63 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT .)
-    WHILE           reduce using rule 63 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT .)
-    BREAK           reduce using rule 63 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT .)
-    CONTINUE        reduce using rule 63 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT .)
-    RETURN          reduce using rule 63 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT .)
-    PRINT           reduce using rule 63 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT .)
-    $end            reduce using rule 63 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT .)
-    }               reduce using rule 63 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT .)
-    ELSE            reduce using rule 63 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT .)
-
+    ASSIGN_TYPE                    shift and go to state 132
 
 state 127
 
-    (65) ELSE_STATEMENT -> ELSE . INSTRUCTION
-    (66) ELSE_STATEMENT -> ELSE . { INSTRUCTIONS }
-    (5) INSTRUCTION -> . ASSIGN ;
-    (6) INSTRUCTION -> . IF_CONDITION
-    (7) INSTRUCTION -> . FOR_LOOP
-    (8) INSTRUCTION -> . WHILE_LOOP
-    (9) INSTRUCTION -> . CONTROL_INSTRUCTION ;
-    (10) INSTRUCTION -> . PRINT_CALL ;
-    (11) ASSIGN -> . ID ASSIGN_TYPE EXPRESSION
-    (12) ASSIGN -> . ID [ INTNUM ] ASSIGN_TYPE EXPRESSION
-    (13) ASSIGN -> . ID [ INTNUM , INTNUM ] ASSIGN_TYPE EXPRESSION
-    (63) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT
-    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT
-    (68) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
-    (69) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
-    (71) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
-    (72) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
-    (57) CONTROL_INSTRUCTION -> . BREAK
-    (58) CONTROL_INSTRUCTION -> . CONTINUE
-    (59) CONTROL_INSTRUCTION -> . RETURN
-    (60) PRINT_CALL -> . PRINT PRINT_TERMS
+    (64) IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS . ELSE_STATEMENT
+    (70) ELSE_STATEMENT -> . ELSE INSTRUCTION
+    (71) ELSE_STATEMENT -> . ELSE { INSTRUCTIONS }
+    (72) ELSE_STATEMENT -> .
 
-    {               shift and go to state 133
-    ID              shift and go to state 11
-    IF              shift and go to state 12
-    FOR             shift and go to state 13
-    WHILE           shift and go to state 14
-    BREAK           shift and go to state 15
-    CONTINUE        shift and go to state 16
-    RETURN          shift and go to state 17
-    PRINT           shift and go to state 18
+  ! shift/reduce conflict for ELSE resolved as shift
+    ELSE            shift and go to state 134
+    {               reduce using rule 72 (ELSE_STATEMENT -> .)
+    ID              reduce using rule 72 (ELSE_STATEMENT -> .)
+    IF              reduce using rule 72 (ELSE_STATEMENT -> .)
+    FOR             reduce using rule 72 (ELSE_STATEMENT -> .)
+    WHILE           reduce using rule 72 (ELSE_STATEMENT -> .)
+    BREAK           reduce using rule 72 (ELSE_STATEMENT -> .)
+    CONTINUE        reduce using rule 72 (ELSE_STATEMENT -> .)
+    RETURN          reduce using rule 72 (ELSE_STATEMENT -> .)
+    PRINT           reduce using rule 72 (ELSE_STATEMENT -> .)
+    $end            reduce using rule 72 (ELSE_STATEMENT -> .)
+    }               reduce using rule 72 (ELSE_STATEMENT -> .)
+    ELSEIF          reduce using rule 72 (ELSE_STATEMENT -> .)
 
-    INSTRUCTION                    shift and go to state 132
-    ASSIGN                         shift and go to state 5
-    IF_CONDITION                   shift and go to state 6
-    FOR_LOOP                       shift and go to state 7
-    WHILE_LOOP                     shift and go to state 8
-    CONTROL_INSTRUCTION            shift and go to state 9
-    PRINT_CALL                     shift and go to state 10
+  ! ELSE            [ reduce using rule 72 (ELSE_STATEMENT -> .) ]
+
+    ELSE_STATEMENT                 shift and go to state 133
 
 state 128
 
-    (64) IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS . } ELSE_STATEMENT
+    (66) ELIF_STATEMENTS -> ELSEIF . ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS
+    (67) ELIF_STATEMENTS -> ELSEIF . ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS
+    (68) ELIF_STATEMENTS -> ELSEIF . ( LOGICAL_EXPRESSION ) INSTRUCTION
+    (69) ELIF_STATEMENTS -> ELSEIF . ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
 
-    }               shift and go to state 134
+    (               shift and go to state 135
 
 
 state 129
 
-    (70) FOR_CONDITION -> ID = INTNUM_OR_ID : INTNUM_OR_ID .
+    (65) IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS . } ELIF_STATEMENTS ELSE_STATEMENT
 
-    {               reduce using rule 70 (FOR_CONDITION -> ID = INTNUM_OR_ID : INTNUM_OR_ID .)
-    ID              reduce using rule 70 (FOR_CONDITION -> ID = INTNUM_OR_ID : INTNUM_OR_ID .)
-    IF              reduce using rule 70 (FOR_CONDITION -> ID = INTNUM_OR_ID : INTNUM_OR_ID .)
-    FOR             reduce using rule 70 (FOR_CONDITION -> ID = INTNUM_OR_ID : INTNUM_OR_ID .)
-    WHILE           reduce using rule 70 (FOR_CONDITION -> ID = INTNUM_OR_ID : INTNUM_OR_ID .)
-    BREAK           reduce using rule 70 (FOR_CONDITION -> ID = INTNUM_OR_ID : INTNUM_OR_ID .)
-    CONTINUE        reduce using rule 70 (FOR_CONDITION -> ID = INTNUM_OR_ID : INTNUM_OR_ID .)
-    RETURN          reduce using rule 70 (FOR_CONDITION -> ID = INTNUM_OR_ID : INTNUM_OR_ID .)
-    PRINT           reduce using rule 70 (FOR_CONDITION -> ID = INTNUM_OR_ID : INTNUM_OR_ID .)
+    }               shift and go to state 136
 
 
 state 130
 
-    (71) WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS . }
+    (75) FOR_CONDITION -> ID = INTNUM_OR_ID : INTNUM_OR_ID .
 
-    }               shift and go to state 135
+    {               reduce using rule 75 (FOR_CONDITION -> ID = INTNUM_OR_ID : INTNUM_OR_ID .)
+    ID              reduce using rule 75 (FOR_CONDITION -> ID = INTNUM_OR_ID : INTNUM_OR_ID .)
+    IF              reduce using rule 75 (FOR_CONDITION -> ID = INTNUM_OR_ID : INTNUM_OR_ID .)
+    FOR             reduce using rule 75 (FOR_CONDITION -> ID = INTNUM_OR_ID : INTNUM_OR_ID .)
+    WHILE           reduce using rule 75 (FOR_CONDITION -> ID = INTNUM_OR_ID : INTNUM_OR_ID .)
+    BREAK           reduce using rule 75 (FOR_CONDITION -> ID = INTNUM_OR_ID : INTNUM_OR_ID .)
+    CONTINUE        reduce using rule 75 (FOR_CONDITION -> ID = INTNUM_OR_ID : INTNUM_OR_ID .)
+    RETURN          reduce using rule 75 (FOR_CONDITION -> ID = INTNUM_OR_ID : INTNUM_OR_ID .)
+    PRINT           reduce using rule 75 (FOR_CONDITION -> ID = INTNUM_OR_ID : INTNUM_OR_ID .)
 
 
 state 131
+
+    (76) WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS . }
+
+    }               shift and go to state 137
+
+
+state 132
 
     (13) ASSIGN -> ID [ INTNUM , INTNUM ] ASSIGN_TYPE . EXPRESSION
     (19) EXPRESSION -> . BINARY_EXPRESSION
@@ -4094,50 +4113,49 @@ state 131
     (55) FUNCTION_NAME -> . ONES
     (56) FUNCTION_NAME -> . EYE
 
-    (               shift and go to state 54
-    ID              shift and go to state 37
-    INTNUM          shift and go to state 38
-    FLOATNUM        shift and go to state 39
-    STRING          shift and go to state 40
-    -               shift and go to state 43
-    [               shift and go to state 44
-    ZEROS           shift and go to state 46
-    ONES            shift and go to state 47
-    EYE             shift and go to state 48
+    (               shift and go to state 55
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
-    EXPRESSION                     shift and go to state 136
-    BINARY_EXPRESSION              shift and go to state 51
-    LOGICAL_EXPRESSION             shift and go to state 52
-    MATRIX_EXPRESSION              shift and go to state 53
-    TERM                           shift and go to state 55
-    MATRIX                         shift and go to state 41
-    FUNCTION_CALL                  shift and go to state 42
-    FUNCTION_NAME                  shift and go to state 45
-
-state 132
-
-    (65) ELSE_STATEMENT -> ELSE INSTRUCTION .
-
-    {               reduce using rule 65 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
-    ID              reduce using rule 65 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
-    IF              reduce using rule 65 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
-    FOR             reduce using rule 65 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
-    WHILE           reduce using rule 65 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
-    BREAK           reduce using rule 65 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
-    CONTINUE        reduce using rule 65 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
-    RETURN          reduce using rule 65 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
-    PRINT           reduce using rule 65 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
-    $end            reduce using rule 65 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
-    }               reduce using rule 65 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
-    ELSE            reduce using rule 65 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
-
+    EXPRESSION                     shift and go to state 138
+    BINARY_EXPRESSION              shift and go to state 52
+    LOGICAL_EXPRESSION             shift and go to state 53
+    MATRIX_EXPRESSION              shift and go to state 54
+    TERM                           shift and go to state 56
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
 state 133
 
-    (66) ELSE_STATEMENT -> ELSE { . INSTRUCTIONS }
-    (2) INSTRUCTIONS -> . { INSTRUCTIONS }
-    (3) INSTRUCTIONS -> . INSTRUCTION INSTRUCTIONS
-    (4) INSTRUCTIONS -> . INSTRUCTION
+    (64) IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT .
+
+    {               reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT .)
+    ID              reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT .)
+    IF              reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT .)
+    FOR             reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT .)
+    WHILE           reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT .)
+    BREAK           reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT .)
+    CONTINUE        reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT .)
+    RETURN          reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT .)
+    PRINT           reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT .)
+    $end            reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT .)
+    }               reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT .)
+    ELSEIF          reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT .)
+    ELSE            reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT .)
+
+
+state 134
+
+    (70) ELSE_STATEMENT -> ELSE . INSTRUCTION
+    (71) ELSE_STATEMENT -> ELSE . { INSTRUCTIONS }
     (5) INSTRUCTION -> . ASSIGN ;
     (6) INSTRUCTION -> . IF_CONDITION
     (7) INSTRUCTION -> . FOR_LOOP
@@ -4147,18 +4165,19 @@ state 133
     (11) ASSIGN -> . ID ASSIGN_TYPE EXPRESSION
     (12) ASSIGN -> . ID [ INTNUM ] ASSIGN_TYPE EXPRESSION
     (13) ASSIGN -> . ID [ INTNUM , INTNUM ] ASSIGN_TYPE EXPRESSION
-    (63) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELSE_STATEMENT
-    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT
-    (68) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
-    (69) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
-    (71) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
-    (72) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
+    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT
+    (65) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT
+    (73) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
+    (74) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
+    (76) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
+    (77) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
     (57) CONTROL_INSTRUCTION -> . BREAK
     (58) CONTROL_INSTRUCTION -> . CONTINUE
     (59) CONTROL_INSTRUCTION -> . RETURN
-    (60) PRINT_CALL -> . PRINT PRINT_TERMS
+    (60) CONTROL_INSTRUCTION -> . RETURN TERM
+    (61) PRINT_CALL -> . PRINT PRINT_TERMS
 
-    {               shift and go to state 3
+    {               shift and go to state 140
     ID              shift and go to state 11
     IF              shift and go to state 12
     FOR             shift and go to state 13
@@ -4168,8 +4187,7 @@ state 133
     RETURN          shift and go to state 17
     PRINT           shift and go to state 18
 
-    INSTRUCTIONS                   shift and go to state 137
-    INSTRUCTION                    shift and go to state 4
+    INSTRUCTION                    shift and go to state 139
     ASSIGN                         shift and go to state 5
     IF_CONDITION                   shift and go to state 6
     FOR_LOOP                       shift and go to state 7
@@ -4177,50 +4195,97 @@ state 133
     CONTROL_INSTRUCTION            shift and go to state 9
     PRINT_CALL                     shift and go to state 10
 
-state 134
-
-    (64) IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } . ELSE_STATEMENT
-    (65) ELSE_STATEMENT -> . ELSE INSTRUCTION
-    (66) ELSE_STATEMENT -> . ELSE { INSTRUCTIONS }
-    (67) ELSE_STATEMENT -> .
-
-  ! shift/reduce conflict for ELSE resolved as shift
-    ELSE            shift and go to state 127
-    {               reduce using rule 67 (ELSE_STATEMENT -> .)
-    ID              reduce using rule 67 (ELSE_STATEMENT -> .)
-    IF              reduce using rule 67 (ELSE_STATEMENT -> .)
-    FOR             reduce using rule 67 (ELSE_STATEMENT -> .)
-    WHILE           reduce using rule 67 (ELSE_STATEMENT -> .)
-    BREAK           reduce using rule 67 (ELSE_STATEMENT -> .)
-    CONTINUE        reduce using rule 67 (ELSE_STATEMENT -> .)
-    RETURN          reduce using rule 67 (ELSE_STATEMENT -> .)
-    PRINT           reduce using rule 67 (ELSE_STATEMENT -> .)
-    $end            reduce using rule 67 (ELSE_STATEMENT -> .)
-    }               reduce using rule 67 (ELSE_STATEMENT -> .)
-
-  ! ELSE            [ reduce using rule 67 (ELSE_STATEMENT -> .) ]
-
-    ELSE_STATEMENT                 shift and go to state 138
-
 state 135
 
-    (71) WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .
+    (66) ELIF_STATEMENTS -> ELSEIF ( . LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS
+    (67) ELIF_STATEMENTS -> ELSEIF ( . LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS
+    (68) ELIF_STATEMENTS -> ELSEIF ( . LOGICAL_EXPRESSION ) INSTRUCTION
+    (69) ELIF_STATEMENTS -> ELSEIF ( . LOGICAL_EXPRESSION ) { INSTRUCTIONS }
+    (28) LOGICAL_EXPRESSION -> . EXPRESSION > EXPRESSION
+    (29) LOGICAL_EXPRESSION -> . EXPRESSION < EXPRESSION
+    (30) LOGICAL_EXPRESSION -> . EXPRESSION EQORGT EXPRESSION
+    (31) LOGICAL_EXPRESSION -> . EXPRESSION EQORLESS EXPRESSION
+    (32) LOGICAL_EXPRESSION -> . EXPRESSION EQUAL EXPRESSION
+    (33) LOGICAL_EXPRESSION -> . EXPRESSION NOTEQUAL EXPRESSION
+    (19) EXPRESSION -> . BINARY_EXPRESSION
+    (20) EXPRESSION -> . LOGICAL_EXPRESSION
+    (21) EXPRESSION -> . MATRIX_EXPRESSION
+    (22) EXPRESSION -> . ( EXPRESSION )
+    (23) EXPRESSION -> . TERM
+    (24) BINARY_EXPRESSION -> . EXPRESSION + EXPRESSION
+    (25) BINARY_EXPRESSION -> . EXPRESSION - EXPRESSION
+    (26) BINARY_EXPRESSION -> . EXPRESSION * EXPRESSION
+    (27) BINARY_EXPRESSION -> . EXPRESSION / EXPRESSION
+    (34) MATRIX_EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (35) MATRIX_EXPRESSION -> . EXPRESSION DOTSUB EXPRESSION
+    (36) MATRIX_EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (37) MATRIX_EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (38) TERM -> . ID
+    (39) TERM -> . INTNUM
+    (40) TERM -> . FLOATNUM
+    (41) TERM -> . STRING
+    (42) TERM -> . MATRIX
+    (43) TERM -> . FUNCTION_CALL
+    (44) TERM -> . TERM '
+    (45) TERM -> . - TERM
+    (48) MATRIX -> . [ VECTORS ]
+    (53) FUNCTION_CALL -> . FUNCTION_NAME ( TERM )
+    (54) FUNCTION_NAME -> . ZEROS
+    (55) FUNCTION_NAME -> . ONES
+    (56) FUNCTION_NAME -> . EYE
 
-    {               reduce using rule 71 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
-    ID              reduce using rule 71 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
-    IF              reduce using rule 71 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
-    FOR             reduce using rule 71 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
-    WHILE           reduce using rule 71 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
-    BREAK           reduce using rule 71 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
-    CONTINUE        reduce using rule 71 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
-    RETURN          reduce using rule 71 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
-    PRINT           reduce using rule 71 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
-    $end            reduce using rule 71 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
-    }               reduce using rule 71 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
-    ELSE            reduce using rule 71 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    (               shift and go to state 55
+    ID              shift and go to state 36
+    INTNUM          shift and go to state 37
+    FLOATNUM        shift and go to state 38
+    STRING          shift and go to state 39
+    -               shift and go to state 42
+    [               shift and go to state 43
+    ZEROS           shift and go to state 45
+    ONES            shift and go to state 46
+    EYE             shift and go to state 47
 
+    LOGICAL_EXPRESSION             shift and go to state 141
+    EXPRESSION                     shift and go to state 59
+    BINARY_EXPRESSION              shift and go to state 52
+    MATRIX_EXPRESSION              shift and go to state 54
+    TERM                           shift and go to state 56
+    MATRIX                         shift and go to state 40
+    FUNCTION_CALL                  shift and go to state 41
+    FUNCTION_NAME                  shift and go to state 44
 
 state 136
+
+    (65) IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } . ELIF_STATEMENTS ELSE_STATEMENT
+    (66) ELIF_STATEMENTS -> . ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS
+    (67) ELIF_STATEMENTS -> . ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS
+    (68) ELIF_STATEMENTS -> . ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION
+    (69) ELIF_STATEMENTS -> . ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
+
+    ELSEIF          shift and go to state 128
+
+    ELIF_STATEMENTS                shift and go to state 142
+
+state 137
+
+    (76) WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .
+
+    {               reduce using rule 76 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    ID              reduce using rule 76 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    IF              reduce using rule 76 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    FOR             reduce using rule 76 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    WHILE           reduce using rule 76 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    BREAK           reduce using rule 76 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    CONTINUE        reduce using rule 76 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    RETURN          reduce using rule 76 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    PRINT           reduce using rule 76 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    $end            reduce using rule 76 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    }               reduce using rule 76 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    ELSEIF          reduce using rule 76 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    ELSE            reduce using rule 76 (WHILE_LOOP -> WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+
+
+state 138
 
     (13) ASSIGN -> ID [ INTNUM , INTNUM ] ASSIGN_TYPE EXPRESSION .
     (24) BINARY_EXPRESSION -> EXPRESSION . + EXPRESSION
@@ -4239,82 +4304,380 @@ state 136
     (37) MATRIX_EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
 
     ;               reduce using rule 13 (ASSIGN -> ID [ INTNUM , INTNUM ] ASSIGN_TYPE EXPRESSION .)
-    +               shift and go to state 70
-    -               shift and go to state 71
-    *               shift and go to state 72
-    /               shift and go to state 73
-    >               shift and go to state 74
-    <               shift and go to state 75
-    EQORGT          shift and go to state 76
-    EQORLESS        shift and go to state 77
-    EQUAL           shift and go to state 78
-    NOTEQUAL        shift and go to state 79
-    DOTADD          shift and go to state 80
-    DOTSUB          shift and go to state 81
-    DOTMUL          shift and go to state 82
-    DOTDIV          shift and go to state 83
-
-
-state 137
-
-    (66) ELSE_STATEMENT -> ELSE { INSTRUCTIONS . }
-
-    }               shift and go to state 139
-
-
-state 138
-
-    (64) IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT .
-
-    {               reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT .)
-    ID              reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT .)
-    IF              reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT .)
-    FOR             reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT .)
-    WHILE           reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT .)
-    BREAK           reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT .)
-    CONTINUE        reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT .)
-    RETURN          reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT .)
-    PRINT           reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT .)
-    $end            reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT .)
-    }               reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT .)
-    ELSE            reduce using rule 64 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELSE_STATEMENT .)
+    +               shift and go to state 71
+    -               shift and go to state 72
+    *               shift and go to state 73
+    /               shift and go to state 74
+    >               shift and go to state 75
+    <               shift and go to state 76
+    EQORGT          shift and go to state 77
+    EQORLESS        shift and go to state 78
+    EQUAL           shift and go to state 79
+    NOTEQUAL        shift and go to state 80
+    DOTADD          shift and go to state 81
+    DOTSUB          shift and go to state 82
+    DOTMUL          shift and go to state 83
+    DOTDIV          shift and go to state 84
 
 
 state 139
 
-    (66) ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .
+    (70) ELSE_STATEMENT -> ELSE INSTRUCTION .
 
-    {               reduce using rule 66 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
-    ID              reduce using rule 66 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
-    IF              reduce using rule 66 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
-    FOR             reduce using rule 66 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
-    WHILE           reduce using rule 66 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
-    BREAK           reduce using rule 66 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
-    CONTINUE        reduce using rule 66 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
-    RETURN          reduce using rule 66 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
-    PRINT           reduce using rule 66 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
-    $end            reduce using rule 66 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
-    }               reduce using rule 66 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
-    ELSE            reduce using rule 66 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
+    {               reduce using rule 70 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
+    ID              reduce using rule 70 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
+    IF              reduce using rule 70 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
+    FOR             reduce using rule 70 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
+    WHILE           reduce using rule 70 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
+    BREAK           reduce using rule 70 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
+    CONTINUE        reduce using rule 70 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
+    RETURN          reduce using rule 70 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
+    PRINT           reduce using rule 70 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
+    $end            reduce using rule 70 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
+    }               reduce using rule 70 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
+    ELSEIF          reduce using rule 70 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
+    ELSE            reduce using rule 70 (ELSE_STATEMENT -> ELSE INSTRUCTION .)
+
+
+state 140
+
+    (71) ELSE_STATEMENT -> ELSE { . INSTRUCTIONS }
+    (2) INSTRUCTIONS -> . { INSTRUCTIONS }
+    (3) INSTRUCTIONS -> . INSTRUCTION INSTRUCTIONS
+    (4) INSTRUCTIONS -> . INSTRUCTION
+    (5) INSTRUCTION -> . ASSIGN ;
+    (6) INSTRUCTION -> . IF_CONDITION
+    (7) INSTRUCTION -> . FOR_LOOP
+    (8) INSTRUCTION -> . WHILE_LOOP
+    (9) INSTRUCTION -> . CONTROL_INSTRUCTION ;
+    (10) INSTRUCTION -> . PRINT_CALL ;
+    (11) ASSIGN -> . ID ASSIGN_TYPE EXPRESSION
+    (12) ASSIGN -> . ID [ INTNUM ] ASSIGN_TYPE EXPRESSION
+    (13) ASSIGN -> . ID [ INTNUM , INTNUM ] ASSIGN_TYPE EXPRESSION
+    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT
+    (65) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT
+    (73) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
+    (74) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
+    (76) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
+    (77) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
+    (57) CONTROL_INSTRUCTION -> . BREAK
+    (58) CONTROL_INSTRUCTION -> . CONTINUE
+    (59) CONTROL_INSTRUCTION -> . RETURN
+    (60) CONTROL_INSTRUCTION -> . RETURN TERM
+    (61) PRINT_CALL -> . PRINT PRINT_TERMS
+
+    {               shift and go to state 3
+    ID              shift and go to state 11
+    IF              shift and go to state 12
+    FOR             shift and go to state 13
+    WHILE           shift and go to state 14
+    BREAK           shift and go to state 15
+    CONTINUE        shift and go to state 16
+    RETURN          shift and go to state 17
+    PRINT           shift and go to state 18
+
+    INSTRUCTIONS                   shift and go to state 143
+    INSTRUCTION                    shift and go to state 4
+    ASSIGN                         shift and go to state 5
+    IF_CONDITION                   shift and go to state 6
+    FOR_LOOP                       shift and go to state 7
+    WHILE_LOOP                     shift and go to state 8
+    CONTROL_INSTRUCTION            shift and go to state 9
+    PRINT_CALL                     shift and go to state 10
+
+state 141
+
+    (66) ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION . ) INSTRUCTION ELIF_STATEMENTS
+    (67) ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION . ) { INSTRUCTIONS } ELIF_STATEMENTS
+    (68) ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION . ) INSTRUCTION
+    (69) ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION . ) { INSTRUCTIONS }
+    (20) EXPRESSION -> LOGICAL_EXPRESSION .
+
+    )               shift and go to state 144
+    >               reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
+    <               reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
+    EQORGT          reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
+    EQORLESS        reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
+    EQUAL           reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
+    NOTEQUAL        reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
+    +               reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
+    -               reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
+    *               reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
+    /               reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
+    DOTADD          reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
+    DOTSUB          reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
+    DOTMUL          reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
+    DOTDIV          reduce using rule 20 (EXPRESSION -> LOGICAL_EXPRESSION .)
+
+
+state 142
+
+    (65) IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS . ELSE_STATEMENT
+    (70) ELSE_STATEMENT -> . ELSE INSTRUCTION
+    (71) ELSE_STATEMENT -> . ELSE { INSTRUCTIONS }
+    (72) ELSE_STATEMENT -> .
+
+  ! shift/reduce conflict for ELSE resolved as shift
+    ELSE            shift and go to state 134
+    {               reduce using rule 72 (ELSE_STATEMENT -> .)
+    ID              reduce using rule 72 (ELSE_STATEMENT -> .)
+    IF              reduce using rule 72 (ELSE_STATEMENT -> .)
+    FOR             reduce using rule 72 (ELSE_STATEMENT -> .)
+    WHILE           reduce using rule 72 (ELSE_STATEMENT -> .)
+    BREAK           reduce using rule 72 (ELSE_STATEMENT -> .)
+    CONTINUE        reduce using rule 72 (ELSE_STATEMENT -> .)
+    RETURN          reduce using rule 72 (ELSE_STATEMENT -> .)
+    PRINT           reduce using rule 72 (ELSE_STATEMENT -> .)
+    $end            reduce using rule 72 (ELSE_STATEMENT -> .)
+    }               reduce using rule 72 (ELSE_STATEMENT -> .)
+    ELSEIF          reduce using rule 72 (ELSE_STATEMENT -> .)
+
+  ! ELSE            [ reduce using rule 72 (ELSE_STATEMENT -> .) ]
+
+    ELSE_STATEMENT                 shift and go to state 145
+
+state 143
+
+    (71) ELSE_STATEMENT -> ELSE { INSTRUCTIONS . }
+
+    }               shift and go to state 146
+
+
+state 144
+
+    (66) ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) . INSTRUCTION ELIF_STATEMENTS
+    (67) ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) . { INSTRUCTIONS } ELIF_STATEMENTS
+    (68) ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) . INSTRUCTION
+    (69) ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) . { INSTRUCTIONS }
+    (5) INSTRUCTION -> . ASSIGN ;
+    (6) INSTRUCTION -> . IF_CONDITION
+    (7) INSTRUCTION -> . FOR_LOOP
+    (8) INSTRUCTION -> . WHILE_LOOP
+    (9) INSTRUCTION -> . CONTROL_INSTRUCTION ;
+    (10) INSTRUCTION -> . PRINT_CALL ;
+    (11) ASSIGN -> . ID ASSIGN_TYPE EXPRESSION
+    (12) ASSIGN -> . ID [ INTNUM ] ASSIGN_TYPE EXPRESSION
+    (13) ASSIGN -> . ID [ INTNUM , INTNUM ] ASSIGN_TYPE EXPRESSION
+    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT
+    (65) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT
+    (73) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
+    (74) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
+    (76) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
+    (77) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
+    (57) CONTROL_INSTRUCTION -> . BREAK
+    (58) CONTROL_INSTRUCTION -> . CONTINUE
+    (59) CONTROL_INSTRUCTION -> . RETURN
+    (60) CONTROL_INSTRUCTION -> . RETURN TERM
+    (61) PRINT_CALL -> . PRINT PRINT_TERMS
+
+    {               shift and go to state 148
+    ID              shift and go to state 11
+    IF              shift and go to state 12
+    FOR             shift and go to state 13
+    WHILE           shift and go to state 14
+    BREAK           shift and go to state 15
+    CONTINUE        shift and go to state 16
+    RETURN          shift and go to state 17
+    PRINT           shift and go to state 18
+
+    INSTRUCTION                    shift and go to state 147
+    ASSIGN                         shift and go to state 5
+    IF_CONDITION                   shift and go to state 6
+    FOR_LOOP                       shift and go to state 7
+    WHILE_LOOP                     shift and go to state 8
+    CONTROL_INSTRUCTION            shift and go to state 9
+    PRINT_CALL                     shift and go to state 10
+
+state 145
+
+    (65) IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT .
+
+    {               reduce using rule 65 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT .)
+    ID              reduce using rule 65 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT .)
+    IF              reduce using rule 65 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT .)
+    FOR             reduce using rule 65 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT .)
+    WHILE           reduce using rule 65 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT .)
+    BREAK           reduce using rule 65 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT .)
+    CONTINUE        reduce using rule 65 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT .)
+    RETURN          reduce using rule 65 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT .)
+    PRINT           reduce using rule 65 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT .)
+    $end            reduce using rule 65 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT .)
+    }               reduce using rule 65 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT .)
+    ELSEIF          reduce using rule 65 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT .)
+    ELSE            reduce using rule 65 (IF_CONDITION -> IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT .)
+
+
+state 146
+
+    (71) ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .
+
+    {               reduce using rule 71 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
+    ID              reduce using rule 71 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
+    IF              reduce using rule 71 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
+    FOR             reduce using rule 71 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
+    WHILE           reduce using rule 71 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
+    BREAK           reduce using rule 71 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
+    CONTINUE        reduce using rule 71 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
+    RETURN          reduce using rule 71 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
+    PRINT           reduce using rule 71 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
+    $end            reduce using rule 71 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
+    }               reduce using rule 71 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
+    ELSEIF          reduce using rule 71 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
+    ELSE            reduce using rule 71 (ELSE_STATEMENT -> ELSE { INSTRUCTIONS } .)
+
+
+state 147
+
+    (66) ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION . ELIF_STATEMENTS
+    (68) ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION .
+    (66) ELIF_STATEMENTS -> . ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS
+    (67) ELIF_STATEMENTS -> . ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS
+    (68) ELIF_STATEMENTS -> . ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION
+    (69) ELIF_STATEMENTS -> . ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
+
+  ! shift/reduce conflict for ELSEIF resolved as shift
+    {               reduce using rule 68 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    ID              reduce using rule 68 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    IF              reduce using rule 68 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    FOR             reduce using rule 68 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    WHILE           reduce using rule 68 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    BREAK           reduce using rule 68 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    CONTINUE        reduce using rule 68 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    RETURN          reduce using rule 68 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    PRINT           reduce using rule 68 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    $end            reduce using rule 68 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    }               reduce using rule 68 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    ELSE            reduce using rule 68 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION .)
+    ELSEIF          shift and go to state 128
+
+  ! ELSEIF          [ reduce using rule 68 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION .) ]
+
+    ELIF_STATEMENTS                shift and go to state 149
+
+state 148
+
+    (67) ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { . INSTRUCTIONS } ELIF_STATEMENTS
+    (69) ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { . INSTRUCTIONS }
+    (2) INSTRUCTIONS -> . { INSTRUCTIONS }
+    (3) INSTRUCTIONS -> . INSTRUCTION INSTRUCTIONS
+    (4) INSTRUCTIONS -> . INSTRUCTION
+    (5) INSTRUCTION -> . ASSIGN ;
+    (6) INSTRUCTION -> . IF_CONDITION
+    (7) INSTRUCTION -> . FOR_LOOP
+    (8) INSTRUCTION -> . WHILE_LOOP
+    (9) INSTRUCTION -> . CONTROL_INSTRUCTION ;
+    (10) INSTRUCTION -> . PRINT_CALL ;
+    (11) ASSIGN -> . ID ASSIGN_TYPE EXPRESSION
+    (12) ASSIGN -> . ID [ INTNUM ] ASSIGN_TYPE EXPRESSION
+    (13) ASSIGN -> . ID [ INTNUM , INTNUM ] ASSIGN_TYPE EXPRESSION
+    (64) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT
+    (65) IF_CONDITION -> . IF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS ELSE_STATEMENT
+    (73) FOR_LOOP -> . FOR FOR_CONDITION { INSTRUCTIONS }
+    (74) FOR_LOOP -> . FOR FOR_CONDITION INSTRUCTION
+    (76) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
+    (77) WHILE_LOOP -> . WHILE ( LOGICAL_EXPRESSION ) INSTRUCTION
+    (57) CONTROL_INSTRUCTION -> . BREAK
+    (58) CONTROL_INSTRUCTION -> . CONTINUE
+    (59) CONTROL_INSTRUCTION -> . RETURN
+    (60) CONTROL_INSTRUCTION -> . RETURN TERM
+    (61) PRINT_CALL -> . PRINT PRINT_TERMS
+
+    {               shift and go to state 3
+    ID              shift and go to state 11
+    IF              shift and go to state 12
+    FOR             shift and go to state 13
+    WHILE           shift and go to state 14
+    BREAK           shift and go to state 15
+    CONTINUE        shift and go to state 16
+    RETURN          shift and go to state 17
+    PRINT           shift and go to state 18
+
+    INSTRUCTIONS                   shift and go to state 150
+    INSTRUCTION                    shift and go to state 4
+    ASSIGN                         shift and go to state 5
+    IF_CONDITION                   shift and go to state 6
+    FOR_LOOP                       shift and go to state 7
+    WHILE_LOOP                     shift and go to state 8
+    CONTROL_INSTRUCTION            shift and go to state 9
+    PRINT_CALL                     shift and go to state 10
+
+state 149
+
+    (66) ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS .
+
+    {               reduce using rule 66 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS .)
+    ID              reduce using rule 66 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS .)
+    IF              reduce using rule 66 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS .)
+    FOR             reduce using rule 66 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS .)
+    WHILE           reduce using rule 66 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS .)
+    BREAK           reduce using rule 66 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS .)
+    CONTINUE        reduce using rule 66 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS .)
+    RETURN          reduce using rule 66 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS .)
+    PRINT           reduce using rule 66 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS .)
+    $end            reduce using rule 66 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS .)
+    }               reduce using rule 66 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS .)
+    ELSEIF          reduce using rule 66 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS .)
+    ELSE            reduce using rule 66 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS .)
+
+
+state 150
+
+    (67) ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS . } ELIF_STATEMENTS
+    (69) ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS . }
+
+    }               shift and go to state 151
+
+
+state 151
+
+    (67) ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } . ELIF_STATEMENTS
+    (69) ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .
+    (66) ELIF_STATEMENTS -> . ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION ELIF_STATEMENTS
+    (67) ELIF_STATEMENTS -> . ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS
+    (68) ELIF_STATEMENTS -> . ELSEIF ( LOGICAL_EXPRESSION ) INSTRUCTION
+    (69) ELIF_STATEMENTS -> . ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS }
+
+  ! shift/reduce conflict for ELSEIF resolved as shift
+    {               reduce using rule 69 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    ID              reduce using rule 69 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    IF              reduce using rule 69 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    FOR             reduce using rule 69 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    WHILE           reduce using rule 69 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    BREAK           reduce using rule 69 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    CONTINUE        reduce using rule 69 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    RETURN          reduce using rule 69 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    PRINT           reduce using rule 69 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    $end            reduce using rule 69 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    }               reduce using rule 69 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    ELSE            reduce using rule 69 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .)
+    ELSEIF          shift and go to state 128
+
+  ! ELSEIF          [ reduce using rule 69 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } .) ]
+
+    ELIF_STATEMENTS                shift and go to state 152
+
+state 152
+
+    (67) ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS .
+
+    {               reduce using rule 67 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS .)
+    ID              reduce using rule 67 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS .)
+    IF              reduce using rule 67 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS .)
+    FOR             reduce using rule 67 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS .)
+    WHILE           reduce using rule 67 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS .)
+    BREAK           reduce using rule 67 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS .)
+    CONTINUE        reduce using rule 67 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS .)
+    RETURN          reduce using rule 67 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS .)
+    PRINT           reduce using rule 67 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS .)
+    $end            reduce using rule 67 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS .)
+    }               reduce using rule 67 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS .)
+    ELSEIF          reduce using rule 67 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS .)
+    ELSE            reduce using rule 67 (ELIF_STATEMENTS -> ELSEIF ( LOGICAL_EXPRESSION ) { INSTRUCTIONS } ELIF_STATEMENTS .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
 WARNING: shift/reduce conflict for ' in state 65 resolved as shift
-WARNING: shift/reduce conflict for + in state 98 resolved as shift
-WARNING: shift/reduce conflict for - in state 98 resolved as shift
-WARNING: shift/reduce conflict for * in state 98 resolved as shift
-WARNING: shift/reduce conflict for / in state 98 resolved as shift
-WARNING: shift/reduce conflict for > in state 98 resolved as shift
-WARNING: shift/reduce conflict for < in state 98 resolved as shift
-WARNING: shift/reduce conflict for EQORGT in state 98 resolved as shift
-WARNING: shift/reduce conflict for EQORLESS in state 98 resolved as shift
-WARNING: shift/reduce conflict for EQUAL in state 98 resolved as shift
-WARNING: shift/reduce conflict for NOTEQUAL in state 98 resolved as shift
-WARNING: shift/reduce conflict for DOTADD in state 98 resolved as shift
-WARNING: shift/reduce conflict for DOTSUB in state 98 resolved as shift
-WARNING: shift/reduce conflict for DOTMUL in state 98 resolved as shift
-WARNING: shift/reduce conflict for DOTDIV in state 98 resolved as shift
 WARNING: shift/reduce conflict for + in state 99 resolved as shift
 WARNING: shift/reduce conflict for - in state 99 resolved as shift
 WARNING: shift/reduce conflict for * in state 99 resolved as shift
@@ -4497,5 +4860,21 @@ WARNING: shift/reduce conflict for DOTADD in state 111 resolved as shift
 WARNING: shift/reduce conflict for DOTSUB in state 111 resolved as shift
 WARNING: shift/reduce conflict for DOTMUL in state 111 resolved as shift
 WARNING: shift/reduce conflict for DOTDIV in state 111 resolved as shift
-WARNING: shift/reduce conflict for ELSE in state 115 resolved as shift
-WARNING: shift/reduce conflict for ELSE in state 134 resolved as shift
+WARNING: shift/reduce conflict for + in state 112 resolved as shift
+WARNING: shift/reduce conflict for - in state 112 resolved as shift
+WARNING: shift/reduce conflict for * in state 112 resolved as shift
+WARNING: shift/reduce conflict for / in state 112 resolved as shift
+WARNING: shift/reduce conflict for > in state 112 resolved as shift
+WARNING: shift/reduce conflict for < in state 112 resolved as shift
+WARNING: shift/reduce conflict for EQORGT in state 112 resolved as shift
+WARNING: shift/reduce conflict for EQORLESS in state 112 resolved as shift
+WARNING: shift/reduce conflict for EQUAL in state 112 resolved as shift
+WARNING: shift/reduce conflict for NOTEQUAL in state 112 resolved as shift
+WARNING: shift/reduce conflict for DOTADD in state 112 resolved as shift
+WARNING: shift/reduce conflict for DOTSUB in state 112 resolved as shift
+WARNING: shift/reduce conflict for DOTMUL in state 112 resolved as shift
+WARNING: shift/reduce conflict for DOTDIV in state 112 resolved as shift
+WARNING: shift/reduce conflict for ELSE in state 127 resolved as shift
+WARNING: shift/reduce conflict for ELSE in state 142 resolved as shift
+WARNING: shift/reduce conflict for ELSEIF in state 147 resolved as shift
+WARNING: shift/reduce conflict for ELSEIF in state 151 resolved as shift

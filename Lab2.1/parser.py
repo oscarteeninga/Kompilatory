@@ -68,7 +68,7 @@ class Assignment:
         self.expression = expression
 
     def __str__(self):
-        return "Assignment=(id='" + self.assignment_id + "', type='" + self.assignment_type + "', expression='" + str(self.expression) + "')"
+        return "Assignment=(id=" + self.assignment_id + ", type=" + self.assignment_type + ", expression=" + str(self.expression) + ")"
 
 
 def p_assign(p):
@@ -117,7 +117,7 @@ class BinaryExpression:
         self.right = right
 
     def __str__(self):
-        return "BinaryExpression=(left='" + str(self.left) + "', operation='" + self.operation + "', right='" + str(self.right) + "')"
+        return "BinaryExpression=(left=" + str(self.left) + ", operation=" + self.operation + ", right=" + str(self.right) + ")"
 
 
 def p_binary_expression(p):
@@ -137,7 +137,7 @@ class LogicalExpression:
         self.right = right
 
     def __str__(self):
-        return "LogicalExpression=(left='" + str(self.left) + "', operation='" + self.operation + "', right='" + str(self.right) + "')"
+        return "LogicalExpression=(left=" + str(self.left) + ", operation=" + self.operation + ", right=" + str(self.right) + ")"
 
 
 def p_logical_expression(p):
@@ -159,7 +159,7 @@ class MatrixExpression:
         self.right = right
 
     def __str__(self):
-        return "MatrixExpression=(left='" + str(self.left) + "', operation='" + self.operation + "', right='" + str(self.right) + "')"
+        return "MatrixExpression=(left=" + str(self.left) + ", operation=" + self.operation + ", right=" + str(self.right) + ")"
 
 
 def p_matrix_expression(p):
@@ -177,7 +177,7 @@ class Variable:
         self.variable_id = variable_id
 
     def __str__(self):
-        return "Variable=(id='" + self.variable_id + "')"
+        return "Variable=(id=" + self.variable_id + ")"
 
 
 def p_term(p):
@@ -266,7 +266,7 @@ class FunctionCall:
         self.param = param
 
     def __str__(self):
-        return "FunctionCall=(name='" + self.name + "', param='" + str(self.param) + "')"
+        return "FunctionCall=(name=" + self.name + ", param=" + str(self.param) + ")"
 
 
 # Terms?
@@ -291,8 +291,12 @@ def p_control_instruction(p):
     CONTROL_INSTRUCTION : BREAK
                         | CONTINUE
                         | RETURN
+                        | RETURN TERM
     """
-    p[0] = p[1]
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+        p[0] = p[1] + " " + str(p[2])
 
 
 class PrintCall:
@@ -304,7 +308,7 @@ class PrintCall:
         return self
 
     def __str__(self):
-        return "PrintCall=(values='" + str([str(value) for value in self.values]) + "')"
+        return "PrintCall=(values=" + str([str(value) for value in self.values]) + ")"
 
 
 def p_print_call(p):
@@ -325,31 +329,64 @@ def p_print_terms(p):
         p[0] = PrintCall(values=[p[1]])
 
 
-# Change this
 class IfCondition:
-    def __init__(self, condition, instructions, else_branch):
+    def __init__(self, condition, instructions, elif_branches, else_branch):
         self.condition = condition
         self.instructions = instructions
+        self.elif_branches = elif_branches
         self.else_branch = else_branch
 
     def __str__(self):
-        return "IfCondition=(condition='" + str(self.condition) + "', instructions=" + str(self.instructions) + ", else_branch=" + str(self.else_branch) + ")"
+        return "IfCondition=(condition=" + str(self.condition) + ", instructions=" + str([str(instruction) for instruction in self.instructions]) + ", elif_branches=" + str([str(elif_branch) for elif_branch in self.elif_branches.conditions]) + ", else_branch=" + str(self.else_branch) + ")"
 
 
-# Add else if
+class ElseIfConditions:
+    def __init__(self, conditions):
+        self.conditions = conditions
+
+    def __add__(self, other):
+        self.conditions += other.conditions
+        return self
+
+    def __str__(self):
+        return "ElseIfConditions=(conditions=" + str([str(conditions) for conditions in self.conditions]) + ")"
+
+
+class ElseIfCondition:
+    def __init__(self, condition, instructions):
+        self.condition = condition
+        self.instructions = instructions
+
+    def __str__(self):
+        return "ElseIfCondition=(condition=" + str(self.condition) + ", instructions=" + str(self.instructions) + ")"
+
+
 def p_if_condition(p):
     """
-    IF_CONDITION   : IF '(' LOGICAL_EXPRESSION ')' INSTRUCTION ELSE_STATEMENT
-                   | IF '(' LOGICAL_EXPRESSION ')' '{' INSTRUCTIONS '}' ELSE_STATEMENT
-    ELSE_STATEMENT : ELSE INSTRUCTION
-                   | ELSE '{' INSTRUCTIONS '}'
-                   |
+    IF_CONDITION    : IF '(' LOGICAL_EXPRESSION ')' INSTRUCTION ELIF_STATEMENTS ELSE_STATEMENT
+                    | IF '(' LOGICAL_EXPRESSION ')' '{' INSTRUCTIONS '}' ELIF_STATEMENTS ELSE_STATEMENT
+    ELIF_STATEMENTS : ELSEIF '(' LOGICAL_EXPRESSION ')' INSTRUCTION ELIF_STATEMENTS
+                    | ELSEIF '(' LOGICAL_EXPRESSION ')' '{' INSTRUCTIONS '}' ELIF_STATEMENTS
+                    | ELSEIF '(' LOGICAL_EXPRESSION ')' INSTRUCTION
+                    | ELSEIF '(' LOGICAL_EXPRESSION ')' '{' INSTRUCTIONS '}'
+    ELSE_STATEMENT  : ELSE INSTRUCTION
+                    | ELSE '{' INSTRUCTIONS '}'
+                    |
     """
     if p.slice[0].type == 'IF_CONDITION':
-        if len(p) == 7:
-            p[0] = IfCondition(condition=p[3], instructions=[5], else_branch=p[6])
+        if len(p) == 8:
+            p[0] = IfCondition(condition=p[3], instructions=[p[5]], elif_branches=p[6], else_branch=p[7])
         else:
-            p[0] = IfCondition(condition=p[3], instructions=[6], else_branch=p[8])
+            p[0] = IfCondition(condition=p[3], instructions=[p[6]], elif_branches=p[8], else_branch=p[9])
+    elif p.slice[0].type == 'ELIF_STATEMENTS':
+        if len(p) == 6:
+            p[0] = ElseIfConditions(conditions=[ElseIfCondition(condition=p[3], instructions=p[5])])
+        if len(p) == 7:
+            p[0] = ElseIfConditions(conditions=[ElseIfCondition(condition=p[3], instructions=p[5])]) + p[6]
+        if len(p) == 8:
+            p[0] = ElseIfConditions(conditions=[ElseIfCondition(condition=p[3], instructions=p[5])])
+        elif len(p) == 9:
+            p[0] = ElseIfConditions(conditions=[ElseIfCondition(condition=p[3], instructions=p[5])]) + p[8]
     elif p.slice[0].type == 'ELSE_STATEMENT':
         if len(p) == 3:
             p[0] = p[2]
@@ -363,7 +400,7 @@ class ForLoop:
         self.instructions = instructions
 
     def __str__(self):
-        return "ForLoop=(for_condition='" + str(self.for_condition) + "', instructions=" + str(self.instructions) + ")"
+        return "ForLoop=(for_condition=" + str(self.for_condition) + ", instructions=" + str(self.instructions) + ")"
 
 
 def p_for_loop(p):
@@ -383,7 +420,7 @@ class ForCondition:
         self.variable_range = variable_range
 
     def __str__(self):
-        return "ForCondition=(variable='" + self.variable + "', range=" + self.variable_range + ")"
+        return "ForCondition=(variable=" + self.variable + ", range=" + self.variable_range + ")"
 
 
 def p_for_condition(p):
@@ -399,7 +436,7 @@ class WhileLoop:
         self.instructions = instructions
 
     def __str__(self):
-        return "WhileLoop=(condition='" + str(self.condition) + "', instructions=" + str(self.instructions) + ")"
+        return "WhileLoop=(condition=" + str(self.condition) + ", instructions=" + str(self.instructions) + ")"
 
 
 def p_while_loop(p):
