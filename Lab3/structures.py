@@ -1,6 +1,7 @@
 class Node:
     pass
 
+
 class Instructions:
     def __init__(self, instructions):
         self.instructions = instructions
@@ -20,7 +21,8 @@ class Assignment:
         self.expression = expression
 
     def __str__(self):
-        return "Assignment=(id=" + str(self.assignment_id) + ", type=" + self.assignment_type + ", expression=" + str(self.expression) + ")"
+        return "Assignment=(id=" + str(self.assignment_id) + ", type=" + self.assignment_type + ", expression=" + str(
+            self.expression) + ")"
 
 
 class BinaryExpression:
@@ -30,7 +32,8 @@ class BinaryExpression:
         self.right = right
 
     def __str__(self):
-        return "BinaryExpression=(left=" + str(self.left) + ", operation=" + self.operation + ", right=" + str(self.right) + ")"
+        return "BinaryExpression=(left=" + str(self.left) + ", operation=" + self.operation + ", right=" + str(
+            self.right) + ")"
 
 
 class LogicalExpression:
@@ -40,7 +43,8 @@ class LogicalExpression:
         self.right = right
 
     def __str__(self):
-        return "LogicalExpression=(left=" + str(self.left) + ", operation=" + self.operation + ", right=" + str(self.right) + ")"
+        return "LogicalExpression=(left=" + str(self.left) + ", operation=" + self.operation + ", right=" + str(
+            self.right) + ")"
 
 
 class MatrixExpression:
@@ -50,7 +54,8 @@ class MatrixExpression:
         self.right = right
 
     def __str__(self):
-        return "MatrixExpression=(left=" + str(self.left) + ", operation=" + self.operation + ", right=" + str(self.right) + ")"
+        return "MatrixExpression=(left=" + str(self.left) + ", operation=" + self.operation + ", right=" + str(
+            self.right) + ")"
 
 
 class Variable:
@@ -60,12 +65,14 @@ class Variable:
     def __str__(self):
         return "Variable=(id=" + self.variable_id + ")"
 
+
 class Constant:
     def __init__(self, const_value):
         self.const_value = const_value
-        
+
     def __str__(self):
         return "Constant=(id=" + str(self.const_value) + ")"
+
 
 class Matrix:
     def __init__(self, vectors):
@@ -116,7 +123,10 @@ class IfCondition:
         self.else_branch = else_branch
 
     def __str__(self):
-        return "IfCondition=(condition=" + str(self.condition) + ", instructions=" + str([str(instruction) for instruction in self.instructions]) + ", elif_branches=" + str([str(elif_branch) for elif_branch in self.elif_branches.conditions]) + ", else_branch=" + str(self.else_branch) + ")"
+        return "IfCondition=(condition=" + str(self.condition) + ", instructions=" + str(
+            [str(instruction) for instruction in self.instructions]) + ", elif_branches=" + str(
+            [str(elif_branch) for elif_branch in self.elif_branches.conditions]) + ", else_branch=" + str(
+            self.else_branch) + ")"
 
 
 class ElseIfConditions:
@@ -156,7 +166,8 @@ class ForCondition:
         self.variable_range_last = variable_range_last
 
     def __str__(self):
-        return "ForCondition=(variable=" + str(self.variable) + ", range=" + str(self.variable_range_first) + ":" + str(self.variable_range_last) + ")"
+        return "ForCondition=(variable=" + str(self.variable) + ", range=" + str(self.variable_range_first) + ":" + str(
+            self.variable_range_last) + ")"
 
 
 class WhileLoop:
@@ -167,9 +178,18 @@ class WhileLoop:
     def __str__(self):
         return "WhileLoop=(condition=" + str(self.condition) + ", instructions=" + str(self.instructions) + ")"
 
+
 class BreakContinue:
     def __init__(self, instruction):
         self.instruction = instruction
 
     def __str__(self):
-        return "BreakContinue=(instruction=" + str(instruction) + ")"
+        return "BreakContinue=(instruction=" + str(self.instruction) + ")"
+
+
+class Return:
+    def __init__(self, instruction):
+        self.instruction = instruction
+
+    def __str__(self):
+        return "Return=(instruction=" + str(self.instruction) + ")"

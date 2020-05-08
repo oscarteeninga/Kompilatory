@@ -18,7 +18,7 @@ from structures import (Instructions,
                         ForLoop,
                         ForCondition,
                         WhileLoop,
-                        Node
+                        Return
                         )
 
 names = {}
@@ -26,6 +26,7 @@ names = {}
 tokens = scanner.tokens
 
 precedence = ()
+
 
 def p_error(p):
     if p:
@@ -78,7 +79,8 @@ def p_assign(p):
     elif len(p) == 7:
         p[0] = Assignment(assignment_id=p[1] + '[' + str(p[3]) + ']', assignment_type=p[5], expression=p[6])
     else:
-        p[0] = Assignment(assignment_id=p[1] + '[' + str(p[3]) + ',' + str(p[5]) + ']', assignment_type=p[7], expression=p[8])
+        p[0] = Assignment(assignment_id=p[1] + '[' + str(p[3]) + ',' + str(p[5]) + ']', assignment_type=p[7],
+                          expression=p[8])
 
 
 def p_assign_type(p):
@@ -162,6 +164,7 @@ def p_term(p):
     else:
         p[0] = p[1]
 
+
 def p_return(p):
     """
     EXPRESSION : RETURN TERM
@@ -178,7 +181,6 @@ def p_intnum_or_id(p):
         p[0] = Constant(p[1])
     else:
         p[0] = Variable(p[1])
-
 
 
 def p_matrix(p):

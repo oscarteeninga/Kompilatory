@@ -1,7 +1,6 @@
 import sys
-import ply.yacc as yacc
 from scanner import lexer
-from parser import parser
+from custom_parser import parser
 from structures import (Instructions,
                         Assignment,
                         BinaryExpression,
@@ -19,15 +18,14 @@ from structures import (Instructions,
                         ForLoop,
                         ForCondition,
                         WhileLoop,
-                        Node
-                        )
+                        Node)
 
 
 def addToClass(cls):
-
     def decorator(func):
         setattr(cls, func.__name__, func)
         return func
+
     return decorator
 
 
@@ -78,11 +76,11 @@ class TreePrinter:
 
     @addToClass(Variable)
     def print_tree(self, indent=0):
-            print(indent, self.variable_id)
+        print(indent, self.variable_id)
 
     @addToClass(Constant)
     def print_tree(self, indent=0):
-            print(indent, self.const_value)
+        print(indent, self.const_value)
 
     @addToClass(Matrix)
     def print_tree(self, indent=0):
@@ -125,13 +123,12 @@ class TreePrinter:
         for condition in self.conditions:
             condition.print_tree(indent + 1)
 
-
     @addToClass(ElseIfCondition)
     def print_tree(self, indent=0):
         print(indent, "ELSEIF")
         self.condition.print_tree(indent + 1)
         if type(self.instructions) == type('str'):
-            print_value(self.instructions, indent+1)
+            print_value(self.instructions, indent + 1)
         else:
             self.instructions.print_tree(indent + 1)
 
@@ -159,6 +156,3 @@ file = open(sys.argv[1], "r")
 text = file.read()
 ast = parser.parse(text, lexer=lexer)
 ast.print_tree()
-
-
-
