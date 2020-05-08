@@ -228,7 +228,7 @@ def p_control_instruction(p):
     CONTROL_INSTRUCTION : BREAK
                         | CONTINUE
                         | RETURN
-                        | RETURN TERM
+                        | RETURN EXPRESSION
     """
     if len(p) == 3:
         p[0] = Return(p[2])
