@@ -81,6 +81,8 @@ class Matrix:
     def __str__(self):
         return "Matrix=(vectors=" + str([str(vector) for vector in self.vectors]) + ")"
 
+    def shape(self):
+        return (len(self.vectors), len(self.vectors[0]))
 
 class Vector:
     def __init__(self, values):
@@ -89,6 +91,9 @@ class Vector:
     def __add__(self, other):
         self.values += other
         return self
+
+    def __len__(self):
+        return len(self.values)
 
     def __str__(self):
         return "Vector=(values=" + str([str(value) for value in self.values]) + ")"

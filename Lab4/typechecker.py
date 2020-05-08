@@ -1,4 +1,7 @@
-from SymbolTable import ScopedSymbolTable, VarSymbol
+import sys
+from custom_parser import parser
+from scanner import lexer
+from symboltable import ScopedSymbolTable, VariableSymbol
 from structures import *
 
 
@@ -14,11 +17,12 @@ class NodeVisitor(object):
 
     def visit(self, node):
         method = 'visit_' + node.__class__.__name__
+        print(method)
         visitor = getattr(self, method, self.generic_visit)
-        return visitor(node)
+        visitor(node)
 
     def generic_visit(self, node):
-        print(node)
+        print()
 
 
 class TypeChecker(NodeVisitor):
@@ -26,146 +30,128 @@ class TypeChecker(NodeVisitor):
         super().__init__()
         self.symbol_table = ScopedSymbolTable("global", 1)
 
-    def visit_InstructionsList(self, node: InstructionsList):
+    def visit_Instructions(self, node: Instructions):
         for instruction in node.instructions:
             self.visit(instruction)
 
-    def visit_Integer(self, node: Integer):
+    def visit_Variable(self, node: Variable):
         pass
 
-    def visit_Float(self, node: Float):
-        pass
-
-    def visit_String(self, node: String):
+    def visit_Constant(self, node: Constant):
         pass
 
     def visit_Assignment(self, node: Assignment):
-        self.visit(node.id)
+        self.visit(node.assignment_id)
         self.visit(node.expression)
-        op = node.assignment
+        op = node.assignment_type
 
         if op == "=":
             if isinstance(node.expression, Variable):
                 # right hand side should be in scope
-                symbol = self.symbol_table.lookup(node.expression.id)
+                symbol = self.symbol_table.lookup(node.assignment_type.id)
                 if symbol:
-                    self.symbol_table.insert(VarSymbol(node.id, symbol.type))
+                    self.symbol_table.insert(VariableSymbol(node.assignment_id, symbol.type))
                 else:
                     self.errors.append("Error - right hand side not in scope {}".format(node.expression))
-            elif isinstance(node.expression, (Matrix)):
-                symbol = VarSymbol(node.id, ("MATRIX", node.expression.get_shape()))
+            elif isinstance(node.expression, Matrix):
+                symbol = VariableSymbol(node.assignment_id, ("MATRIX", node.expression))
                 self.symbol_table.insert(symbol)
-            elif isinstance(node.expression, Integer):
-                self.symbol_table.insert(VarSymbol(node.id, ("INTEGER",)))
-            elif isinstance(node.expression, Float):
-                self.symbol_table.insert(VarSymbol(node.id, ("FLOAT",)))
+            elif isinstance(node.expression, Constant):
+                self.symbol_table.insert(VariableSymbol(node.assignment_id, ("CONSTANT",)))
         else:
             # assuming *= works like = _ .* _ and we type check only on surface
             pass
 
 
-def visit_Matrix(self, node: Matrix):
-    row_length = len(node.rows[0])
-    for row in node.rows:
-        if len(row) != row_length:
-            self.errors.append("Error: inconsistent matrix dimensions - {} and {}".format(len(row), row_length))
-        self.visit(row)
+    def visit_Matrix(self, node: Matrix):
+        vector_len = len(node.vectors[0])
+        for vector in node.vectors:
+            if len(vector) != vector_len:
+                self.errors.append("Error: inconsistent matrix dimensions - {} and {}".format(len(vector), vector_len))
+            self.visit(vector)
 
 
-def visit_MatrixRow(self, node: MatrixRow):
-    for element in node.items:
-        is_number_constant = isinstance(element, int) or isinstance(element, float)
-        is_number_variable = False
-        # check if name is in scope and if name type is number e.g. row looks like [1, 2, x];
-        if not (is_number_constant or is_number_variable):
-            self.errors.append("Error: matrix element can only contain integer/float elements")
+    def visit_Vector(self, node: Vector):
+        for element in node.values:
+            is_number_constant = isinstance(element, Constant)
+            is_number_variable = False
+            # check if name is in scope and if name type is number e.g. row looks like [1, 2, x];
+            if not (is_number_constant or is_number_variable):
+                self.errors.append("Error: matrix element can only contain integer/float elements")
 
 
-def visit_FuncCall(self, node: FuncCall):
-    self.visit(node.params)
-    if isinstance(node.params, Variable):
-        # check if in scope and integer
+    def visit_FunctionCall(self, node: FunctionCall):
+        self.visit(node.param)
+        if isinstance(node.param, Constant):
+            # check of param is integer
+            if not isinstance(node.param.const_value, int):
+                self.errors.append("Error: argument of reserved function call should be integer")
+        else:
+            self.errors.append("Error: argument of reserved function call should be integer")
+
+
+    def visit_BinaryOperation(self, node: BinaryExpression):
+        # assuming binary ops can be only performed on non-matrix objects
+        # check if types are valid for node.left, node.right
+        self.visit(node.left)
+        self.visit(node.right)
+        if isinstance(node.left, Matrix) or isinstance(node.right, Matrix):
+            self.errors.append("Error: binary operation are not able for matrix object")
+
+
+
+    def visit_LogicalOperation(self, node: LogicalExpression):
+        # check if left/right types are legit (e.g. comparable)
+        self.visit(node.left)
+        self.visit(node.right)
         pass
-    elif not isinstance(node.params, Integer):
-        self.errors.append("Error: argument of reserved function call should be integer")
 
 
-def visit_Variable(self, node: Variable):
-    # add variable with value/type to scope
-    pass
+    def visit_MatrixOperation(self, node: MatrixExpression):
+        self.visit(node.left)
+        self.visit(node.right)
+        if not isinstance(node.left, Matrix) or not isinstance(node.right, Matrix):
+            self.errors.append("Error: matrix operation are only able for matrix object")
+        if node.operation == ".+":
+            if node.left.shape() != node.right.shape():
+                self.errors.append("Error: matrix dotadd requires the same matrix sizes")
 
 
-def visit_IndicesAssignment(self, node: IndicesAssignment):
-    self.visit(node.id)
-    self.visit(node.value)
-    self.visit(node.items)
-    type = self.check_id_type(node.id)
-    if type in ():
+    def visit_PrintInstruction(self, node: PrintCall):
+        for value in node.values:
+            self.visit(value)
+        # verify correctness of all node values
         pass
-    # check if range is valid (node.items)
-    # check type of node.value (int or float or variable of that type)
-    pass
 
 
-def visit_BinaryOperation(self, node: BinaryOperation):
-    # assuming binary ops can be only performed on non-matrix objects
-    # check if types are valid for node.left, node.right
-    pass
+    def visit_ForLoop(self, node: ForLoop):
+        self.visit(node.enumeration)
+        self.visit(node.instructions)
+        # it starts to get tricky here with scopes
+        pass
 
 
-def visit_LogicalOperation(self, node: LogicalOperation):
-    # check if left/right types are legit (e.g. comparable)
-    self.visit(node.left)
-    self.visit(node.right)
-    pass
+    def visit_WhileLoop(self, node: WhileLoop):
+        self.visit(node.condition)
+        self.visit(node.instructions)
+        # and here too
+        pass
 
+    def visit_IfCondition(self, node: IfCondition):
+        self.visit(node.condition)
+        self.visit(node.instruction)
+        self.visit(node.else_branch)
+        # verify names in scope
 
-def visit_MatrixOperation(self, node: MatrixOperation):
-    self.visit(node.left)
-    self.visit(node.right)
-    pass
+file = open(sys.argv[1], "r")
 
+text = file.read()
+tokens = parser.parse(text, lexer=lexer)
+checker = TypeChecker()
+checker.visit(tokens)
 
-def visit_TransposeOperation(self, node: TransposeOperation):
-    # verify that node.value is a matrix
-    pass
-
-
-def visit_Range(self, node: Range):
-    # verify if node.left/right are integers or names in scope
-    pass
-
-
-def visit_PrintInstruction(self, node: PrintInstruction):
-    for value in node.values:
-        self.visit(value)
-    # verify correctness of all node values
-    pass
-
-
-def visit_ForLoop(self, node: ForLoop):
-    self.visit(node.enumeration)
-    self.visit(node.instructions)
-    # it starts to get tricky here with scopes
-    pass
-
-
-def visit_WhileLoop(self, node: WhileLoop):
-    self.visit(node.condition)
-    self.visit(node.instructions)
-    # and here too
-    pass
-
-
-def visit_Enumeration(self, node: Enumeration):
-    self.visit(node.range)
-    self.visit(node.variable)
-    # verify names in scope
-    pass
-
-
-def visit_IfCondition(self, node: IfCondition):
-    self.visit(node.condition)
-    self.visit(node.instruction)
-    self.visit(node.else_branch)
-    # verify names in scope
+if checker.any_errors():
+    for error in checker.get_errors():
+        print(error)
+else:
+    print("No errors found!")
