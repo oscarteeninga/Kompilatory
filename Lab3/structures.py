@@ -192,4 +192,4 @@ class Return:
         self.instruction = instruction
 
     def __str__(self):
-        return "Return=(instruction=" + str(self.instruction) + ")"
+        return "Return=(term=(" + str(self.instruction) + "))"
