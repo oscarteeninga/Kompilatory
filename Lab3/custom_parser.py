@@ -18,6 +18,8 @@ from structures import (Instructions,
                         ForLoop,
                         ForCondition,
                         WhileLoop,
+                        Break,
+                        Continue,
                         Return
                         )
 
@@ -164,14 +166,6 @@ def p_term(p):
     else:
         p[0] = p[1]
 
-
-def p_return(p):
-    """
-    EXPRESSION : RETURN TERM
-    """
-    p[0] = Return(p[2])
-
-
 def p_intnum_or_id(p):
     """
     INTNUM_OR_ID : INTNUM
@@ -236,10 +230,14 @@ def p_control_instruction(p):
                         | RETURN
                         | RETURN TERM
     """
-    if len(p) == 2:
-        p[0] = p[1]
+    if len(p) == 3:
+        p[0] = Return(p[2])
+    elif p.slice[1].type == 'BREAK':
+        p[0] = Break()
+    elif p.slice[1].type == 'CONTINUE':
+        p[0] = Continue()
     else:
-        p[0] = p[1] + " " + str(p[2])
+        p[0] = Return()
 
 
 def p_print_call(p):

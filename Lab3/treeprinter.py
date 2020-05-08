@@ -18,6 +18,9 @@ from structures import (Instructions,
                         ForLoop,
                         ForCondition,
                         WhileLoop,
+                        Break,
+                        Continue,
+                        Return,
                         Node)
 
 
@@ -151,6 +154,19 @@ class TreePrinter:
         self.condition.print_tree(indent + 1)
         self.instructions.print_tree(indent + 1)
 
+    @addToClass(Break)
+    def print_tree(self, indent=0):
+        print(indent, "BREAK")
+
+    @addToClass(Continue)
+    def print_tree(self, indent=0):
+        print(indent, "CONTINUE")
+
+    @addToClass(Return)
+    def print_tree(self, indent=0):
+        print(indent, "RETURN")
+        if (self.instruction is not None):
+            self.instruction.print_tree(indent+1)
 
 file = open(sys.argv[1], "r")
 text = file.read()

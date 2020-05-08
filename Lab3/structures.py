@@ -178,17 +178,17 @@ class WhileLoop:
     def __str__(self):
         return "WhileLoop=(condition=" + str(self.condition) + ", instructions=" + str(self.instructions) + ")"
 
-
-class BreakContinue:
-    def __init__(self, instruction):
-        self.instruction = instruction
-
+class Break:
     def __str__(self):
-        return "BreakContinue=(instruction=" + str(self.instruction) + ")"
+        return "Break=()"
+
+class Continue:
+    def __str__(self):
+        return "Continue=()"
 
 
 class Return:
-    def __init__(self, instruction):
+    def __init__(self, instruction=None):
         self.instruction = instruction
 
     def __str__(self):
