@@ -55,7 +55,7 @@ class TypeChecker(NodeVisitor):
                     self.symbol_table.insert(VariableSymbol(node.assignment_id.variable_id, symbol.type))
                 else:
                     self.errors.append("Error: right hand side not in scope {}".format(node.expression))
-            elif isinstance(node.expression, Matrix) or  isinstance(node.expression, Constant):
+            elif isinstance(node.expression, Matrix) or isinstance(node.expression, Constant):
                 self.symbol_table.insert(VariableSymbol(node.assignment_id.variable_id, node.expression))
             elif isinstance(node.expression, FunctionCall):
                 shape = int(node.expression.param.const_value)
@@ -68,6 +68,11 @@ class TypeChecker(NodeVisitor):
                     self.symbol_table.insert(VariableSymbol(
                         node.assignment_id.variable_id, 
                         Matrix([Vector([Constant("1") for i in range(shape)]) for i in range(shape)])
+                        ))
+                elif node.expression.name == "eye":
+                    self.symbol_table.insert(VariableSymbol(
+                        node.assignment_id.variable_id, 
+                        Matrix([Vector([Constant(int(i == j)) for i in range(shape)]) for j in range(shape)])
                         ))
         else:
             pass
@@ -95,7 +100,7 @@ class TypeChecker(NodeVisitor):
             if not isinstance(node.param.const_value, int):
                 self.errors.append("Error: argument of reserved function call should be integer")
         else:
-            self.errors.append("Error: argument of reserved function call should be integer")
+            self.errors.append("Error: argument of reserved function call should be contant")
 
 
     def visit_BinaryExpression(self, node: BinaryExpression):

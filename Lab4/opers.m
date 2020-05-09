@@ -12,4 +12,5 @@ x = zeros(5);
 y = zeros(9);
 z = x + y;
 h = x + y;
+w = eye(3);
 x = ones(3);
