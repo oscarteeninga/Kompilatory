@@ -17,7 +17,6 @@ class NodeVisitor(object):
 
     def visit(self, node):
         method = 'visit_' + node.__class__.__name__
-        print(method)
         visitor = getattr(self, method, self.generic_visit)
         visitor(node)
 
@@ -47,8 +46,6 @@ class TypeChecker(NodeVisitor):
         if isinstance(node.expression, MatrixExpression):
             matrix = self.visit_MatrixExpression(node.expression)
             self.symbol_table.insert(VariableSymbol(node.assignment_id.variable_id, matrix))
-            pass
-        elif isinstance(node.expression, BinaryExpression):
             pass
         else:
             self.visit(node.expression)
@@ -120,12 +117,16 @@ class TypeChecker(NodeVisitor):
 
         if isinstance(node.left, Variable):
             symbol = self.symbol_table.lookup(node.left.variable_id)
-            if isinstance(symbol.type, Matrix):
-                self.errors.append("Error: binary expression doesn't work with matrix")
+            if not symbol:
+                self.errors.append("Error: undefined symbol")
+            elif isinstance(symbol.type, Matrix):
+                self.errors.append("Error: binary expression works with non-matrix")
         if isinstance(node.right, Variable):
             symbol = self.symbol_table.lookup(node.right.variable_id)
-            if isinstance(symbol.type, Matrix):
-                self.errors.append("Error: binary expression doesn't work with matrix")
+            if not symbol:
+                self.errors.append("Error: undefined symbol")
+            elif isinstance(symbol.type, Matrix):
+                self.errors.append("Error: binary expression works with non-matrix")
 
 
     def visit_LogicalExpression(self, node: LogicalExpression):
@@ -143,7 +144,7 @@ class TypeChecker(NodeVisitor):
         if isinstance(node.left, Variable):
             symbol = self.symbol_table.lookup(node.left.variable_id)
             if not symbol:
-                self.errors.append("Error: undefined symbol {}".format(node.left.variable_id))
+                self.errors.append("Error: undefined symbol")
             elif not isinstance(symbol.type, Matrix):
                 self.errors.append("Error: matrix expression doesn't work with non-matrix")
             else:
@@ -156,7 +157,7 @@ class TypeChecker(NodeVisitor):
         if isinstance(node.right, Variable):
             symbol = self.symbol_table.lookup(node.right.variable_id)
             if not symbol:
-                self.errors.append("Error: undefined symbol {}".format(node.right.variable_id))
+                self.errors.append("Error: undefined symbol")
             elif not isinstance(symbol.type, Matrix):
                 self.errors.append("Error: matrix expression doesn't work with non-matrix")
             else:
@@ -172,13 +173,6 @@ class TypeChecker(NodeVisitor):
             else:
                 # The most important is shape, not operation
                 return matrix_1
-
-
-    def visit_PrintInstruction(self, node: PrintCall):
-        for value in node.values:
-            self.visit(value)
-        # verify correctness of all node values
-        pass
 
 
     def visit_ForLoop(self, node: ForLoop):

@@ -13,3 +13,5 @@ z = x .+ y;
 h = x .+ y;
 w = eye(3);
 x = ones(3);
+p = x + y;
+p = x + 3;
