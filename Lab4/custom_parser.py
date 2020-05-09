@@ -77,11 +77,11 @@ def p_assign(p):
            | ID '[' INTNUM ',' INTNUM ']' ASSIGN_TYPE EXPRESSION
     """
     if len(p) == 4:
-        p[0] = Assignment(assignment_id=p[1], assignment_type=p[2], expression=p[3])
+        p[0] = Assignment(assignment_id=Variable(p[1]), assignment_type=p[2], expression=p[3])
     elif len(p) == 7:
-        p[0] = Assignment(assignment_id=p[1] + '[' + str(p[3]) + ']', assignment_type=p[5], expression=p[6])
+        p[0] = Assignment(assignment_id=Variable(p[1] + '[' + str(p[3]) + ']'), assignment_type=p[5], expression=p[6])
     else:
-        p[0] = Assignment(assignment_id=p[1] + '[' + str(p[3]) + ',' + str(p[5]) + ']', assignment_type=p[7],
+        p[0] = Assignment(assignment_id=Variable(p[1] + '[' + str(p[3]) + ',' + str(p[5]) + ']'), assignment_type=p[7],
                           expression=p[8])
 
 

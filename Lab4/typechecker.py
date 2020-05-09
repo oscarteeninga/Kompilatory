@@ -17,7 +17,6 @@ class NodeVisitor(object):
 
     def visit(self, node):
         method = 'visit_' + node.__class__.__name__
-        print(method)
         visitor = getattr(self, method, self.generic_visit)
         visitor(node)
 
@@ -45,21 +44,32 @@ class TypeChecker(NodeVisitor):
         self.visit(node.expression)
         op = node.assignment_type
 
+        if not isinstance(node.assignment_id, Variable):
+            self.errors.append("Error: left hand side not a variable")
+
         if op == "=":
             if isinstance(node.expression, Variable):
                 # right hand side should be in scope
-                symbol = self.symbol_table.lookup(node.assignment_type.id)
+                symbol = self.symbol_table.lookup(node.assignment_id.variable_id)
                 if symbol:
-                    self.symbol_table.insert(VariableSymbol(node.assignment_id, symbol.type))
+                    self.symbol_table.insert(VariableSymbol(node.assignment_id.variable_id, symbol.type))
                 else:
-                    self.errors.append("Error - right hand side not in scope {}".format(node.expression))
-            elif isinstance(node.expression, Matrix):
-                symbol = VariableSymbol(node.assignment_id, ("MATRIX", node.expression))
-                self.symbol_table.insert(symbol)
-            elif isinstance(node.expression, Constant):
-                self.symbol_table.insert(VariableSymbol(node.assignment_id, ("CONSTANT",)))
+                    self.errors.append("Error: right hand side not in scope {}".format(node.expression))
+            elif isinstance(node.expression, Matrix) or  isinstance(node.expression, Constant):
+                self.symbol_table.insert(VariableSymbol(node.assignment_id.variable_id, node.expression))
+            elif isinstance(node.expression, FunctionCall):
+                shape = int(node.expression.param.const_value)
+                if node.expression.name == "zeros":
+                    self.symbol_table.insert(VariableSymbol(
+                        node.assignment_id.variable_id, 
+                        Matrix([Vector([Constant("0") for i in range(shape)]) for i in range(shape)])
+                        ))
+                elif node.expression.name == "ones":
+                    self.symbol_table.insert(VariableSymbol(
+                        node.assignment_id.variable_id, 
+                        Matrix([Vector([Constant("1") for i in range(shape)]) for i in range(shape)])
+                        ))
         else:
-            # assuming *= works like = _ .* _ and we type check only on surface
             pass
 
 
@@ -73,10 +83,8 @@ class TypeChecker(NodeVisitor):
 
     def visit_Vector(self, node: Vector):
         for element in node.values:
-            is_number_constant = isinstance(element, Constant)
-            is_number_variable = False
             # check if name is in scope and if name type is number e.g. row looks like [1, 2, x];
-            if not (is_number_constant or is_number_variable):
+            if not isinstance(element, Constant):
                 self.errors.append("Error: matrix element can only contain integer/float elements")
 
 
@@ -90,14 +98,11 @@ class TypeChecker(NodeVisitor):
             self.errors.append("Error: argument of reserved function call should be integer")
 
 
-    def visit_BinaryOperation(self, node: BinaryExpression):
+    def visit_BinaryExpression(self, node: BinaryExpression):
         # assuming binary ops can be only performed on non-matrix objects
         # check if types are valid for node.left, node.right
         self.visit(node.left)
         self.visit(node.right)
-        if isinstance(node.left, Matrix) or isinstance(node.right, Matrix):
-            self.errors.append("Error: binary operation are not able for matrix object")
-
 
 
     def visit_LogicalOperation(self, node: LogicalExpression):
@@ -107,14 +112,36 @@ class TypeChecker(NodeVisitor):
         pass
 
 
-    def visit_MatrixOperation(self, node: MatrixExpression):
+    def visit_MatrixExpression(self, node: MatrixExpression):
         self.visit(node.left)
         self.visit(node.right)
-        if not isinstance(node.left, Matrix) or not isinstance(node.right, Matrix):
-            self.errors.append("Error: matrix operation are only able for matrix object")
-        if node.operation == ".+":
-            if node.left.shape() != node.right.shape():
-                self.errors.append("Error: matrix dotadd requires the same matrix sizes")
+        matrix_1 = None
+        matrix_2 = None
+        if isinstance(node.left, Variable):
+            symbol = self.symbol_table.lookup(node.left.variable_id)
+            if symbol:
+                matrix_1 = symbol.type
+            else:
+                self.errors.append("Error: undefined symbol {}".format(node.left.variable_id))
+        elif isinstance(node.left, Matrix):
+            matrix_1 = node.left
+        else:
+            self.errors.append("Error: const cannot be add to matrix")
+
+        if isinstance(node.right, Variable):
+            symbol = self.symbol_table.lookup(node.right.variable_id)
+            if symbol:
+                matrix_2 = symbol.type
+            else:
+                self.errors.append("Error: undefined symbol {}".format(node.right.variable_id))
+        elif isinstance(node.right, Matrix):
+            matrix_2 = node.right
+        else:
+            self.errors.append("Error: const cannot be add to matrix")
+        
+        if isinstance(matrix_1, Matrix) and isinstance(matrix_2, Matrix):
+            if matrix_1.shape() != matrix_2.shape():
+                self.errors.append("Error: uncompatable matrixes")
 
 
     def visit_PrintInstruction(self, node: PrintCall):
@@ -149,6 +176,8 @@ text = file.read()
 tokens = parser.parse(text, lexer=lexer)
 checker = TypeChecker()
 checker.visit(tokens)
+
+print(checker.symbol_table)
 
 if checker.any_errors():
     for error in checker.get_errors():

@@ -56,7 +56,7 @@ class TreePrinter:
     @addToClass(Assignment)
     def print_tree(self, indent=0):
         print(indent, self.assignment_type)
-        print(indent + 1, self.assignment_id)
+        self.assignment_id.print_tree(indent + 1)
         self.expression.print_tree(indent + 1)
 
     @addToClass(BinaryExpression)
@@ -80,6 +80,13 @@ class TreePrinter:
     @addToClass(Variable)
     def print_tree(self, indent=0):
         print(indent, self.variable_id)
+
+    @addToClass(MatrixElement)
+    def print_tree(self, indent=0):
+        print(indent,"[]")
+        self.id.print_tree(indent+1)
+        self.index.print_tree(indent+1)
+        
 
     @addToClass(Constant)
     def print_tree(self, indent=0):
