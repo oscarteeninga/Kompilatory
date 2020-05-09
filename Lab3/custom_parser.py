@@ -1,6 +1,27 @@
 import scanner
 import ply.yacc as yacc
 import sys
+from structures import (Instructions,
+                        Assignment,
+                        BinaryExpression,
+                        LogicalExpression,
+                        MatrixExpression,
+                        Variable,
+                        Constant,
+                        Matrix,
+                        Vector,
+                        FunctionCall,
+                        PrintCall,
+                        IfCondition,
+                        ElseIfConditions,
+                        ElseIfCondition,
+                        ForLoop,
+                        ForCondition,
+                        WhileLoop,
+                        Break,
+                        Continue,
+                        Return
+                        )
 
 names = {}
 
@@ -21,18 +42,6 @@ def p_code(p):
     CODE : INSTRUCTIONS
     """
     p[0] = p[1]
-
-
-class Instructions:
-    def __init__(self, instructions):
-        self.instructions = instructions
-
-    def __add__(self, other):
-        self.instructions += other.instructions
-        return self
-
-    def __str__(self):
-        return "Instructions=(instructions=" + str([str(instruction) for instruction in self.instructions]) + ")"
 
 
 def p_instructions(p):
@@ -61,16 +70,6 @@ def p_instruction(p):
     p[0] = p[1]
 
 
-class Assignment:
-    def __init__(self, assignment_id, assignment_type, expression):
-        self.assignment_id = assignment_id
-        self.assignment_type = assignment_type
-        self.expression = expression
-
-    def __str__(self):
-        return "Assignment=(id=" + self.assignment_id + ", type=" + self.assignment_type + ", expression=" + str(self.expression) + ")"
-
-
 def p_assign(p):
     """
     ASSIGN : ID ASSIGN_TYPE EXPRESSION
@@ -82,7 +81,8 @@ def p_assign(p):
     elif len(p) == 7:
         p[0] = Assignment(assignment_id=p[1] + '[' + str(p[3]) + ']', assignment_type=p[5], expression=p[6])
     else:
-        p[0] = Assignment(assignment_id=p[1] + '[' + str(p[3]) + ',' + str(p[5]) + ']', assignment_type=p[7], expression=p[8])
+        p[0] = Assignment(assignment_id=p[1] + '[' + str(p[3]) + ',' + str(p[5]) + ']', assignment_type=p[7],
+                          expression=p[8])
 
 
 def p_assign_type(p):
@@ -110,16 +110,6 @@ def p_expression(p):
         p[0] = p[2]
 
 
-class BinaryExpression:
-    def __init__(self, left, operation, right):
-        self.left = left
-        self.operation = operation
-        self.right = right
-
-    def __str__(self):
-        return "BinaryExpression=(left=" + str(self.left) + ", operation=" + self.operation + ", right=" + str(self.right) + ")"
-
-
 def p_binary_expression(p):
     """
     BINARY_EXPRESSION : EXPRESSION '+' EXPRESSION
@@ -128,16 +118,6 @@ def p_binary_expression(p):
                       | EXPRESSION '/' EXPRESSION
     """
     p[0] = BinaryExpression(left=p[1], operation=p[2], right=p[3])
-
-
-class LogicalExpression:
-    def __init__(self, left, operation, right):
-        self.left = left
-        self.operation = operation
-        self.right = right
-
-    def __str__(self):
-        return "LogicalExpression=(left=" + str(self.left) + ", operation=" + self.operation + ", right=" + str(self.right) + ")"
 
 
 def p_logical_expression(p):
@@ -152,16 +132,6 @@ def p_logical_expression(p):
     p[0] = LogicalExpression(left=p[1], operation=p[2], right=p[3])
 
 
-class MatrixExpression:
-    def __init__(self, left, operation, right):
-        self.left = left
-        self.operation = operation
-        self.right = right
-
-    def __str__(self):
-        return "MatrixExpression=(left=" + str(self.left) + ", operation=" + self.operation + ", right=" + str(self.right) + ")"
-
-
 def p_matrix_expression(p):
     """
     MATRIX_EXPRESSION : EXPRESSION DOTADD EXPRESSION
@@ -172,14 +142,6 @@ def p_matrix_expression(p):
     p[0] = MatrixExpression(left=p[1], operation=p[2], right=p[3])
 
 
-class Variable:
-    def __init__(self, variable_id):
-        self.variable_id = variable_id
-
-    def __str__(self):
-        return "Variable=(id=" + self.variable_id + ")"
-
-
 def p_term(p):
     """
     TERM : ID
@@ -188,35 +150,31 @@ def p_term(p):
          | STRING
          | MATRIX
          | FUNCTION_CALL
-         | TERM "'"
-         | '-' TERM
+         | ID "'"
+         | '-' ID
     """
     if len(p) == 3:
         p[0] = Variable(str(p[1]) + str(p[2]))
     elif p.slice[1].type == 'ID':
         p[0] = Variable(p[1])
     elif p.slice[1].type == 'INTNUM':
-        p[0] = int(p[1])
-    elif p.slice[0].type == 'FLOATNUM':
-        p[0] = float(p[1])
+        p[0] = Constant(p[1])
+    elif p.slice[1].type == 'FLOATNUM':
+        p[0] = Constant(p[1])
+    elif p.slice[1].type == 'STRING':
+        p[0] = Constant(p[1])
     else:
         p[0] = p[1]
-
 
 def p_intnum_or_id(p):
     """
     INTNUM_OR_ID : INTNUM
                  | ID
     """
-    p[0] = p[1]
-
-
-class Matrix:
-    def __init__(self, vectors):
-        self.vectors = vectors
-
-    def __str__(self):
-        return "Matrix=(vectors=" + str([str(vector) for vector in self.vectors]) + ")"
+    if p.slice[1].type == 'INTNUM':
+        p[0] = Constant(p[1])
+    else:
+        p[0] = Variable(p[1])
 
 
 def p_matrix(p):
@@ -237,18 +195,6 @@ def p_vectors(p):
         p[0] = [p[1]]
 
 
-class Vector:
-    def __init__(self, values):
-        self.values = values
-
-    def __add__(self, other):
-        self.values += other
-        return self
-
-    def __str__(self):
-        return "Vector=(values=" + str([str(value) for value in self.values]) + ")"
-
-
 def p_vector(p):
     """
     VECTOR : VECTOR ',' TERM
@@ -258,15 +204,6 @@ def p_vector(p):
         p[0] = p[1] + [p[3]]
     else:
         p[0] = Vector(values=[p[1]])
-
-
-class FunctionCall:
-    def __init__(self, name, param):
-        self.name = name
-        self.param = param
-
-    def __str__(self):
-        return "FunctionCall=(name=" + self.name + ", param=" + str(self.param) + ")"
 
 
 # Terms?
@@ -293,22 +230,14 @@ def p_control_instruction(p):
                         | RETURN
                         | RETURN TERM
     """
-    if len(p) == 2:
-        p[0] = p[1]
+    if len(p) == 3:
+        p[0] = Return(p[2])
+    elif p.slice[1].type == 'BREAK':
+        p[0] = Break()
+    elif p.slice[1].type == 'CONTINUE':
+        p[0] = Continue()
     else:
-        p[0] = p[1] + " " + str(p[2])
-
-
-class PrintCall:
-    def __init__(self, values):
-        self.values = values
-
-    def __add__(self, other):
-        self.values += other.values
-        return self
-
-    def __str__(self):
-        return "PrintCall=(values=" + str([str(value) for value in self.values]) + ")"
+        p[0] = Return()
 
 
 def p_print_call(p):
@@ -327,38 +256,6 @@ def p_print_terms(p):
         p[0] = p[1] + PrintCall(values=[p[3]])
     else:
         p[0] = PrintCall(values=[p[1]])
-
-
-class IfCondition:
-    def __init__(self, condition, instructions, elif_branches, else_branch):
-        self.condition = condition
-        self.instructions = instructions
-        self.elif_branches = elif_branches
-        self.else_branch = else_branch
-
-    def __str__(self):
-        return "IfCondition=(condition=" + str(self.condition) + ", instructions=" + str([str(instruction) for instruction in self.instructions]) + ", elif_branches=" + str([str(elif_branch) for elif_branch in self.elif_branches.conditions]) + ", else_branch=" + str(self.else_branch) + ")"
-
-
-class ElseIfConditions:
-    def __init__(self, conditions):
-        self.conditions = conditions
-
-    def __add__(self, other):
-        self.conditions += other.conditions
-        return self
-
-    def __str__(self):
-        return "ElseIfConditions=(conditions=" + str([str(conditions) for conditions in self.conditions]) + ")"
-
-
-class ElseIfCondition:
-    def __init__(self, condition, instructions):
-        self.condition = condition
-        self.instructions = instructions
-
-    def __str__(self):
-        return "ElseIfCondition=(condition=" + str(self.condition) + ", instructions=" + str(self.instructions) + ")"
 
 
 def p_if_condition(p):
@@ -384,7 +281,7 @@ def p_if_condition(p):
         if len(p) == 7:
             p[0] = ElseIfConditions(conditions=[ElseIfCondition(condition=p[3], instructions=p[5])]) + p[6]
         if len(p) == 8:
-            p[0] = ElseIfConditions(conditions=[ElseIfCondition(condition=p[3], instructions=p[5])])
+            p[0] = ElseIfConditions(conditions=[ElseIfCondition(condition=p[3], instructions=p[6])])
         elif len(p) == 9:
             p[0] = ElseIfConditions(conditions=[ElseIfCondition(condition=p[3], instructions=p[5])]) + p[8]
     elif p.slice[0].type == 'ELSE_STATEMENT':
@@ -392,15 +289,6 @@ def p_if_condition(p):
             p[0] = p[2]
         elif len(p) == 5:
             p[0] = p[3]
-
-
-class ForLoop:
-    def __init__(self, for_condition, instructions):
-        self.for_condition = for_condition
-        self.instructions = instructions
-
-    def __str__(self):
-        return "ForLoop=(for_condition=" + str(self.for_condition) + ", instructions=" + str(self.instructions) + ")"
 
 
 def p_for_loop(p):
@@ -414,29 +302,11 @@ def p_for_loop(p):
         p[0] = ForLoop(for_condition=p[2], instructions=p[3])
 
 
-class ForCondition:
-    def __init__(self, variable, variable_range):
-        self.variable = variable
-        self.variable_range = variable_range
-
-    def __str__(self):
-        return "ForCondition=(variable=" + self.variable + ", range=" + self.variable_range + ")"
-
-
 def p_for_condition(p):
     """
-    FOR_CONDITION : ID '=' INTNUM_OR_ID ':' INTNUM_OR_ID
+    FOR_CONDITION : TERM '=' INTNUM_OR_ID ':' INTNUM_OR_ID
     """
-    p[0] = ForCondition(variable=p[1], variable_range=str(p[3]) + ':' + str(p[5]))
-
-
-class WhileLoop:
-    def __init__(self, condition, instructions):
-        self.condition = condition
-        self.instructions = instructions
-
-    def __str__(self):
-        return "WhileLoop=(condition=" + str(self.condition) + ", instructions=" + str(self.instructions) + ")"
+    p[0] = ForCondition(variable=p[1], variable_range_first=p[3], variable_range_last=p[5])
 
 
 def p_while_loop(p):

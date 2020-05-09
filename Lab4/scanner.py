@@ -4,9 +4,9 @@ tokens = ('ADDASSIGN', 'SUBASSIGN', 'MULASSIGN', 'DIVASSIGN',
           'EQORGT', 'EQORLESS', 'EQUAL', 'NOTEQUAL',
           'DOTADD', 'DOTSUB', 'DOTMUL', 'DOTDIV',
           'ZEROS', 'ONES', 'EYE',
+          'BREAK', 'CONTINUE', 'RETURN',
           'INTNUM', 'FLOATNUM', 'STRING',
           'ELSEIF', 'IF', 'ELSE', 'FOR', 'WHILE',
-          'BREAK', 'CONTINUE', 'RETURN',
           'PRINT', 'ID')
 
 t_ignore = '  \t'
@@ -39,6 +39,11 @@ def t_comment(t):
 def t_error(t):
     print("Illegal character %s" % t.value[0])
     t.lexer.skip(1)
+
+
+def t_RETURN(t):
+    r'return'
+    return t
 
 
 def t_FLOATNUM(t):
@@ -117,11 +122,6 @@ def t_BREAK(t):
 
 def t_CONTINUE(t):
     r'continue'
-    return t
-
-
-def t_RETURN(t):
-    r'return'
     return t
 
 

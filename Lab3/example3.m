@@ -13,7 +13,7 @@ if(N>5) {
     print "N>5";
 }
 else if(N>=0) {
-    print "N>=0";
+    print "N>0";
 }
 
 if(N<10) {

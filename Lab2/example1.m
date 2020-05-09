@@ -10,13 +10,3 @@ E1 = [ 1, 2, 3;
        7, 8, 9 ] ;
 
 A[1,3] = 5 ;
-
-x = 2;
-y = 2.5;
-
-print(A);
-print(B);
-print(I);
-print(E1);
-print(x);
-print(y);
