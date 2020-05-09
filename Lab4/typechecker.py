@@ -17,6 +17,7 @@ class NodeVisitor(object):
 
     def visit(self, node):
         method = 'visit_' + node.__class__.__name__
+        print(method)
         visitor = getattr(self, method, self.generic_visit)
         visitor(node)
 
@@ -41,8 +42,16 @@ class TypeChecker(NodeVisitor):
 
     def visit_Assignment(self, node: Assignment):
         self.visit(node.assignment_id)
-        self.visit(node.expression)
         op = node.assignment_type
+
+        if isinstance(node.expression, MatrixExpression):
+            matrix = self.visit_MatrixExpression(node.expression)
+            self.symbol_table.insert(VariableSymbol(node.assignment_id.variable_id, matrix))
+            pass
+        elif isinstance(node.expression, BinaryExpression):
+            pass
+        else:
+            self.visit(node.expression)
 
         if not isinstance(node.assignment_id, Variable):
             self.errors.append("Error: left hand side not a variable")
@@ -82,7 +91,7 @@ class TypeChecker(NodeVisitor):
         vector_len = len(node.vectors[0])
         for vector in node.vectors:
             if len(vector) != vector_len:
-                self.errors.append("Error: inconsistent matrix dimensions - {} and {}".format(len(vector), vector_len))
+                self.errors.append("Error: inconsistent matrix dimensions")
             self.visit(vector)
 
 
@@ -90,7 +99,7 @@ class TypeChecker(NodeVisitor):
         for element in node.values:
             # check if name is in scope and if name type is number e.g. row looks like [1, 2, x];
             if not isinstance(element, Constant):
-                self.errors.append("Error: matrix element can only contain integer/float elements")
+                self.errors.append("Error: matrix element can only contain constant elements")
 
 
     def visit_FunctionCall(self, node: FunctionCall):
@@ -109,8 +118,17 @@ class TypeChecker(NodeVisitor):
         self.visit(node.left)
         self.visit(node.right)
 
+        if isinstance(node.left, Variable):
+            symbol = self.symbol_table.lookup(node.left.variable_id)
+            if isinstance(symbol.type, Matrix):
+                self.errors.append("Error: binary expression doesn't work with matrix")
+        if isinstance(node.right, Variable):
+            symbol = self.symbol_table.lookup(node.right.variable_id)
+            if isinstance(symbol.type, Matrix):
+                self.errors.append("Error: binary expression doesn't work with matrix")
 
-    def visit_LogicalOperation(self, node: LogicalExpression):
+
+    def visit_LogicalExpression(self, node: LogicalExpression):
         # check if left/right types are legit (e.g. comparable)
         self.visit(node.left)
         self.visit(node.right)
@@ -124,10 +142,12 @@ class TypeChecker(NodeVisitor):
         matrix_2 = None
         if isinstance(node.left, Variable):
             symbol = self.symbol_table.lookup(node.left.variable_id)
-            if symbol:
-                matrix_1 = symbol.type
-            else:
+            if not symbol:
                 self.errors.append("Error: undefined symbol {}".format(node.left.variable_id))
+            elif not isinstance(symbol.type, Matrix):
+                self.errors.append("Error: matrix expression doesn't work with non-matrix")
+            else:
+                matrix_1 = symbol.type
         elif isinstance(node.left, Matrix):
             matrix_1 = node.left
         else:
@@ -135,18 +155,23 @@ class TypeChecker(NodeVisitor):
 
         if isinstance(node.right, Variable):
             symbol = self.symbol_table.lookup(node.right.variable_id)
-            if symbol:
-                matrix_2 = symbol.type
-            else:
+            if not symbol:
                 self.errors.append("Error: undefined symbol {}".format(node.right.variable_id))
+            elif not isinstance(symbol.type, Matrix):
+                self.errors.append("Error: matrix expression doesn't work with non-matrix")
+            else:
+                matrix_2 = symbol.type
         elif isinstance(node.right, Matrix):
-            matrix_2 = node.right
+            matrix_2 = node.left
         else:
             self.errors.append("Error: const cannot be add to matrix")
         
         if isinstance(matrix_1, Matrix) and isinstance(matrix_2, Matrix):
             if matrix_1.shape() != matrix_2.shape():
                 self.errors.append("Error: uncompatable matrixes")
+            else:
+                # The most important is shape, not operation
+                return matrix_1
 
 
     def visit_PrintInstruction(self, node: PrintCall):

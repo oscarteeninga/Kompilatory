@@ -1,3 +1,3 @@
 x = zeros(2);
-y = eye(2);
-h = x .+ y;
+y = eye(3);
+h = x .+ c;
