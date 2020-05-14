@@ -211,7 +211,7 @@ tokens = parser.parse(text, lexer=lexer)
 checker = TypeChecker()
 checker.visit(tokens)
 
-# print(checker.symbol_table)
+print(checker.symbol_table)
 
 if checker.any_errors():
     for error in checker.get_errors():
