@@ -28,6 +28,7 @@ class TypeChecker(NodeVisitor):
     def __init__(self):
         super().__init__()
         self.symbol_table = ScopedSymbolTable("global", 1)
+        self.inLoops = 0
 
     def visit_Instructions(self, node: Instructions):
         for instruction in node.instructions:
@@ -55,7 +56,6 @@ class TypeChecker(NodeVisitor):
 
         if op == "=":
             if isinstance(node.expression, Variable):
-                # right hand side should be in scope
                 symbol = self.symbol_table.lookup(node.assignment_id.variable_id)
                 if symbol:
                     self.symbol_table.insert(VariableSymbol(node.assignment_id.variable_id, symbol.type))
@@ -67,22 +67,21 @@ class TypeChecker(NodeVisitor):
                 shape = int(node.expression.param.const_value)
                 if node.expression.name == "zeros":
                     self.symbol_table.insert(VariableSymbol(
-                        node.assignment_id.variable_id, 
+                        node.assignment_id.variable_id,
                         Matrix([Vector([Constant("0") for i in range(shape)]) for i in range(shape)])
-                        ))
+                    ))
                 elif node.expression.name == "ones":
                     self.symbol_table.insert(VariableSymbol(
-                        node.assignment_id.variable_id, 
+                        node.assignment_id.variable_id,
                         Matrix([Vector([Constant("1") for i in range(shape)]) for i in range(shape)])
-                        ))
+                    ))
                 elif node.expression.name == "eye":
                     self.symbol_table.insert(VariableSymbol(
-                        node.assignment_id.variable_id, 
+                        node.assignment_id.variable_id,
                         Matrix([Vector([Constant(int(i == j)) for i in range(shape)]) for j in range(shape)])
-                        ))
+                    ))
         else:
             pass
-
 
     def visit_Matrix(self, node: Matrix):
         vector_len = len(node.vectors[0])
@@ -91,27 +90,20 @@ class TypeChecker(NodeVisitor):
                 self.errors.append("Error: inconsistent matrix dimensions")
             self.visit(vector)
 
-
     def visit_Vector(self, node: Vector):
         for element in node.values:
-            # check if name is in scope and if name type is number e.g. row looks like [1, 2, x];
             if not isinstance(element, Constant):
                 self.errors.append("Error: matrix element can only contain constant elements")
-
 
     def visit_FunctionCall(self, node: FunctionCall):
         self.visit(node.param)
         if isinstance(node.param, Constant):
-            # check of param is integer
             if not isinstance(node.param.const_value, int):
                 self.errors.append("Error: argument of reserved function call should be integer")
         else:
             self.errors.append("Error: argument of reserved function call should be contant")
 
-
     def visit_BinaryExpression(self, node: BinaryExpression):
-        # assuming binary ops can be only performed on non-matrix objects
-        # check if types are valid for node.left, node.right
         self.visit(node.left)
         self.visit(node.right)
 
@@ -128,13 +120,10 @@ class TypeChecker(NodeVisitor):
             elif isinstance(symbol.type, Matrix):
                 self.errors.append("Error: binary expression works with non-matrix")
 
-
     def visit_LogicalExpression(self, node: LogicalExpression):
-        # check if left/right types are legit (e.g. comparable)
         self.visit(node.left)
         self.visit(node.right)
         pass
-
 
     def visit_MatrixExpression(self, node: MatrixExpression):
         self.visit(node.left)
@@ -166,33 +155,54 @@ class TypeChecker(NodeVisitor):
             matrix_2 = node.left
         else:
             self.errors.append("Error: const cannot be add to matrix")
-        
+
         if isinstance(matrix_1, Matrix) and isinstance(matrix_2, Matrix):
             if matrix_1.shape() != matrix_2.shape():
                 self.errors.append("Error: uncompatable matrixes")
             else:
-                # The most important is shape, not operation
                 return matrix_1
 
-
     def visit_ForLoop(self, node: ForLoop):
-        self.visit(node.enumeration)
+        self.inLoops += 1
+        self.visit(node.for_condition)
         self.visit(node.instructions)
-        # it starts to get tricky here with scopes
+        self.inLoops -= 1
         pass
 
+    def visit_ForCondition(self, node: ForCondition):
+        self.visit(node.variable)
+        self.visit(node.variable_range_first)
+        self.visit(node.variable_range_last)
 
     def visit_WhileLoop(self, node: WhileLoop):
+        self.inLoops += 1
         self.visit(node.condition)
         self.visit(node.instructions)
-        # and here too
+        self.inLoops -= 1
         pass
 
     def visit_IfCondition(self, node: IfCondition):
         self.visit(node.condition)
-        self.visit(node.instruction)
+        self.visit(node.instructions)
+        self.visit(node.elif_branches)
         self.visit(node.else_branch)
-        # verify names in scope
+
+    def visit_ElseIfConditions(self, node: ElseIfConditions):
+        for elseIfCondition in node.conditions:
+            self.visit(elseIfCondition)
+
+    def visit_ElseIfCondition(self, node: ElseIfCondition):
+        self.visit(node.condition)
+        self.visit(node.instructions)
+
+    def visit_Break(self, node: Break):
+        if self.inLoops == 0:
+            self.errors.append("Error: break outside a loop")
+
+    def visit_Continue(self, node: Continue):
+        if self.inLoops == 0:
+            self.errors.append("Error: continue outside a loop")
+
 
 file = open(sys.argv[1], "r")
 
@@ -201,7 +211,7 @@ tokens = parser.parse(text, lexer=lexer)
 checker = TypeChecker()
 checker.visit(tokens)
 
-print(checker.symbol_table)
+# print(checker.symbol_table)
 
 if checker.any_errors():
     for error in checker.get_errors():

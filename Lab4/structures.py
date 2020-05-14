@@ -84,6 +84,7 @@ class Matrix:
     def shape(self):
         return (len(self.vectors), len(self.vectors[0]))
 
+
 class Vector:
     def __init__(self, values):
         self.values = values
@@ -183,9 +184,11 @@ class WhileLoop:
     def __str__(self):
         return "WhileLoop=(condition=" + str(self.condition) + ", instructions=" + str(self.instructions) + ")"
 
+
 class Break:
     def __str__(self):
         return "Break=()"
+
 
 class Continue:
     def __str__(self):

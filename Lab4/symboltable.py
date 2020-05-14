@@ -55,9 +55,8 @@ class ScopedSymbolTable(object):
         self.enclosing_scope = enclosing_scope
 
     def __str__(self):
-        # fancy tostr
-        h1 = 'SCOPE (SCOPED SYMBOL TABLE)'
-        lines = ['\n', h1, '=' * len(h1)]
+        header = 'Scope:'
+        lines = [header, '-' * 30]
         for header_name, header_value in (
                 ('Scope name', self.scope_name),
                 ('Scope level', self.scope_level),
@@ -66,8 +65,8 @@ class ScopedSymbolTable(object):
                  )
         ):
             lines.append('%-15s: %s' % (header_name, header_value))
-        h2 = 'Contents'
-        lines.extend([h2, '-' * len(h2)])
+        h2 = '\nContents:'
+        lines.extend([h2, '-' * 30])
         lines.extend(
             ('%7s: %r' % (key, value))
             for key, value in self._symbols.items()
